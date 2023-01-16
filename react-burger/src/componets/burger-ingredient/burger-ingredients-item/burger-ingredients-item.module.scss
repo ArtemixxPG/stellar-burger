@@ -1,0 +1,27 @@
+.burgerItemContent{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 280px;
+    position: relative;
+    row-gap: 4px;
+    width: 100%;
+  cursor: pointer;
+
+  .burgerItemImage{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .burgerItemPrice{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .burgerItemName{
+    text-align: center;
+  }
+}

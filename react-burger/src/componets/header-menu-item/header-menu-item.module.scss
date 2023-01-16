@@ -1,0 +1,18 @@
+@import '../../styles/animations/animations';
+.menuItem {
+  display: flex;
+  padding: 0 20px;
+  margin: 0 4px;
+  align-items: center;
+  cursor: pointer;
+  color:#8585ad;
+
+  &.active {
+    color: white;
+  }
+
+  &:hover {
+    color: whitesmoke;
+  }
+}
+

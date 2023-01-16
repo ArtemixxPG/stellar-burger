@@ -1,0 +1,73 @@
+@import "../../styles/all";
+
+.constructorContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  row-gap: 40px;
+
+  grid-area: constructor;
+
+  height: 100%;
+
+  .constructorArea{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    row-gap: 16px;
+    flex: 1;
+    width: 100%;
+
+    .constructorList{
+      width: 100%;
+      flex-grow: 1;
+      position: relative;
+      &_container{
+
+        width: 100%;
+
+        position: absolute;
+        inset: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 16px 0;
+
+        padding: 0 16px;
+       @include scroll
+
+      }
+    }
+    .constructorItem{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ban{
+      padding: 0 16px;
+    }
+
+
+
+  }
+
+  .constructorBottom{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+    .price{
+      display: flex;
+      align-items: center;
+      gap:8px;
+      svg{
+      width: 40px;
+        height: 40px;
+    }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+.modalWrapper{
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+
+
+
+  .modalContent{
+    position: relative;
+    background: #1c1c21;
+    z-index: 10000;
+    width: 720px;
+    border-radius: 40px;
+ .nav {
+   display: flex;
+   flex-direction: row;
+   align-items: baseline;
+   .headerModal {
+     flex: 1;
+   }
+   .close{
+     display: flex;
+     justify-content: flex-end;
+     cursor: pointer;
+   }
+ }
+  }
+}
