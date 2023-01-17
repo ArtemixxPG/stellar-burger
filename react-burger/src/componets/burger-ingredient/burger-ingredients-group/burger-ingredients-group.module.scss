@@ -1,23 +1,20 @@
-.group_content{
+.groupContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0 24px;
 
 
-  .group_header{
+  .groupHeader {
     display: flex;
     justify-content: start;
   }
 
-  .group_list{
-
-
-      grid-gap: 32px 24px;
-      display: grid;
-      gap: 32px 24px;
-      grid-template-columns: repeat(2,1fr);
-      padding: 0 16px;
-
+  .groupList {
+    grid-gap: 32px 24px;
+    display: grid;
+    gap: 32px 24px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 16px;
   }
 }

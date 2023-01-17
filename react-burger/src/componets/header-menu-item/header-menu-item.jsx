@@ -50,7 +50,8 @@ const HeaderMenuItem = (props) => {
     }
 
     return (
-        <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text text_type_main-default ${styles.menuItem} + ${props.activeClass[props.type]}`}>
+        <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text text_type_main-default ${styles.menuItem} + 
+        ${props.activeClass[props.type]}`}>
             {props.children}
         </section>
     );

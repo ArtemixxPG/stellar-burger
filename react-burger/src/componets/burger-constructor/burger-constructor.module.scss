@@ -1,6 +1,6 @@
 @import "../../styles/all";
 
-.constructorContainer{
+.constructorContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -11,7 +11,7 @@
 
   height: 100%;
 
-  .constructorArea{
+  .constructorArea {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -19,11 +19,12 @@
     flex: 1;
     width: 100%;
 
-    .constructorList{
+    .constructorList {
       width: 100%;
       flex-grow: 1;
       position: relative;
-      &_container{
+
+      &_container {
 
         width: 100%;
 
@@ -36,38 +37,40 @@
         gap: 16px 0;
 
         padding: 0 16px;
-       @include scroll
+        @include scroll
 
       }
     }
-    .constructorItem{
+
+    .constructorItem {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 8px;
     }
 
-    .ban{
+    .ban {
       padding: 0 16px;
     }
 
 
-
   }
 
-  .constructorBottom{
+  .constructorBottom {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 32px;
-    .price{
+
+    .price {
       display: flex;
       align-items: center;
-      gap:8px;
-      svg{
-      width: 40px;
+      gap: 8px;
+
+      svg {
+        width: 40px;
         height: 40px;
-    }
+      }
     }
   }
 }

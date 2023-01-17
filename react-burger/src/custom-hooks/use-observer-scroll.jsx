@@ -22,7 +22,6 @@ const useObserverScroll = (observeClass, setCurrentElement) => {
 
             }
         }
-        console.log("hook")
     })
 
 

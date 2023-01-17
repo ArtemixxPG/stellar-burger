@@ -16,7 +16,7 @@ const useFetchList = (url) => {
                 if(response.ok) {
                     const json = await response.json();
                     if(!cleanupFunction){
-                        setTimeout(()=> {
+
                             setResult((prevResult) => {
                                 return {
                                     ...prevResult,
@@ -24,7 +24,6 @@ const useFetchList = (url) => {
                                     loading: false
                                 }
                             })
-                        }, 3000)
                     }
                 }
             } catch (e) {

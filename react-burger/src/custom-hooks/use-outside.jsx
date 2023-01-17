@@ -3,7 +3,6 @@ import {useEffect, useRef, useState} from "react";
 
 const useOutside = (open, setOpen) => {
 
-    // const [open, setOpen] = useState(initialIsVisible)
 
     const ref = useRef(null)
 
