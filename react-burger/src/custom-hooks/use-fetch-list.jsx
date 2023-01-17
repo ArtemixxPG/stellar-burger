@@ -25,6 +25,8 @@ const useFetchList = (url) => {
                                 }
                             })
                     }
+                } else {
+                    console.error('Упс... Что-то пошло не так! ' + response)
                 }
             } catch (e) {
                 setTimeout(()=> {

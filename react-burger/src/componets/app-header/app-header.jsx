@@ -17,20 +17,20 @@ const typeHeaderMenuItem = {
 const AppHeader = () => {
 
     const [activeClassButton, setActiveClassButton] = useState({
-        constructor: '',
-        listOrder: '',
-        account: ''
+        constructor: 'text_type_main-default text_color_inactive',
+        listOrder: 'text_type_main-default text_color_inactive',
+        account: 'text_type_main-default text_color_inactive'
     })
 
-    const menuItemContent = (activeClass, inActiveIcon, activeIcon, menuItemName) => {
+    const menuItemContent = (activeClass, inActiveIcon, activeIcon, menuItemName, typeHeaderMenuItem) => {
         return(
             <>
-        <Link to="/" style={{textDecoration:'none'}}>
+        <Link to="/">
             {
-                activeClass === '' ?
+                activeClass === 'text_type_main-default text_color_inactive' ?
                     inActiveIcon : activeIcon
             }
-            <span className='ml-4 text text_type_main-default'>{menuItemName}</span>
+            <span className={`ml-4 text ${activeClassButton[typeHeaderMenuItem]}`}>{menuItemName}</span>
         </Link>
             </>
 
@@ -51,7 +51,7 @@ const AppHeader = () => {
                 >
                     {menuItemContent(activeClassButton.constructor,
                         <BurgerIcon type="secondary"/>,
-                        <BurgerIcon type="primary"/>, 'Конструктор')}
+                        <BurgerIcon type="primary"/>, 'Конструктор', typeHeaderMenuItem.constructor)}
                 </HeaderMenuItem>
                 <HeaderMenuItem
                     activeClass={activeClassButton}
@@ -59,7 +59,7 @@ const AppHeader = () => {
                     type={typeHeaderMenuItem.listOrder}
                 >
                     {menuItemContent(activeClassButton.listOrder, <ListIcon type="secondary"/>,
-                        <ListIcon type="primary"/>, 'Лента заказов')}
+                        <ListIcon type="primary"/>, 'Лента заказов', typeHeaderMenuItem.listOrder)}
                 </HeaderMenuItem>
             </div>
             <div onClick={handleChange} className={styles.logo}>
@@ -74,7 +74,7 @@ const AppHeader = () => {
                 >
                     {menuItemContent(activeClassButton.account,
                         <ProfileIcon type="secondary"/>,
-                        <ProfileIcon type="primary"/>, 'Личный кабинет')}
+                        <ProfileIcon type="primary"/>, 'Личный кабинет', typeHeaderMenuItem.account)}
                 </HeaderMenuItem>
             </div>
         </div>
