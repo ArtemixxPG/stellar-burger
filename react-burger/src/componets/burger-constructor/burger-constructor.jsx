@@ -6,28 +6,16 @@ import {hashCode} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 import PropTypes from "prop-types";
+import {IngredientPropTypes} from "../../utils/prop-types-constants";
 
-const ingredientPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    fat:PropTypes.number.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    __v:PropTypes.number.isRequired
-});
+
 
 const BurgerConstructor = (props) => {
 
     const [open, setOpen] = useState(false)
 
 
-    const constructor =  props.mains.map((item, index)=>{
+    const constructor =  props.mains.map((item)=>{
         return (
         <section key={hashCode(item.name)} className={styles.constructorItem}>
             <DragIcon type="primary" />
@@ -68,7 +56,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    mains: PropTypes.arrayOf(ingredientPropTypes),
+    mains: PropTypes.arrayOf(IngredientPropTypes),
 
 }
 

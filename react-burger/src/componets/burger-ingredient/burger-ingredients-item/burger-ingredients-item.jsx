@@ -1,11 +1,10 @@
-import useOutside from "../../../custom-hooks/use-outside";
-
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients-item.module.scss'
 import Modal from "../../modal/modal";
 import ModalContentIngredient from "../../modal-content/modal-content-ingredient/modal-content-ingredient";
 import {useState} from "react";
 import PropTypes from "prop-types";
+import {Nutritions} from "../../../utils/prop-types-constants";
 
 
 
@@ -21,7 +20,7 @@ const BurgerIngredientsItem = (props) => {
             <img onClick={()=>setOpen(true)} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={props.image} />
             <div className={styles.burgerItemPrice}>
                 <span>{props.price}</span>
-                <CurrencyIcon/>
+                <CurrencyIcon type={'primary'}/>
             </div>
             <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{props.name}</span>
             {count ? <Counter count={count} size="default" /> : null}
@@ -37,13 +36,7 @@ BurgerIngredientsItem.propTypes = {
     price: PropTypes.number.isRequired,
     imageLarge: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    nutritions: PropTypes.shape({
-            calories: PropTypes.number.isRequired,
-            proteins: PropTypes.number.isRequired,
-            fat: PropTypes.number.isRequired,
-            carbohydrates: PropTypes.number.isRequired
-        }
-    )
+    nutritions: Nutritions.isRequired
 }
 
 export default BurgerIngredientsItem;

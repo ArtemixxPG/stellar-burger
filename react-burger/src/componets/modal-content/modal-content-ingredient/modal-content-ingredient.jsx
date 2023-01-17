@@ -1,10 +1,10 @@
 import React from 'react';
 
 import styles from './modal-content-ingredient.module.scss'
-import Glitch from "../../glitch-effect/glitch";
-import PropTypes, {shape} from "prop-types";
+import PropTypes from "prop-types";
 import ModalContentIngredientNutritionType
     from "./modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type";
+import {Nutritions} from "../../../utils/prop-types-constants";
 
 
 
@@ -27,12 +27,7 @@ const ModalContentIngredient = (props) => {
 };
 
 ModalContentIngredient.propTypes = {
-    nutritions: PropTypes.shape({
-        proteins: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        fat:PropTypes.number.isRequired,
-    }).isRequired,
+    nutritions: Nutritions.isRequired,
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
 }

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import styles from './header-menu-item.module.scss'
+import MenuItemContent from "./menu-item-content/menu-item-content";
 
 
 const menuItemState = {
@@ -53,8 +54,10 @@ const HeaderMenuItem = (props) => {
     }
 
     return (
-        <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${props.activeClass[props.type]} ${styles.menuItem} `}>
-            {props.children}
+        <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
+           <MenuItemContent activeClass={props.activeClass[props.type]} inActiveIcon={props.inActiveIcon}
+                            activeIcon={props.activeIcon}
+                            menuItemName={props.menuItemName}/>
         </section>
     );
 };
@@ -63,7 +66,9 @@ HeaderMenuItem.propTypes = {
     type: PropTypes.string.isRequired,
     activeClass: PropTypes.object.isRequired,
     setActiveClass: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
+    inActiveIcon: PropTypes.element.isRequired,
+    activeIcon: PropTypes.element.isRequired,
+    menuItemName:PropTypes.string.isRequired
 }
 
 export default HeaderMenuItem;
