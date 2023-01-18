@@ -1,0 +1,40 @@
+@import "../../styles/all";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  background-color: #1c1c21;
+
+  .leftMenu {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    justify-content: flex-end;
+    gap: 8px;
+
+    @include a-style
+  }
+
+  .logo {
+    display: flex;
+    width: 30%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+
+  .rightMenu {
+    display: flex;
+    flex-direction: row;
+    width: 25%;
+    justify-content: center;
+
+    @include a-style
+  }
+}
+
+
+

@@ -1,0 +1,24 @@
+.modalIngredient{
+
+  .image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modalIngredientName {
+    display: flex;
+    justify-content: center;
+    }
+
+    .modalIngredientNutrition {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 20px;
+
+
+
+
+    }
+  }
+

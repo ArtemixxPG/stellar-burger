@@ -1,0 +1,39 @@
+@import "../../styles/all";
+
+.ingredients{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  grid-area: list-ingredients;
+  height: 100%;
+  .main-header{
+
+  }
+  .subMenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  .ingredientsGroup{
+
+    width: 100%;
+
+    flex-grow: 1;
+
+    position: relative;
+
+    &_list {
+      display: flex;
+      flex-direction: column;
+      row-gap: 40px;
+      position: absolute;
+      inset: 0;
+      @include scroll;
+
+
+    }
+  }
+
+}

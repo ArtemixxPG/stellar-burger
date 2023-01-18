@@ -1,0 +1,11 @@
+@import '../../styles/animations/animations';
+.menuItem {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    color: whitesmoke;
+  }
+}
+
