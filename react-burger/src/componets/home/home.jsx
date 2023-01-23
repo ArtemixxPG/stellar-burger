@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import AppHeader from "../app-header/app-header";
 import useFetchList from "../../custom-hooks/use-fetch-list";
 import Modal from "../modal/modal";
@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import styles from './home.module.scss'
 import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {IngredientsProvider} from "../../custom-hooks/use-ingredients";
 
 const url = 'https://norma.nomoreparties.space/api/ingredients'
 
@@ -39,6 +40,8 @@ const Home = () => {
                 sauces: sauces
             }
         )
+
+        console.log('hi')
     },[JSON.stringify(listIngredients), url])
 
 
@@ -52,7 +55,9 @@ const Home = () => {
                 <BurgerIngredient buns={typeIngredients.buns}
                                   mains={typeIngredients.mains}
                                   sauces={typeIngredients.sauces}/>
+                    <IngredientsProvider ingredients={typeIngredients}>
                     <BurgerConstructor image={typeIngredients.buns} mains={typeIngredients.mains}/>
+                    </IngredientsProvider>
                 </section>
 
         </main>

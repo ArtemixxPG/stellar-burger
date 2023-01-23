@@ -7,48 +7,57 @@ import {hashCode} from "../../utils/utils";
 import styles from './burger-constructor.module.scss'
 import PropTypes from "prop-types";
 import {IngredientPropTypes} from "../../utils/prop-types-constants";
-
+import {useIngredients} from "../../custom-hooks/use-ingredients";
 
 
 const BurgerConstructor = (props) => {
 
+    const {selectedIngredients, dispatchSelectedIngredients} =  useIngredients()
+
     const [open, setOpen] = useState(false)
 
 
-    const constructor =  props.mains.map((item)=>{
-        return (
-        <section key={hashCode(item.name)} className={styles.constructorItem}>
-            <DragIcon type="primary" />
-            <ConstructorElement text={item.name} thumbnail={item.image_mobile} price={item.price}/>
-        </section>
-        )
-    })
+    const constructor = selectedIngredients.stuff.map((item) => {
 
+            if (selectedIngredients.stuff.length!==0) {
+                return (
+                    <section key={hashCode(item.name)} className={styles.constructorItem}>
+                        <DragIcon type="primary"/>
+                        <ConstructorElement text={item.name} thumbnail={item.image_mobile} price={item.price}/>
+                    </section>
+                )
+            }
+    })
 
 
     return (
         <div className={styles.constructorContainer}>
             <div className={styles.constructorArea}>
                 <div className={styles.ban}>
-            <ConstructorElement type='top' isLocked={true} text='Краторная булка N-200i (верх)' thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'} price={200}/>
+                    <ConstructorElement type='top' isLocked={true} text='Краторная булка N-200i (верх)'
+                                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
+                                        price={200}/>
                 </div>
                 <div className={styles.constructorList}>
                     <div className={styles.constructorList_container}>
-            {constructor}
-                </div>
+                        {constructor}
+                    </div>
                 </div>
                 <div className={styles.ban}>
-            <ConstructorElement type='bottom' isLocked={true} text='Краторная булка N-200i (низ)' thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'} price={200}/>
+                    <ConstructorElement type='bottom' isLocked={true} text='Краторная булка N-200i (низ)'
+                                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
+                                        price={200}/>
                 </div>
             </div>
             <div className={styles.constructorBottom}>
                 <div className={styles.price}>
-                <span className={`text text_type_digits-medium`}>1275</span>
-                <CurrencyIcon type={"primary"}/>
+                    <span className={`text text_type_digits-medium`}>1275</span>
+                    <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={()=>setOpen(true)} htmlType={'button'} type='primary' size='large'>Оформить заказ</Button>
+                <Button onClick={() => setOpen(true)} htmlType={'button'} type='primary' size='large'>Оформить
+                    заказ</Button>
             </div>
-            {open && (<Modal header = ' ' open={open} setOpen={setOpen}>
+            {open && (<Modal header=' ' open={open} setOpen={setOpen}>
                 <ModalContentOrderComplete/>
             </Modal>)}
         </div>
