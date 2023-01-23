@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from './burger-ingredients-group.module.scss'
 import BurgerIngredientsItem from "../burger-ingredients-item/burger-ingredients-item";
 import {hashCode} from "../../../utils/utils";
+import {IngredientPropTypes} from "../../../utils/prop-types-constants";
 
 const BurgerIngredientsGroup = (props) => {
 
@@ -42,5 +43,5 @@ export default BurgerIngredientsGroup;
 
 BurgerIngredientsGroup.propTypes = {
     header: PropTypes.string,
-    list: PropTypes.arrayOf(PropTypes.element)
+    listIngredients: PropTypes.arrayOf(IngredientPropTypes)
 }
