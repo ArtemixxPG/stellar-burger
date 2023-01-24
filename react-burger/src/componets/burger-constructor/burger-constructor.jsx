@@ -1,13 +1,15 @@
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Modal from "../modal/modal";
 import ModalContentOrderComplete from "../modal-content/modal-content-order-complete/modal-content-order-complete";
-import {hashCode} from "../../utils/utils";
+import {hashCode, summaryOrder} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 import PropTypes from "prop-types";
 import {IngredientPropTypes} from "../../utils/prop-types-constants";
 import {useIngredients} from "../../custom-hooks/use-ingredients";
+import usePost from "../../custom-hooks/use-post";
+import {URL_POST} from "../../utils/URL";
 
 
 const BurgerConstructor = (props) => {
@@ -15,6 +17,9 @@ const BurgerConstructor = (props) => {
     const {selectedIngredients, dispatchSelectedIngredients} =  useIngredients()
 
     const [open, setOpen] = useState(false)
+
+    const [result, setData, setSending] = usePost(null, URL_POST)
+    const [orderSum, setOrderSum] = useState(0)
 
 
     const constructor = selectedIngredients.stuff.map((item) => {
@@ -29,14 +34,24 @@ const BurgerConstructor = (props) => {
             }
     })
 
+    useEffect(() => {
+        let result = summaryOrder(selectedIngredients)
+        setData(result.listIds)
+        setOrderSum(result.sum)
+    }, [JSON.stringify(selectedIngredients.bun), JSON.stringify(selectedIngredients.stuff)])
+
+    const handleOpenModal = () => {
+        setSending(true)
+        setOpen(true)
+    }
 
     return (
         <div className={styles.constructorContainer}>
             <div className={styles.constructorArea}>
                 <div className={styles.ban}>
-                    <ConstructorElement type='top' isLocked={true} text='Краторная булка N-200i (верх)'
-                                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
-                                        price={200}/>
+                    <ConstructorElement type='top' isLocked={true} text={`${selectedIngredients.bun.name} (верх)`}
+                                        thumbnail={selectedIngredients.bun.image_mobile}
+                                        price={selectedIngredients.bun.price}/>
                 </div>
                 <div className={styles.constructorList}>
                     <div className={styles.constructorList_container}>
@@ -44,21 +59,21 @@ const BurgerConstructor = (props) => {
                     </div>
                 </div>
                 <div className={styles.ban}>
-                    <ConstructorElement type='bottom' isLocked={true} text='Краторная булка N-200i (низ)'
-                                        thumbnail={'https://code.s3.yandex.net/react/code/bun-02-mobile.png'}
-                                        price={200}/>
+                    <ConstructorElement type='bottom' isLocked={true} text={`${selectedIngredients.bun.name} (низ)`}
+                                        thumbnail={selectedIngredients.bun.image_mobile}
+                                        price={selectedIngredients.bun.price}/>
                 </div>
             </div>
             <div className={styles.constructorBottom}>
                 <div className={styles.price}>
-                    <span className={`text text_type_digits-medium`}>1275</span>
+                    <span className={`text text_type_digits-medium`}>{orderSum}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={() => setOpen(true)} htmlType={'button'} type='primary' size='large'>Оформить
+                <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'>Оформить
                     заказ</Button>
             </div>
-            {open && (<Modal header=' ' open={open} setOpen={setOpen}>
-                <ModalContentOrderComplete/>
+            {open && (<Modal open={open} setOpen={setOpen}>
+                <ModalContentOrderComplete order={result.message}/>
             </Modal>)}
         </div>
     );

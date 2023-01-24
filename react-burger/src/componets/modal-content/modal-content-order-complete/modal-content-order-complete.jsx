@@ -1,12 +1,13 @@
 
 import styles from './modal-content-order-complete.module.scss'
 import img from '../../../images/done.png'
+import PropTypes from "prop-types";
 
-const ModalContentOrderComplete = () => {
+const ModalContentOrderComplete = (props) => {
     return (
         <section className={`pl-25 pr-25 ${styles.orderContent}`}>
             <div className={`pt-9 pb-15 ${styles.id}`}>
-                <span className='pb-8 text text_type_digits-large'>043536</span>
+                <span className='pb-8 text text_type_digits-large'>{props.order}</span>
                 <span className='text text_type_main-default'>Индификатор заказа</span>
             </div>
             <div className={styles.done}>
@@ -19,5 +20,9 @@ const ModalContentOrderComplete = () => {
         </section>
     );
 };
+
+ModalContentOrderComplete.propTypes = {
+    order: PropTypes.number.isRequired
+}
 
 export default ModalContentOrderComplete;
