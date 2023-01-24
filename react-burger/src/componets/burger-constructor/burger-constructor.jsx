@@ -12,7 +12,7 @@ import usePost from "../../custom-hooks/use-post";
 import {URL_POST} from "../../utils/URL";
 
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
 
     const {selectedIngredients, dispatchSelectedIngredients} =  useIngredients()
 
@@ -35,7 +35,7 @@ const BurgerConstructor = (props) => {
     })
 
     useEffect(() => {
-        let result = summaryOrder(selectedIngredients)
+        const result = summaryOrder(selectedIngredients)
         setData(result.listIds)
         setOrderSum(result.sum)
     }, [JSON.stringify(selectedIngredients.bun), JSON.stringify(selectedIngredients.stuff)])
@@ -79,9 +79,6 @@ const BurgerConstructor = (props) => {
     );
 };
 
-BurgerConstructor.propTypes = {
-    mains: PropTypes.arrayOf(IngredientPropTypes),
 
-}
 
 export default BurgerConstructor;

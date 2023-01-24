@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 import './glitch.scss'
 
-const Glitch = (props) => {
+const Glitch = ({glitchImage, glitchClass}) => {
     return (
         <>
-            <div className={props.glitchClass}>
-                {props.glitchImage}
+            <div className={glitchClass}>
+                {glitchImage}
             </div>
         </>
     );

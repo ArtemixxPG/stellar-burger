@@ -5,10 +5,10 @@ import BurgerIngredientsItem from "../burger-ingredients-item/burger-ingredients
 import {hashCode} from "../../../utils/utils";
 import {IngredientPropTypes} from "../../../utils/prop-types-constants";
 
-const BurgerIngredientsGroup = (props) => {
+const BurgerIngredientsGroup = ({header, listIngredients}) => {
 
 
-    const listIngredients = props.listIngredients.map((item, index) => {
+    const ingredients = listIngredients.map((item, index) => {
         return (
             <BurgerIngredientsItem key={hashCode(item.name)}
                                    image={item.image}
@@ -29,10 +29,10 @@ const BurgerIngredientsGroup = (props) => {
     return (
         <section className={styles.groupContent}>
             <div className={`text text_type_main-medium pb-6 ${styles.groupHeader}`}>
-                {props.header}
+                {header}
             </div>
             <div className={styles.groupList}>
-                {listIngredients}
+                {ingredients}
             </div>
         </section>
     );

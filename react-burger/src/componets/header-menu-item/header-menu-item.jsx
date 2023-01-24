@@ -8,16 +8,16 @@ const menuItemState = {
     inactive: 'text_type_main-default text_color_inactive'
 }
 
-const HeaderMenuItem = (props) => {
+const HeaderMenuItem = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName}) => {
 
     const handleChangeMenuItem = () => {
-        if (props.type === 'constructor') {
-            props.activeClass['constructor'] === menuItemState.inactive ? props.setActiveClass({
+        if (type === 'constructor') {
+            activeClass['constructor'] === menuItemState.inactive ? setActiveClass({
                     constructor: menuItemState.active,
                     listOrder: menuItemState.inactive,
                     account: menuItemState.inactive
                 }) :
-                props.setActiveClass({
+                setActiveClass({
                     constructor: menuItemState.inactive,
                     listOrder: menuItemState.inactive,
                     account: menuItemState.inactive
@@ -25,26 +25,26 @@ const HeaderMenuItem = (props) => {
 
 
         }
-        if (props.type === 'listOrder') {
-            props.activeClass.listOrder === menuItemState.inactive ? props.setActiveClass({
+        if (type === 'listOrder') {
+            activeClass.listOrder === menuItemState.inactive ? setActiveClass({
                     constructor: menuItemState.inactive,
                     listOrder: menuItemState.active,
                     account: menuItemState.inactive
                 }) :
-                props.setActiveClass({
+                setActiveClass({
                     constructor: menuItemState.inactive,
                     listOrder: menuItemState.inactive,
                     account: menuItemState.inactive
                 })
 
         }
-        if (props.type === 'account') {
-            props.activeClass.account === menuItemState.inactive ? props.setActiveClass({
+        if (type === 'account') {
+            activeClass.account === menuItemState.inactive ? setActiveClass({
                     constructor: menuItemState.inactive,
                     listOrder: menuItemState.inactive,
                     account: menuItemState.active
                 }) :
-                props.setActiveClass({
+                setActiveClass({
                     constructor: menuItemState.inactive,
                     listOrder: menuItemState.inactive,
                     account: menuItemState.inactive
@@ -55,9 +55,9 @@ const HeaderMenuItem = (props) => {
 
     return (
         <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
-           <MenuItemContent activeClass={props.activeClass[props.type]} inActiveIcon={props.inActiveIcon}
-                            activeIcon={props.activeIcon}
-                            menuItemName={props.menuItemName}/>
+           <MenuItemContent activeClass={activeClass[type]} inActiveIcon={inActiveIcon}
+                            activeIcon={activeIcon}
+                            menuItemName={menuItemName}/>
         </section>
     );
 };

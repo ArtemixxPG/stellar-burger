@@ -39,10 +39,6 @@ const useObserverScroll = (observeClass, setCurrentElement) => {
             observer.current.removeEventListener('scroll', observe, true)
         }
     })
-    //const observeElements = Array(countObserveElements).fill(useRef(null))
-    //const viewScrollElement = observeElements.map((elem)=>{
-
-    //})
 
     return [observer]
 };

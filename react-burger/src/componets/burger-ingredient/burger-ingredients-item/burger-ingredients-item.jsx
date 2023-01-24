@@ -8,7 +8,7 @@ import {Nutritions} from "../../../utils/prop-types-constants";
 
 
 
-const BurgerIngredientsItem = (props) => {
+const BurgerIngredientsItem = ({name, image, imageLarge, price, nutritions}) => {
 
 
     const [open, setOpen] = useState(false)
@@ -17,15 +17,15 @@ const BurgerIngredientsItem = (props) => {
 
     return (
         <section className={styles.burgerItemContent}>
-            <img onClick={()=>setOpen(true)} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={props.image} />
+            <img onClick={()=>setOpen(true)} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={image} />
             <div className={styles.burgerItemPrice}>
-                <span>{props.price}</span>
+                <span>{price}</span>
                 <CurrencyIcon type={'primary'}/>
             </div>
-            <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{props.name}</span>
+            <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{name}</span>
             {count ? <Counter count={count} size="default" /> : null}
             {open &&(<Modal header='Детали ингредиента' open={open} setOpen={setOpen}>
-            <ModalContentIngredient  image={props.imageLarge} name={props.name} nutritions={props.nutritions}/>
+            <ModalContentIngredient  image={imageLarge} name={name} nutritions={nutritions}/>
         </Modal>)}
         </section>
     );

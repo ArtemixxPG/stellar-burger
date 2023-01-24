@@ -2,7 +2,7 @@ import {Link} from "react-scroll";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
-const BurgerTab = (props) => {
+const BurgerTab = ({header, currentTab, setCurrentTab, to, containerID, value}) => {
 
 
     const handleChangeTab = (e) => {
@@ -11,15 +11,15 @@ const BurgerTab = (props) => {
 
     return (
         <Link
-            to={props.to}
+            to={to}
             spy={true}
             smooth={true}
             duration={700}
             offset={-20}
-            containerId= {props.containerID}
-            onSetActive={() => props.setCurrentTab(props.value)}>
-            <Tab className='tab-ingrdient' value={props.value} active={props.currentTab === props.value} onClick={handleChangeTab}>
-                {props.header}
+            containerId= {containerID}
+            onSetActive={() => setCurrentTab(value)}>
+            <Tab className='tab-ingrdient' value={value} active={currentTab === value} onClick={handleChangeTab}>
+                {header}
             </Tab>
         </Link>
     );

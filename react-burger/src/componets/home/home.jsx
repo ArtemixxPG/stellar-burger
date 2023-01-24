@@ -29,9 +29,9 @@ const Home = () => {
 
 
     useEffect(()=>{
-        let buns = listIngredients.filter(item => item.type.includes(ingredientTypes.buns))
-        let mains = listIngredients.filter(item => item.type.includes(ingredientTypes.mains))
-        let sauces = listIngredients.filter(item => item.type.includes(ingredientTypes.sauces))
+        const buns = listIngredients.filter(item => item.type.includes(ingredientTypes.buns))
+        const mains = listIngredients.filter(item => item.type.includes(ingredientTypes.mains))
+        const sauces = listIngredients.filter(item => item.type.includes(ingredientTypes.sauces))
 
         setTypeIngredients(
             {
@@ -40,9 +40,7 @@ const Home = () => {
                 sauces: sauces
             }
         )
-
-        console.log('hi')
-    },[JSON.stringify(listIngredients), url])
+    },[loading, url])
 
 
     return (
@@ -55,8 +53,8 @@ const Home = () => {
                 <BurgerIngredient buns={typeIngredients.buns}
                                   mains={typeIngredients.mains}
                                   sauces={typeIngredients.sauces}/>
-                    <IngredientsProvider ingredients={typeIngredients}>
-                    <BurgerConstructor image={typeIngredients.buns} mains={typeIngredients.mains}/>
+                    <IngredientsProvider isLoading={loading} ingredients={typeIngredients}>
+                        <BurgerConstructor image={typeIngredients.buns} mains={typeIngredients.mains}/>
                     </IngredientsProvider>
                 </section>
 

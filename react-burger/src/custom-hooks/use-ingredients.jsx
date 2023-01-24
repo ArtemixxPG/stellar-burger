@@ -1,6 +1,7 @@
-import {createContext, useContext, useEffect, useMemo, useReducer, useState} from "react";
+import {useContext, useEffect, useMemo, useReducer, useState} from "react";
 import PropTypes from "prop-types";
 import {IngredientPropTypes} from "../utils/prop-types-constants";
+import {IngredientContext} from "../services/context";
 
 
 const ingredient = {
@@ -23,7 +24,7 @@ const selectedIngredient = {
     stuff: []
 }
 
-const IngredientContext = createContext(null)
+
 
 
 const reducer = (state, action) => {
@@ -37,7 +38,7 @@ const reducer = (state, action) => {
     }
 }
 
-export const IngredientsProvider = (props) => {
+export const IngredientsProvider = ({ingredients, children}) => {
 
 
     const [selectedIngredients, dispatchSelectedIngredients] = useReducer(reducer, selectedIngredient, undefined)
@@ -62,20 +63,19 @@ export const IngredientsProvider = (props) => {
             return selected
         }
 
-        if(props.ingredients.buns.length!==0 || props.ingredients.mains.length !==0 || props.ingredients.sauces.length !== 0) {
+        if(ingredients.buns.length!==0 || ingredients.mains.length !==0 || ingredients.sauces.length !== 0) {
 
-            let bun = props.ingredients.buns[countIngredients(props.ingredients.buns)]
-            let sauces = selectIngredients(props.ingredients.sauces)
-            let mains = selectIngredients(props.ingredients.mains)
+            const bun = ingredients.buns[countIngredients(ingredients.buns)]
+            const sauces = selectIngredients(ingredients.sauces)
+            const mains = selectIngredients(ingredients.mains)
 
             dispatchSelectedIngredients({type: 'set', bun: bun, stuff: [...sauces, ...mains]})
         }
-    }, [JSON.stringify(props.ingredients.buns), JSON.stringify(props.ingredients.sauces),
-        JSON.stringify(props.ingredients.mains)])
+    }, [ingredients])
 
     return (
         <IngredientContext.Provider value={value}>
-            {props.children}
+            {children}
         </IngredientContext.Provider>
     );
 };
@@ -87,7 +87,8 @@ IngredientsProvider.propTypes = {
             sauces: PropTypes.arrayOf(IngredientPropTypes).isRequired,
             mains: PropTypes.arrayOf(IngredientPropTypes).isRequired
         }
-    ).isRequired
+    ).isRequired,
+    children: PropTypes.node.isRequired
 }
 
 export const useIngredients = () => useContext(IngredientContext)

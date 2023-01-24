@@ -6,7 +6,7 @@ export const hashCode = (s) => {
 }
 
 export const summaryOrder = (selectedIngredients) =>{
-    let result = {
+    const result = {
         sum: 0,
         listIds: []
     }

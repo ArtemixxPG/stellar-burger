@@ -6,9 +6,9 @@ const defaultSettings = {
         'Content-Type': 'application/json;charset=utf-8',
     }
 }
-//section post
-const usePost = (settings, url, ) => {
 
+const usePost = (settings, url) => {
+//section init
     const [sending, setSending] = useState(false);
     const [data, setData] = useState([]);
     const [result, setResult] = useState({
@@ -17,6 +17,7 @@ const usePost = (settings, url, ) => {
         error: false
     });
 
+    //section effect
     useEffect(() => {
         if(sending) {
             let cleanupFunction = false
@@ -52,6 +53,7 @@ const usePost = (settings, url, ) => {
         }
     }, [sending])
 
+    //section return
     return [result, setData, setSending];
 };
 
