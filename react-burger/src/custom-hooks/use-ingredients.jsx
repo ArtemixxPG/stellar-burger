@@ -49,7 +49,7 @@ export const IngredientsProvider = (props) => {
 
     useEffect(()=>{
         const countIngredients = (array) => {
-            return Math.floor(Math.random() * (array.length))
+            return Math.floor(Math.random() * (array.length ) )
         }
 
         const selectIngredients = (array) => {

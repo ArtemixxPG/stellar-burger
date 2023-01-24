@@ -1,0 +1,1 @@
+export const URL_POST = 'https://norma.nomoreparties.space/api/orders'

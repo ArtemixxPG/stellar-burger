@@ -29,7 +29,6 @@ const useFetchList = (url) => {
                     console.error('Упс... Что-то пошло не так! ' + response)
                 }
             } catch (e) {
-                setTimeout(()=> {
                     setResult((prevResult) => {
                         return {
                             ...prevResult,
@@ -37,7 +36,6 @@ const useFetchList = (url) => {
                             error: true
                         }
                     })
-                }, 1000)
             }
 
         }
