@@ -6,7 +6,7 @@ const BurgerTab = ({header, currentTab, setCurrentTab, to, containerID, value}) 
 
 
     const handleChangeTab = (e) => {
-        props.setCurrentTab(e.value)
+        setCurrentTab(e.value)
     }
 
     return (
