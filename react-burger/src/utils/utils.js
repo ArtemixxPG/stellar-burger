@@ -1,6 +1,6 @@
 export const hashCode = (s) => {
     return s.split("").reduce(function(a, b) {
-        a = ((a << 5) - a) + b.charCodeAt(0);
+        a = ((a << 5) - a) + b.charCodeAt(0) + Math.floor(Math.random() * 10) + 1;
         return a & a;
     }, 0);
 }
