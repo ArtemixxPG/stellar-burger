@@ -11,17 +11,17 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("modal");
 
 
-const Modal = ({header, open, setOpen, children}) => {
+const Modal = ({header, close, children}) => {
 
-    useEscape(setOpen)
-    const ref = useOutside(open, setOpen)
+    useEscape(close)
+    const ref = useOutside(close)
 
     return createPortal(
          <section className={styles.modalWrapper}>
              <div className={styles.modalContent} ref={ref} >
                  <div className={`pr-10 pl-10 ${styles.nav}`}>
             <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
-                    <div className={`pt-15   ${styles.close}`}> <CloseIcon onClick={()=> setOpen(false)} type="primary" /></div>
+                    <div className={`pt-15   ${styles.close}`}> <CloseIcon onClick={close} type="primary" /></div>
                  </div>
              {children}
              </div>
@@ -32,8 +32,7 @@ const Modal = ({header, open, setOpen, children}) => {
 
 Modal.propTypes = {
     header: PropTypes.string.isRequired,
-    setOpen: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired
 }
 

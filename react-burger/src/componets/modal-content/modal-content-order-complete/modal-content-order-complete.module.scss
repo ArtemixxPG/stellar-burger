@@ -22,4 +22,18 @@
     justify-content: center;
     align-items: center;
   }
+  .header{
+    text-align: center;
+  }
+}
+
+.fail{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  .text{
+    color: red;
+  }
 }

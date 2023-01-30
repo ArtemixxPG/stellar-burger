@@ -18,8 +18,8 @@ const MenuItemContent = ({activeClass, inActiveIcon, activeIcon, menuItemName}) 
 
 MenuItemContent.propTypes = {
     activeClass: PropTypes.string.isRequired,
-    inActiveIcon: PropTypes.element.isRequired,
-    activeIcon: PropTypes.element.isRequired,
+    inActiveIcon: PropTypes.node.isRequired,
+    activeIcon: PropTypes.node.isRequired,
     menuItemName: PropTypes.string.isRequired
 }
 

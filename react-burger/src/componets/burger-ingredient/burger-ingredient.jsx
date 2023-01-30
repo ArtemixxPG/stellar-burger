@@ -6,10 +6,13 @@ import styles from './burger-ingredient.module.scss'
 import PropTypes from "prop-types";
 import BurgerTab from "../burger-tab/burger-tab";
 import {IngredientPropTypes} from "../../utils/prop-types-constants";
+import {useSelector} from "react-redux";
 
 
 
-const BurgerIngredient = ({buns, sauces, mains}) => {
+const BurgerIngredient = () => {
+
+    const {buns, sauces, mains} = useSelector (store => store.ingredients.types)
 
     const [currentTab, setCurrentTab] = useState('bun')
 

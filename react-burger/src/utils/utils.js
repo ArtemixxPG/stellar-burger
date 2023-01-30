@@ -21,5 +21,13 @@ export const summaryOrder = (selectedIngredients) =>{
     return result;
 }
 
+export const sortArray = (dragIndex, hoverIndex, arr) => {
+   const item = arr[dragIndex];
+    const sortArr = [...arr]
+    sortArr.splice(dragIndex, 1)
+    sortArr.splice(hoverIndex, 0, item)
 
+    return sortArr
+
+}
 

@@ -52,7 +52,6 @@ const HeaderMenuItem = ({type, activeClass, setActiveClass, inActiveIcon, active
 
         }
     }
-
     return (
         <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
            <MenuItemContent activeClass={activeClass[type]} inActiveIcon={inActiveIcon}

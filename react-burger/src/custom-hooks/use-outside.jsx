@@ -1,14 +1,14 @@
 import {useEffect, useRef, useState} from "react";
 
 
-const useOutside = (open, setOpen) => {
+const useOutside = (close) => {
 
 
     const ref = useRef(null)
 
     const handleClickOutside = (e) => {
         if(ref.current && !ref.current.contains(e.target)){
-            setOpen(false)
+            close()
         }
     }
 

@@ -11,16 +11,7 @@ const BurgerIngredientsGroup = ({header, listIngredients}) => {
     const ingredients = listIngredients.map((item, index) => {
         return (
             <BurgerIngredientsItem key={hashCode(item.name)}
-                                   image={item.image}
-                                   imageLarge={item.image_large}
-                                   price={item.price}
-                                   name={item.name}
-                                   nutritions={{
-                                       calories: item.calories,
-                                       proteins: item.proteins,
-                                       fat: item.fat,
-                                       carbohydrates: item.carbohydrates
-                                   }}
+                                   ingredient={item}
             />
         )
     })
