@@ -1,10 +1,10 @@
 import {useEffect} from 'react';
 
-const useEscape = (escape) => {
+const useEscape = (close) => {
 
     const pressed = (e) => {
         if(e.key === 'Escape')
-            escape(false)
+            close()
     }
 
     useEffect(()=>{

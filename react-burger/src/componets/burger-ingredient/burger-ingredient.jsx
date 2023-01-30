@@ -6,10 +6,13 @@ import styles from './burger-ingredient.module.scss'
 import PropTypes from "prop-types";
 import BurgerTab from "../burger-tab/burger-tab";
 import {IngredientPropTypes} from "../../utils/prop-types-constants";
+import {useSelector} from "react-redux";
 
 
 
-const BurgerIngredient = (props) => {
+const BurgerIngredient = () => {
+
+    const {buns, sauces, mains} = useSelector (store => store.ingredients.types)
 
     const [currentTab, setCurrentTab] = useState('bun')
 
@@ -27,15 +30,15 @@ const BurgerIngredient = (props) => {
                 <div id='ingredients-group' className={`pt-5 ${styles.ingredientsGroup_list}`}>
                     <div id='buns'>
                         <BurgerIngredientsGroup className='ingredientsGroup' header='Булки'
-                                                listIngredients={props.buns}/>
+                                                listIngredients={buns}/>
                     </div>
                     <div id='sauces'>
                         <BurgerIngredientsGroup className='ingredientsGroup' header='Соусы'
-                                                listIngredients={props.sauces}/>
+                                                listIngredients={sauces}/>
                     </div>
                     <div id='mains'>
                         <BurgerIngredientsGroup className='ingredientsGroup' header='Начинки'
-                                                listIngredients={props.mains}/>
+                                                listIngredients={mains}/>
                     </div>
                 </div>
             </div>
@@ -46,7 +49,7 @@ const BurgerIngredient = (props) => {
 BurgerIngredient.propTypes = {
     buns: PropTypes.arrayOf(IngredientPropTypes),
     sauces: PropTypes.arrayOf(IngredientPropTypes),
-    main: PropTypes.arrayOf(IngredientPropTypes)
+    mains: PropTypes.arrayOf(IngredientPropTypes)
 }
 
 export default BurgerIngredient;
