@@ -1,4 +1,5 @@
 import {URL_POST} from "../../utils/URL";
+import {checkResponse} from "../../utils/utils";
 
 export const REQUEST_ORDER = 'REQUEST_ORDER';
 export  const SUCCESS_REQUEST_ORDER = 'SUCCESS_REQUEST_ORDER'
@@ -12,8 +13,8 @@ export const orderPost = (requestBody) => dispatch => {
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
     }, body: JSON.stringify(requestBody)})
-        .then(res => res.json())
+        .then(res => checkResponse(res))
         .then(data => data?.success ? data : dispatch({type:FAILURE_REQUEST_ORDER}))
         .then(result => dispatch({type:SUCCESS_REQUEST_ORDER, payload: result}))
-        .catch(err=> {dispatch({type:FAILURE_REQUEST_ORDER})})
+        .catch(err => {dispatch({type:FAILURE_REQUEST_ORDER})})
 }

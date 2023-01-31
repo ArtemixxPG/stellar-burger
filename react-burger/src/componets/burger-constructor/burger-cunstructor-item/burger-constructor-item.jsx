@@ -6,6 +6,7 @@ import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
 import {sortArray} from "../../../utils/utils";
+import PropTypes from "prop-types";
 
 const BurgerConstructorItem = ({name, image, price, index, id}) => {
 
@@ -85,5 +86,13 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
         </div>
     );
 };
+
+BurgerConstructorItem.propTypes = {
+    name : PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
+}
 
 export default BurgerConstructorItem;
