@@ -1,33 +1,38 @@
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useEffect, useMemo, useState} from "react";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useMemo, useState} from "react";
 import Modal from "../modal/modal";
 import ModalContentOrderComplete from "../modal-content/modal-content-order-complete/modal-content-order-complete";
-import {hashCode, summaryOrder} from "../../utils/utils";
+import {calculateTotalPrice, hashCode} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 
 import {useDispatch, useSelector} from "react-redux";
 import Skeleton from "../skeleton/burger-constructor-skeleton/skeleton";
 import {useDrop} from "react-dnd";
-import {ADD_BUN, ADD_INGREDIENT, SET_TOTAL_PRICE} from "../../services/actions/selected-ingedients-actions";
+import {ADD_BUN, ADD_INGREDIENT} from "../../services/actions/selected-ingedients-actions";
 import BurgerConstructorItem from "./burger-cunstructor-item/burger-constructor-item";
-import {CLEAR_ORDER, orderPost} from "../../services/actions/order-actions";
+import {RESET_ORDER, orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
+import OrderPreloader from "../preloader/order-preloader/order-preloader";
 
 
 const BurgerConstructor = () => {
 
+    const [failContentModal, setFailContentModal] = useState(false)
+    const [totalPrice, setTotalPrice] = useState(0)
 
-    const [open, setOpen] = useState(false)
     const dispatch = useDispatch()
 
-    const [failContentModal, setFailContentModal] = useState(false)
+
 
     const {buns, sauces, mains} = useSelector(store => store.ingredients.types)
-
-
-    const {selectedBun, selectedIngredients, totalPrice} = useSelector(store => store.selectedIngredients)
+    const {hasLoading, selectedBun, selectedIngredients} = useSelector(store => store.selectedIngredients)
     const {order, name} = useSelector(store => store.order)
+
+
+    const resetOrder = () => {
+        dispatch({type: RESET_ORDER})
+    }
 
     const [{isHover}, dropTarget] = useDrop({
         accept: 'ingredient',
@@ -38,10 +43,11 @@ const BurgerConstructor = () => {
         }
     });
 
+    const closeModal = () => {
+        failContentModal ? setFailContentModal(false) : resetOrder()
+    }
 
-    useMemo(() => {
-        dispatch({type: SET_TOTAL_PRICE})
-    }, [selectedBun, selectedIngredients, dispatch])
+
 
     const setIngredient = (id) => {
         const ingredients = [...buns, ...sauces, ...mains]
@@ -64,7 +70,6 @@ const BurgerConstructor = () => {
 
 
     const handleOpenModal = () => {
-        setOpen(true)
         selectedBun && selectedIngredients.length > 0
         && selectedIngredients.filter(item => item.type === 'main').length > 0
         && selectedIngredients.filter(item => item.type === 'sauce').length > 0 ?
@@ -77,10 +82,10 @@ const BurgerConstructor = () => {
         setFailContentModal(false)
     }
 
-    const closeModal = () => {
-        setOpen(false)
-        dispatch({type: CLEAR_ORDER})
-    }
+    useMemo(() => {
+        setTotalPrice(calculateTotalPrice(selectedBun, selectedIngredients))
+    }, [selectedBun, selectedIngredients])
+
 
     return (
         <div className={styles.constructorContainer}>
@@ -120,9 +125,14 @@ const BurgerConstructor = () => {
                 <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'>Оформить
                     заказ</Button>
             </div>
-            {open && (<Modal close={closeModal}>
-                <ModalContentOrderComplete fail={failContentModal} header={name} order={order}/>
-            </Modal>)}
+            <>
+
+            {hasLoading ? (<OrderPreloader/>):
+                (order || failContentModal) && (<Modal header='' close={closeModal}>
+                    <ModalContentOrderComplete fail={failContentModal} header={name} order={order}/>
+                </Modal>)
+            }
+            </>
         </div>
     );
 };

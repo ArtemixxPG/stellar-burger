@@ -7,8 +7,7 @@ import {
 
 const initialState = {
     selectedBun: null,
-    selectedIngredients: [],
-    totalPrice: 0
+    selectedIngredients: []
 }
 
 export const selectedIngredientsReducer = (state=initialState, action) => {
@@ -39,13 +38,6 @@ export const selectedIngredientsReducer = (state=initialState, action) => {
                     selectedIngredients: action.payload
                 }
         }
-        case SET_TOTAL_PRICE:
-            const priceBun = state.selectedBun ? state.selectedBun.price : 0
-            return {
-                ...state,
-                totalPrice: priceBun * 2 + state.selectedIngredients
-                    .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0)
-            }
         default:
             return state
     }

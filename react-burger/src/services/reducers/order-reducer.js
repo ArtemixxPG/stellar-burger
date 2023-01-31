@@ -1,4 +1,4 @@
-import {CLEAR_ORDER, FAILURE_REQUEST_ORDER, REQUEST_ORDER, SUCCESS_REQUEST_ORDER} from "../actions/order-actions";
+import {RESET_ORDER, FAILURE_REQUEST_ORDER, REQUEST_ORDER, SUCCESS_REQUEST_ORDER} from "../actions/order-actions";
 
 const initialState = {
     order: 0,
@@ -16,7 +16,6 @@ export const orderReducer = (state = initialState, action) => {
                 hasLoading: true
             }
         case SUCCESS_REQUEST_ORDER:
-            console.log(action.payload)
             return {
                 ...state,
                 hasError: false,
@@ -24,7 +23,7 @@ export const orderReducer = (state = initialState, action) => {
                 order: action.payload.order.number,
                 name: action.payload.name
             }
-        case CLEAR_ORDER:
+        case RESET_ORDER:
             return {
                 ...state,
                 order: 0

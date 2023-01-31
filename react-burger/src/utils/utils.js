@@ -35,3 +35,8 @@ export const checkResponse = (res) => {
     return  res?.ok ? res.json() : res.json().then(err => Promise.reject(err))
 }
 
+export const calculateTotalPrice = (selectedBun, selectedIngredients) => {
+   return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
+        .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0)
+}
+

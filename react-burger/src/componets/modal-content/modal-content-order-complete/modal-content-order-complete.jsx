@@ -11,7 +11,7 @@ const ModalContentOrderComplete = ({order, header, fail}) => {
                 <span className='text text_type_main-large' >* *</span>
                 <span className='text text_type_main-large'> | </span>
                 <span className='pb-8 text text_type_main-large'>  ⏜  </span>
-                <span className={`text text_type_main-large ${styles.text}`}> Для того, чтобы мы отправили заказ на орбитальную стпнцию, в бургере должны быть
+                <span className={`text text_type_main-large ${styles.text}`}> Для того, чтобы мы отправили заказ на орбитальную станцию, в бургере должны быть
                     булка, соус и начинка!
                     Мы ещё терпим веганов, но традиционную форму бургера нарушать нельзя! </span>
             </div>
@@ -37,7 +37,8 @@ const ModalContentOrderComplete = ({order, header, fail}) => {
 
 ModalContentOrderComplete.propTypes = {
     header: PropTypes.string,
-    order: PropTypes.number.isRequired
+    order: PropTypes.number.isRequired,
+    fail: PropTypes.bool.isRequired
 }
 
 export default ModalContentOrderComplete;

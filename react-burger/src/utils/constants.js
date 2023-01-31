@@ -3,3 +3,8 @@ export const INGREDIENT_TYPES = {
     MAINS: 'main',
     SAUCES: 'sauce'
 }
+export const TYPE_HEADER_MENU_ITEM = {
+    CONSTRUCTOR: 'constructor',
+    LIST_ORDER: 'listOrder',
+    ACCOUNT: 'account'
+}

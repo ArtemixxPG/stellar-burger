@@ -6,14 +6,19 @@ import BurgerIngredient from "../burger-ingredient/burger-ingredient";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
+import {useSelector} from "react-redux";
+import MainPreloader from "../preloader/main-preloader/main-preloader";
 
 
 const Home = () => {
 
+    const hasLoading = useSelector(store => store.ingredients.hasLoading)
     useFetchList()
 
     return (
-        <main className={styles.app}>
+        <>
+        {hasLoading ? (<MainPreloader/>) :
+        (<main className={styles.app}>
             <header className={styles.navbar}>
                 <AppHeader/>
             </header>
@@ -25,7 +30,9 @@ const Home = () => {
                 </DndProvider>
             </section>
 
-        </main>
+        </main>)
+    }
+        </>
     );
 };
 
