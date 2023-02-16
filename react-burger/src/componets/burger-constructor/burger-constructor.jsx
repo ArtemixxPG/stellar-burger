@@ -23,8 +23,6 @@ const BurgerConstructor = () => {
 
     const dispatch = useDispatch()
 
-
-
     const {buns, sauces, mains} = useSelector(store => store.ingredients.types)
     const {hasLoading, selectedBun, selectedIngredients} = useSelector(store => store.selectedIngredients)
     const {order, name} = useSelector(store => store.order)

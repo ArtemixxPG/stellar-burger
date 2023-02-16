@@ -1,0 +1,46 @@
+.wrapper {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .footer {
+
+      .to {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+
+        p {
+          margin: 0;
+        }
+
+        .button {
+          padding: 0;
+        }
+
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+
 export const INGREDIENT_TYPES = {
     BUNS: 'bun',
     MAINS: 'main',
@@ -8,3 +9,6 @@ export const TYPE_HEADER_MENU_ITEM = {
     LIST_ORDER: 'listOrder',
     ACCOUNT: 'account'
 }
+
+export const PROFILE_MENU_ITEMS = [{name: 'Профиль', path: '/profile'},
+    {name:'История заказов', path: '/register'}, {name:'Выход', path: '/login'}]
