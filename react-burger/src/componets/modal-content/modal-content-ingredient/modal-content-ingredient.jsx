@@ -1,35 +1,39 @@
 import React from 'react';
 
 import styles from './modal-content-ingredient.module.scss'
-import PropTypes from "prop-types";
 import ModalContentIngredientNutritionType
     from "./modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type";
-import {Nutritions} from "../../../utils/prop-types-constants";
+import {useSelector} from "react-redux";
 
 
 
 
-const ModalContentIngredient = (props) => {
+const ModalContentIngredient = () => {
+
+
+    const {name, image, nutrients} = useSelector((store)=>{
+        return{
+            name: store.currentIngredient.name,
+            image: store.currentIngredient.imageLarge,
+            nutrients: store.currentIngredient.nutrients
+        }
+    })
 
 
     return (
         <section className={styles.modalIngredient}>
-           <div className={styles.image}><img src={props.image}/></div>
-             <span className={`text text_type_main-medium pt-4 pb-8 ${styles.modalIngredientName}`}>{props.name}</span>
+           <div className={styles.image}><img src={image}/></div>
+             <span className={`text text_type_main-medium pt-4 pb-8 ${styles.modalIngredientName}`}>{name}</span>
             <div className={`pb-15 ${styles.modalIngredientNutrition}`}>
-                <ModalContentIngredientNutritionType header={'Каллории, ккал'} value={props.nutritions.calories}/>
-                <ModalContentIngredientNutritionType header={'Белки, г'} value={props.nutritions.proteins}/>
-                <ModalContentIngredientNutritionType header={'Жиры, г'} value={props.nutritions.fat}/>
-                <ModalContentIngredientNutritionType header={'Углеводы, г'} value={props.nutritions.carbohydrates}/>
+                <ModalContentIngredientNutritionType header={'Каллории, ккал'} value={nutrients.calories}/>
+                <ModalContentIngredientNutritionType header={'Белки, г'} value={nutrients.proteins}/>
+                <ModalContentIngredientNutritionType header={'Жиры, г'} value={nutrients.fat}/>
+                <ModalContentIngredientNutritionType header={'Углеводы, г'} value={nutrients.carbohydrates}/>
             </div>
         </section>
     );
 };
 
-ModalContentIngredient.propTypes = {
-    nutritions: Nutritions.isRequired,
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-}
+
 
 export default ModalContentIngredient;

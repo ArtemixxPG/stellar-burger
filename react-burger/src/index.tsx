@@ -3,14 +3,24 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import App from '././componets/app/app';
 import reportWebVitals from './reportWebVitals';
+import {compose, createStore, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import {rootReducer} from './services/reducers/root/root-reducer';
+import thunk from 'redux-thunk';
+import {configureStore} from "@reduxjs/toolkit";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+    document.getElementById('root') as HTMLElement
 );
+
+
+const store = configureStore({reducer: rootReducer, middleware: [thunk], devTools: true});
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <App/>
+        </Provider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your home, pass a function

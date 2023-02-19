@@ -11,19 +11,19 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("modal");
 
 
-const Modal = (props) => {
+const Modal = ({header, close, children}) => {
 
-    useEscape(props.setOpen)
-    const ref = useOutside(props.open, props.setOpen)
+    useEscape(close)
+    const ref = useOutside(close)
 
     return createPortal(
          <section className={styles.modalWrapper}>
              <div className={styles.modalContent} ref={ref} >
                  <div className={`pr-10 pl-10 ${styles.nav}`}>
-            <div className={`text text_type_main-medium ${styles.headerModal}`}>{props.header} </div>
-                    <div className={`pt-15   ${styles.close}`}> <CloseIcon onClick={()=> props.setOpen(false)} type="primary" /></div>
+            <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
+                    <div className={`pt-15   ${styles.close}`}> <CloseIcon onClick={close} type="primary" /></div>
                  </div>
-             {props.children}
+             {children}
              </div>
              <ModalOverlay/>
         </section>, modalRoot
@@ -31,9 +31,9 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-    setOpen: PropTypes.func,
-    open: PropTypes.bool,
-    children: PropTypes.element
+    header: PropTypes.string.isRequired,
+    close: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired
 }
 
 export default Modal;

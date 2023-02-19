@@ -2,15 +2,15 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
 
-const MenuItemContent = (props) => {
+const MenuItemContent = ({activeClass, inActiveIcon, activeIcon, menuItemName}) => {
     return (
         <>
             <Link to="/">
                 {
-                    props.activeClass === 'text_type_main-default text_color_inactive' ?
-                        props.inActiveIcon : props.activeIcon
+                   activeClass === 'text_type_main-default text_color_inactive' ?
+                        inActiveIcon : activeIcon
                 }
-                <span className={`ml-4 text ${props.activeClass}`}>{props.menuItemName}</span>
+                <span className={`ml-4 text ${activeClass}`}>{menuItemName}</span>
             </Link>
         </>
     );
@@ -18,8 +18,8 @@ const MenuItemContent = (props) => {
 
 MenuItemContent.propTypes = {
     activeClass: PropTypes.string.isRequired,
-    inActiveIcon: PropTypes.element.isRequired,
-    activeIcon: PropTypes.element.isRequired,
+    inActiveIcon: PropTypes.node.isRequired,
+    activeIcon: PropTypes.node.isRequired,
     menuItemName: PropTypes.string.isRequired
 }
 
