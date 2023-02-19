@@ -15,7 +15,14 @@
       }
     }
     .edit{
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
 
+      .buttons{
+        display: flex;
+        justify-content: flex-end;
+      }
     }
   }
 }
