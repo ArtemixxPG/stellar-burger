@@ -1,9 +1,12 @@
-import {useRef, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from '../auth-css.module.scss'
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {query, SUCCESS_REQUEST_LOGIN_USER} from "../../../services/actions/user-actions";
+import {URL_LOGIN_USER} from "../../../utils/URL";
 
 
 const Login = () => {
@@ -12,7 +15,14 @@ const Login = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
 
+    const changeEmail = useCallback(e => setEmail(e.target.value), [email]);
+    const changePassword = useCallback(e => setPassword(e.target.value), [password]);
+    const handleSubmit = useCallback(e => {
+        e.preventDefault();
+        dispatch(query(SUCCESS_REQUEST_LOGIN_USER, URL_LOGIN_USER, {email, password},null));
+    }, [email, password, dispatch]);
 
     return (
         <main className={styles.wrapper}>
@@ -21,20 +31,19 @@ const Login = () => {
                     <h3>Вход</h3>
                 </header>
 
-                <form className={`mb-20 ${styles.main}`}>
+                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <EmailInput
                         placeholder={'E-mail'}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={changeEmail}
                         value={email}
                         extraClass="ml-1"
                     />
                     <PasswordInput
                         placeholder={'Пароль'}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={changePassword}
                         value={password}
                     />
-                    <Button type={'primary'} htmlType={'submit'} onClick={() => {
-                    }}>Войти</Button>
+                    <Button type={'primary'} htmlType={'submit'}>Войти</Button>
                 </form>
 
                 <footer className={styles.footer}>

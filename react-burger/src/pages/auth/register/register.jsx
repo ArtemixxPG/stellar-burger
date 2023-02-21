@@ -1,15 +1,41 @@
 import styles from "../auth-css.module.scss";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useCallback, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {query, SUCCESS_REQUEST_REGISTER_USER} from "../../../services/actions/user-actions";
+import {URL_REGISTER_USER} from "../../../utils/URL";
 
 const Register = () => {
+
+
+
+
+    const dispatch = useDispatch();
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState("");
 
     const navigate = useNavigate();
+
+    const changeName = useCallback( e => {
+        setName(e.target.value);
+    }, [name])
+
+    const changeEmail = useCallback( e => {
+        setEmail(e.target.value);
+    }, [email])
+
+    const changePassword = useCallback( e => {
+        setPassword(e.target.value);
+    }, [password])
+
+    const handleSubmit = useCallback( e => {
+        e.preventDefault();
+        dispatch(query(SUCCESS_REQUEST_REGISTER_USER, URL_REGISTER_USER, {email, password, name}))
+
+    }, [name, email, password, dispatch])
 
     return (
         <main className={styles.wrapper}>
@@ -18,25 +44,24 @@ const Register = () => {
                     <h3>Регистрация</h3>
                 </header>
 
-                <form className={`mb-20 ${styles.main}`}>
+                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <Input
                         placeholder={'Имя'}
                         value={name}
-                        onChange={e => setName(e.target.value)}
+                        onChange={changeName}
                     />
                     <EmailInput
                         placeholder={'E-mail'}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={changeEmail}
                         value={email}
                         extraClass="ml-1"
                     />
                     <PasswordInput
                         placeholder={'Пароль'}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={changePassword}
                         value={password}
                     />
-                    <Button type={'primary'} htmlType={'submit'} onClick={() => {
-                    }}>Зарегистрироваться</Button>
+                    <Button type={'primary'} htmlType={'submit'}>Зарегистрироваться</Button>
                 </form>
 
                 <footer className={styles.footer}>

@@ -40,3 +40,10 @@ export const calculateTotalPrice = (selectedBun, selectedIngredients) => {
         .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0)
 }
 
+export const isUser = (user) => {
+    if(user.email && user.name){
+        return true;
+    }
+    return false;
+}
+

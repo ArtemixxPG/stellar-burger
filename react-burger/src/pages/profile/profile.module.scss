@@ -12,6 +12,12 @@
         width: 320px;
         height: 64px;
         text-align: left;
+        &_active{
+          width: 320px;
+          height: 64px;
+          text-align: left;
+          color: white;
+        }
       }
     }
     .edit{
@@ -22,6 +28,7 @@
       .buttons{
         display: flex;
         justify-content: flex-end;
+
       }
     }
   }

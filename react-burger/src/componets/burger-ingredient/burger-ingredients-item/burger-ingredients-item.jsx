@@ -7,11 +7,13 @@ import {IngredientPropTypes, Nutritions} from "../../../utils/prop-types-constan
 import {useDispatch, useSelector} from "react-redux";
 import {REMOVE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../../services/actions/current-ingredient-actions";
 import {useDrag} from "react-dnd";
+import {Link, useLocation} from "react-router-dom";
 
 
 
 const BurgerIngredientsItem = ({ingredient}) => {
 
+    const location = useLocation()
     const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
@@ -42,16 +44,19 @@ const BurgerIngredientsItem = ({ingredient}) => {
 
     return (
         <section className={` ${styles.burgerItemContent} ${isDrag? styles.burgerItemContent_drag : ''}`}>
-            <img ref={drag} onClick={handleOpenModal} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image} />
-            <div className={styles.burgerItemPrice}>
+            <Link
+                to={`ingredient/${ingredient._id}`}
+                state={{ background: location }}
+                className={styles.link}
+            >
+            <img ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image} />
+            <div className={`text text_type_main-small ${styles.burgerItemPrice}`}>
                 <span>{ingredient.price}</span>
                 <CurrencyIcon type={'primary'}/>
             </div>
             <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{ingredient.name}</span>
             {count ? <Counter count={count} size="default" /> : null}
-            {open &&(<Modal header='Детали ингредиента' open={handleOpenModal} close={handleCloseModal}>
-            <ModalContentIngredient/>
-        </Modal>)}
+            </Link>
         </section>
     );
 };
