@@ -33,14 +33,10 @@ const BurgerIngredientsItem = ({ingredient}) => {
     },[ingredient, selectedIngredients, selectedBun] );
 
     const handleOpenModal = () => {
-        setOpen(true)
         dispatch({type: SET_CURRENT_INGREDIENT, payload: ingredient})
     }
 
-    const handleCloseModal = () => {
-        setOpen(false)
-        dispatch({type: REMOVE_CURRENT_INGREDIENT})
-    }
+
 
     return (
         <section className={` ${styles.burgerItemContent} ${isDrag? styles.burgerItemContent_drag : ''}`}>
@@ -48,6 +44,7 @@ const BurgerIngredientsItem = ({ingredient}) => {
                 to={`ingredient/${ingredient._id}`}
                 state={{ background: location }}
                 className={styles.link}
+                onClick={handleOpenModal}
             >
             <img ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image} />
             <div className={`text text_type_main-small ${styles.burgerItemPrice}`}>
@@ -55,8 +52,9 @@ const BurgerIngredientsItem = ({ingredient}) => {
                 <CurrencyIcon type={'primary'}/>
             </div>
             <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{ingredient.name}</span>
-            {count ? <Counter count={count} size="default" /> : null}
+
             </Link>
+            {count ? <Counter count={count} size="default" /> : null}
         </section>
     );
 };

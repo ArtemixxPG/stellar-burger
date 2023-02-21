@@ -8,6 +8,7 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {useSelector} from "react-redux";
 import MainPreloader from "../../componets/preloader/main-preloader/main-preloader";
+import {memo} from "react";
 
 
 const Home = () => {
@@ -32,4 +33,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default memo(Home);

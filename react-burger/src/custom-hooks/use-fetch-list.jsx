@@ -17,8 +17,5 @@ const useFetchList = () => {
 
 };
 
-useFetchList.propTypes = {
-    url: PropTypes.string
-}
 
 export default useFetchList;

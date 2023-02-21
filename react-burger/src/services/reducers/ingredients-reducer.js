@@ -12,7 +12,7 @@ const initialState = {
         mains: []
     },
     hasErrors : false,
-    hasLoading: false,
+    hasLoading: true,
     errorMessage: ''
 }
 

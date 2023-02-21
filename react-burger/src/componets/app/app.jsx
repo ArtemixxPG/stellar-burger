@@ -16,6 +16,7 @@ import ModalIngredientInfo
     from "../burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info";
 import ProtectedRoute from "../protected-route/protected-route";
 import NotFound from "../../pages/not-found/not-found";
+import OrderComplete from "../burger-constructor/burger-cunstructor-item/order-complete";
 
 function App() {
 
@@ -26,32 +27,33 @@ function App() {
 
     const background = location.state && location.state.background
 
-
     return (
         <>
             {hasLoading ? (<MainPreloader/>) :
                 (
                     <>
-                    <AppHeader/>
-                    <Routes location={location || background}>
-                        <Route path='/'>
+                        <AppHeader/>
+                        <Routes location={background || location}>
                             <Route index element={<Home/>}/>
-                        </Route>
-                        <Route  path='/login' element={<ProtectedRoute isUnProtected element = {<Login/>}/>}/>
-                        <Route path='/register' element={<ProtectedRoute isUnProtected element ={<Register/>}/>}/>
-                        <Route path='/forgot-password' element={<ProtectedRoute isUnProtected element = {<ForgotPassword/>}/>}/>
-                        <Route path='/reset-password' element={<ProtectedRoute isUnProtected element = {<ResetPassword/>}/>} />
-                        <Route path='/profile' element={<ProtectedRoute  element = {<Profile/>}/>} />
-                        <Route path='/ingredient/:id' element={<Info/>}/>
-                        <Route path="*" element={<NotFound/>}/>
+                            <Route path='/login' element={<ProtectedRoute isUnProtected element={<Login/>}/>}/>
+                            <Route path='/register' element={<ProtectedRoute isUnProtected element={<Register/>}/>}/>
+                            <Route path='/forgot-password'
+                                   element={<ProtectedRoute isUnProtected element={<ForgotPassword/>}/>}/>
+                            <Route path='/reset-password'
+                                   element={<ProtectedRoute isUnProtected element={<ResetPassword/>}/>}/>
+                            <Route path='/profile' element={<ProtectedRoute element={<Profile/>}/>}/>
+                            <Route path='ingredient/:id' element={<Info/>}/>
+                            <Route path="*" element={<NotFound/>}/>
 
-                    </Routes>
-                    {background && (
-                        <Routes>
-                            <Route path='/ingredient/:id' element={<ModalIngredientInfo/>}/>
                         </Routes>
-                    )
-                    }
+
+                        {background && (
+                            <Routes>
+                                <Route path='ingredient/:id' element={<ModalIngredientInfo/>}/>
+                                <Route path='/order' element={<OrderComplete/>}/>
+                            </Routes>
+                        )}
+
                     </>
                 )}
         </>

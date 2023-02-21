@@ -7,6 +7,8 @@ import styles from './info.module.scss'
 
 const Info = () => {
 
+    const hasLoading = useSelector(store => store.ingredients.hasLoading)
+
     const {sauces, mains, buns} = useSelector(store => store.ingredients.types);
 
     const ingredients = [...sauces, ...mains, ...buns];
@@ -18,8 +20,9 @@ const Info = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-
-        dispatch({type: SET_CURRENT_INGREDIENT, payload: ingredient});
+        if(!hasLoading) {
+            dispatch({type: SET_CURRENT_INGREDIENT, payload: ingredient});
+        }
 
     }, [dispatch, ingredient])
 

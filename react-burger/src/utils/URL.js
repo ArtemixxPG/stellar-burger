@@ -1,9 +1,12 @@
-export const URL_POST = 'https://norma.nomoreparties.space/api/orders'
-export const URL_GET_INGREDIENTS = 'https://norma.nomoreparties.space/api/ingredients'
-export const URL_SENT_EMAIL = 'https://norma.nomoreparties.space/api/password-reset'
-export const URL_RESET_PASSWORD = 'https://norma.nomoreparties.space/api/password-reset/reset'
-export const URL_REGISTER_USER = 'https://norma.nomoreparties.space/api/auth/register'
-export const URL_LOGIN_USER = 'https://norma.nomoreparties.space/api/auth/login'
-export const URL_LOGOUT_USER = 'https://norma.nomoreparties.space/api/auth/logout'
-export const URL_GET_TOKEN = 'https://norma.nomoreparties.space/api/auth/token'
-export const URL_GET_USER = 'https://norma.nomoreparties.space/api/auth/user'
+const BASE_URL = 'https://norma.nomoreparties.space/api'
+const authPath = 'auth'
+export const URL_POST = `${BASE_URL}/orders`
+export const URL_GET_INGREDIENTS = `${BASE_URL}/ingredients`
+export const URL_SENT_EMAIL = `${BASE_URL}/password-reset`
+export const URL_RESET_PASSWORD = `${BASE_URL}/password-reset/reset`
+export const URL_REGISTER_USER = `${BASE_URL}/${authPath}/register`
+export const URL_LOGIN_USER = `${BASE_URL}/${authPath}/login`
+export const URL_LOGOUT_USER = `${BASE_URL}/${authPath}/logout`
+export const URL_GET_TOKEN = `${BASE_URL}/${authPath}/token`
+export const URL_GET_USER = `${BASE_URL}/${authPath}/user`
+

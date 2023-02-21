@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {createPortal} from "react-dom";
 import useOutside from "../../custom-hooks/use-outside";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,7 +9,6 @@ import useEscape from "../../custom-hooks/use-escape";
 import PropTypes from "prop-types";
 import {useLocation, useNavigate} from "react-router-dom";
 
-const modalRoot = document.getElementById("modal");
 
 
 const Modal = ({header, children}) => {
@@ -22,6 +21,10 @@ const Modal = ({header, children}) => {
     }, [location.state, navigate])
     useEscape(onClose)
     const ref = useOutside(onClose)
+
+    const modalRoot = React.useMemo(
+        () => document.getElementById('modal'),
+        [],)
 
     return createPortal(
          <section className={styles.modalWrapper}>
@@ -42,4 +45,4 @@ Modal.propTypes = {
     children: PropTypes.node.isRequired
 }
 
-export default Modal;
+export default memo(Modal);

@@ -2,8 +2,28 @@
 import styles from './modal-content-order-complete.module.scss'
 import img from '../../../images/done.png'
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
+import {useCallback, useState} from "react";
 
-const ModalContentOrderComplete = ({order, header, fail}) => {
+const ModalContentOrderComplete = ({}) => {
+
+    const [fail, setFailContentModal] = useState(false)
+    const {hasLoading, selectedBun, selectedIngredients} = useSelector(store => store.selectedIngredients)
+    const {order, name} = useSelector(store => store.order)
+
+     useCallback(
+        () => {
+            selectedBun && selectedIngredients.length > 0
+            && selectedIngredients.filter(item => item.type === 'main').length > 0
+            && selectedIngredients.filter(item => item.type === 'sauce').length > 0 ?
+                setFailContentModal(false) :
+                setFailContentModal(true)
+        },
+        [selectedBun, selectedIngredients]
+    );
+
+
+
     return (
         <>
         {fail?(<section>
@@ -20,7 +40,7 @@ const ModalContentOrderComplete = ({order, header, fail}) => {
             <div className={`pt-9 pb-15 ${styles.id}`}>
                 <span className='pb-8 text text_type_digits-large'>{order}</span>
                 <span className='text text_type_main-default'>Индификатор заказа</span>
-                <span className={`text text_type_main-default pt-8 ${styles.header}`}>{header}</span>
+                <span className={`text text_type_main-default pt-8 ${styles.header}`}>{name}</span>
             </div>
             <div className={styles.done}>
                 <img src={img}/>
@@ -35,10 +55,6 @@ const ModalContentOrderComplete = ({order, header, fail}) => {
 
 };
 
-ModalContentOrderComplete.propTypes = {
-    header: PropTypes.string,
-    order: PropTypes.number.isRequired,
-    fail: PropTypes.bool.isRequired
-}
+
 
 export default ModalContentOrderComplete;
