@@ -7,12 +7,11 @@ const useFetchList = () => {
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
 
         dispatch(getIngredients())
 
     }, [])
-
 
 
 };

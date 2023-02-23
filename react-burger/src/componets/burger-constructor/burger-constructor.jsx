@@ -15,6 +15,7 @@ import {RESET_ORDER, orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import OrderPreloader from "../preloader/order-preloader/order-preloader";
 import {Link, useLocation, useNavigate} from "react-router-dom";
+import {getCookie} from "../../utils/cookie";
 
 
 const BurgerConstructor = () => {
@@ -31,7 +32,6 @@ const BurgerConstructor = () => {
     const {hasLoading, selectedBun, selectedIngredients} = useSelector(store => store.selectedIngredients)
 
 
-
     const resetOrder = () => {
         dispatch({type: RESET_ORDER})
     }
@@ -46,17 +46,14 @@ const BurgerConstructor = () => {
     });
 
 
-
-
-
-    const setIngredient = useCallback( (id) => {
+    const setIngredient = useCallback((id) => {
         const ingredients = [...buns, ...sauces, ...mains]
         const ingredient = ingredients.find(item => item._id === id.id)
         ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
             : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient._id), ...ingredient}})
     }, [buns, sauces, mains])
 
-    const constructor = useCallback( selectedIngredients.map((item, index) => {
+    const constructor = useCallback(selectedIngredients.map((item, index) => {
         return (
             <section key={item.id}>
 
@@ -69,13 +66,15 @@ const BurgerConstructor = () => {
     }), [buns, sauces, mains, selectedIngredients])
 
     const completeBurger = useCallback(() => {
-        dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
+        if(selectedIngredients > 0) {
+            dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
+        }
     }, [selectedIngredients, selectedBun, dispatch])
 
     const handleOpenModal = useCallback(() => {
-        isUser(user) ?
-                completeBurger()
-    : navigate('/login')
+        getCookie('token') ?
+            completeBurger()
+            : navigate('/login')
 
     }, [user, selectedBun, selectedIngredients, completeBurger, navigate])
 
@@ -122,7 +121,7 @@ const BurgerConstructor = () => {
 
                 <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'> <Link
                     to={`order`}
-                    state={{ background: location }}
+                    state={{background: location}}
                     className={styles.link}
                 >Оформить
                     заказ </Link></Button>

@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {query, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
 import {getCookie} from "../../utils/cookie";
+import useInput from "../../custom-hooks/input/use-input";
 
 const Profile = () => {
 
@@ -14,9 +15,8 @@ const Profile = () => {
     const accessToken = useSelector(store => store.user.accessToken);
     const accessTokenExpiration = useSelector(store => store.user.accessTokenExpiration);
 
-    const [name, setName] = useState(user? user.name: '')
-    const [email, setEmail] = useState(user? user.email: '')
-    const [password, setPassword] = useState('')
+    const {values, handleChange, setValues} = useInput({name: user.name, email: user.email, password: ''});
+
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -25,21 +25,19 @@ const Profile = () => {
 
     const handleSaveUser = useCallback(e => {
         e.preventDefault()
-        dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, {name, email, password}, accessToken))
-        if(accessTokenExpiration) {
-           dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: getCookie('token')}))
-            dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, {name, email, password}, accessToken))
+        dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, accessToken))
+        if (accessTokenExpiration) {
+            dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: getCookie('token')}))
+            dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, accessToken))
         }
-    }, [name, email, password, accessToken, accessTokenExpiration, dispatch])
+    }, [values, accessToken, accessTokenExpiration, dispatch])
 
     const handleCanceled = useCallback(e => {
         e.preventDefault()
-        setName(user.name)
-        setEmail(user.email)
-        setPassword('')
+        setValues({name: user.name, email: user.email, password: ''})
     }, [user])
 
-    const logout = useCallback((e,path, onComplete) => {
+    const logout = useCallback((e, path, onComplete) => {
         e.preventDefault()
         dispatch(onComplete)
         navigate(path)
@@ -49,10 +47,11 @@ const Profile = () => {
         return (
             <Button htmlType={"button"}
                     key={index}
-                    onClick={ item.complete? e => {logout(e, item.path, item.complete.onComplete)
+                    onClick={item.complete ? e => {
+                        logout(e, item.path, item.complete.onComplete)
                         activeMenuButton[index] = !activeMenuButton[index]
                         setActiveMenuButton([...activeMenuButton])
-                    }: () => {
+                    } : () => {
                         activeMenuButton[index] = !activeMenuButton[index]
                         setActiveMenuButton([...activeMenuButton])
                         navigate(item.path)
@@ -66,18 +65,18 @@ const Profile = () => {
     })
 
 
-
     return (
         <main className={`mt-30 ${styles.wrapper}`}>
             <section className={`pl-3 ${styles.content}`}>
-               <div className={styles.menu}>
-                   {menuItems}
-               </div>
+                <div className={styles.menu}>
+                    {menuItems}
+                </div>
                 <form className={styles.edit} onSubmit={handleSaveUser}>
-                    <Input  placeholder={'Имя'} value={name} onChange={e => setName(e.target.value)}/>
-                    <EmailInput placeholder={'E-mail'} value={email} onChange={e => setEmail(e.target.value)}/>
-                    <PasswordInput placeholder={'Пароль'} value={password} onChange={e => setPassword(e.target.value)}/>
-                    {email && password && name ? (<div className={styles.buttons}>
+                    <Input name="name" placeholder={'Имя'} value={values.name} onChange={handleChange}/>
+                    <EmailInput name="email" placeholder={'E-mail'} value={values.email} onChange={handleChange}/>
+                    <PasswordInput name="password" placeholder={'Пароль'} value={values.password}
+                                   onChange={handleChange}/>
+                    {values.email && values.password && values.name ? (<div className={styles.buttons}>
                         <Button type="secondary" size="large" onClick={handleCanceled}>Отмена</Button>
                         <Button type="primary" size="large">Сохранить</Button>
                     </div>) : null}

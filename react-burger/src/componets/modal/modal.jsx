@@ -10,37 +10,31 @@ import PropTypes from "prop-types";
 import {useLocation, useNavigate} from "react-router-dom";
 
 
+const Modal = ({close, header, children}) => {
 
-const Modal = ({header, children}) => {
-
-    const location = useLocation()
-    const navigate = useNavigate()
-
-    const onClose = React.useCallback(() => {
-        location?.state?.background && navigate(location.state.background)
-    }, [location.state, navigate])
-    useEscape(onClose)
-    const ref = useOutside(onClose)
+    useEscape(close)
+    const ref = useOutside(close)
 
     const modalRoot = React.useMemo(
         () => document.getElementById('modal'),
         [],)
 
     return createPortal(
-         <section className={styles.modalWrapper}>
-             <div className={styles.modalContent} ref={ref} >
-                 <div className={`pr-10 pl-10 ${styles.nav}`}>
-            <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
-                    <div className={`pt-15   ${styles.close}`}> <CloseIcon onClick={onClose} type="primary" /></div>
-                 </div>
-             {children}
-             </div>
-             <ModalOverlay/>
+        <section className={styles.modalWrapper}>
+            <div className={styles.modalContent} ref={ref}>
+                <div className={`pr-10 pl-10 ${styles.nav}`}>
+                    <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
+                    <div className={`pt-15   ${styles.close}`}><CloseIcon onClick={close} type="primary"/></div>
+                </div>
+                {children}
+            </div>
+            <ModalOverlay/>
         </section>, modalRoot
     )
 };
 
 Modal.propTypes = {
+    close: PropTypes.func.isRequired,
     header: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired
 }

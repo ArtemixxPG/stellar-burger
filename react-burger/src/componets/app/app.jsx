@@ -17,11 +17,14 @@ import ModalIngredientInfo
 import ProtectedRoute from "../protected-route/protected-route";
 import NotFound from "../../pages/not-found/not-found";
 import OrderComplete from "../burger-constructor/burger-cunstructor-item/order-complete";
+import useAuth from "../../custom-hooks/auth/use-auth";
 
 function App() {
 
     const hasLoading = useSelector(store => store.ingredients.hasLoading)
     useFetchList()
+
+    useAuth()
 
     const location = useLocation();
 

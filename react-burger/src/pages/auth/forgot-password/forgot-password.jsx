@@ -4,40 +4,39 @@ import {useNavigate} from "react-router-dom";
 import {memo, useCallback, useState} from "react";
 import {sentRequest} from "../../../services/auth/reset-password-request";
 import {URL_SENT_EMAIL} from "../../../utils/URL";
+import useInput from "../../../custom-hooks/input/use-input";
 
 
 const ForgotPassword = () => {
 
-    const [email, setEmail] = useState('')
+    const {values, handleChange} = useInput({email: ''});
+
 
     const navigate = useNavigate()
 
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault()
-        if(email) {
-            sentRequest(URL_SENT_EMAIL, {email}, navigate, '/reset-password').then()
+        if (values.email) {
+            sentRequest(URL_SENT_EMAIL, values, navigate, '/reset-password').then()
         }
 
-    }, [email, navigate])
+    }, [values, navigate])
 
-    const changeEmail = useCallback((e)=>{
-        e.preventDefault()
-        setEmail(e.target.value)
-    }, [email])
 
     return (
         <main className={styles.wrapper}>
             <section className={styles.content}>
-                <header className={`mb-6 text text_type_main-medium ${styles.header}`}>
-                    <h3>Восстановление пароля</h3>
-                </header>
+
+                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Восстановление пароля</h1>
+
 
                 <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <EmailInput
+                        name={'email'}
                         placeholder={'E-mail'}
-                        onChange={changeEmail}
-                        value={email}
+                        onChange={handleChange}
+                        value={values.email}
                         extraClass="ml-1"
                         autoFocus
                     />

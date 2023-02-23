@@ -10,7 +10,7 @@ const initialState = {
     selectedIngredients: []
 }
 
-export const selectedIngredientsReducer = (state=initialState, action) => {
+export const selectedIngredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT:
             return {
@@ -33,10 +33,10 @@ export const selectedIngredientsReducer = (state=initialState, action) => {
                 selectedBun: null
             }
         case SET_INGREDIENTS: {
-                return {
-                    ...state,
-                    selectedIngredients: action.payload
-                }
+            return {
+                ...state,
+                selectedIngredients: action.payload
+            }
         }
         default:
             return state

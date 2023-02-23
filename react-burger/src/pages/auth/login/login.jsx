@@ -7,41 +7,43 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {query, SUCCESS_REQUEST_LOGIN_USER} from "../../../services/actions/user-actions";
 import {URL_LOGIN_USER} from "../../../utils/URL";
+import useInput from "../../../custom-hooks/input/use-input";
 
 
 const Login = () => {
 
+
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+
+    const {values, handleChange} = useInput({email: '', password: ''});
+
     const dispatch = useDispatch();
 
-    const changeEmail = useCallback(e => setEmail(e.target.value), [email]);
-    const changePassword = useCallback(e => setPassword(e.target.value), [password]);
     const handleSubmit = useCallback(e => {
         e.preventDefault();
-        dispatch(query(SUCCESS_REQUEST_LOGIN_USER, URL_LOGIN_USER, {email, password},null));
-    }, [email, password, dispatch]);
+        dispatch(query(SUCCESS_REQUEST_LOGIN_USER, URL_LOGIN_USER, values, null));
+    }, [values, dispatch]);
 
     return (
         <main className={styles.wrapper}>
             <section className={styles.content}>
-                <header className={`mb-6 text text_type_main-medium ${styles.header}`}>
-                    <h3>Вход</h3>
-                </header>
+
+                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Вход</h1>
 
                 <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <EmailInput
+                        name={'email'}
                         placeholder={'E-mail'}
-                        onChange={changeEmail}
-                        value={email}
+                        onChange={handleChange}
+                        value={values.email}
                         extraClass="ml-1"
                     />
                     <PasswordInput
+                        name={'password'}
                         placeholder={'Пароль'}
-                        onChange={changePassword}
-                        value={password}
+                        onChange={handleChange}
+                        value={values.password}
                     />
                     <Button type={'primary'} htmlType={'submit'}>Войти</Button>
                 </form>
@@ -59,7 +61,7 @@ const Login = () => {
                         <Button htmlType={'button'} type={'secondary'} size={'large'}
 
                                 onClick={() => navigate('/forgot-password')}
-                        extraClass={styles.button}>
+                                extraClass={styles.button}>
                             Восстановить пароль
                         </Button>
                     </div>

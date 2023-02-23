@@ -20,7 +20,7 @@ const Info = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(!hasLoading) {
+        if (!hasLoading) {
             dispatch({type: SET_CURRENT_INGREDIENT, payload: ingredient});
         }
 

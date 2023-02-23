@@ -11,7 +11,7 @@ const initialState = {
         sauces: [],
         mains: []
     },
-    hasErrors : false,
+    hasErrors: false,
     hasLoading: true,
     errorMessage: ''
 }
@@ -35,13 +35,13 @@ export const ingredientsReducer = (state = initialState, action) => {
                 hasLoading: false,
                 hasErrors: false
             }
-            case ERROR_REQUEST_INGREDIENTS:
-                return {
-                    ...state,
-                    hasLoading: false,
-                    hasErrors: true,
-                    errorMessage: action.payload
-                }
+        case ERROR_REQUEST_INGREDIENTS:
+            return {
+                ...state,
+                hasLoading: false,
+                hasErrors: true,
+                errorMessage: action.payload
+            }
 
         default:
             return state

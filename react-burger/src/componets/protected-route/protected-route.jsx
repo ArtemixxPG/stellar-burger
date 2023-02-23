@@ -5,20 +5,17 @@ import {isUser} from "../../utils/utils";
 
 const ProtectedRoute = ({element, isUnProtected = false}) => {
 
-    const user = useSelector(store => store.user.user);
+    const isLogIn = useSelector(store => store.user.isLogIn);
 
     const location = useLocation()
 
-    const find = isUser(user)
 
-    if(isUser(user) && isUnProtected)
-    {
-        return <Navigate to= {location.state?.target || '/'} replace/>;
+    if (isLogIn && isUnProtected) {
+        return <Navigate to={location.state?.target || '/'} replace/>;
     }
 
-    if(!isUser(user) && !isUnProtected)
-    {
-        return <Navigate Navigate to='/login' state={{ target: location}} replace/>;
+    if (!isLogIn && !isUnProtected) {
+        return <Navigate Navigate to='/login' state={{target: location}} replace/>;
     }
 
 

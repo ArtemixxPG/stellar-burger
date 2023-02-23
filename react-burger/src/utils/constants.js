@@ -14,5 +14,9 @@ export const TYPE_HEADER_MENU_ITEM = {
 }
 
 export const PROFILE_MENU_ITEMS = [{name: 'Профиль', path: '/profile'},
-    {name:'История заказов', path: '/register'}, {name:'Выход', path: '/login', complete: {path: '/',
-            onComplete: query(SUCCESS_REQUEST_LOGOUT_USER, URL_LOGOUT_USER, {token: getCookie('token')})}}]
+    {name: 'История заказов', path: '/register'}, {
+        name: 'Выход', path: '/login', complete: {
+            path: '/',
+            onComplete: query(SUCCESS_REQUEST_LOGOUT_USER, URL_LOGOUT_USER, {token: getCookie('token')})
+        }
+    }]

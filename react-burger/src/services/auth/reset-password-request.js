@@ -2,7 +2,7 @@ import {URL_SENT_EMAIL} from "../../utils/URL";
 import {checkResponse} from "../../utils/utils";
 
 
-export const sentRequest = async (url, body, navigate, path) =>  {
+export const sentRequest = async (url, body, navigate, path) => {
     try {
 
         const response = await fetch(url, {

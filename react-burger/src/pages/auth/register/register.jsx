@@ -5,61 +5,51 @@ import {useCallback, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {query, SUCCESS_REQUEST_REGISTER_USER} from "../../../services/actions/user-actions";
 import {URL_REGISTER_USER} from "../../../utils/URL";
+import useInput from "../../../custom-hooks/input/use-input";
 
 const Register = () => {
 
 
-
-
     const dispatch = useDispatch();
 
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState("");
+    const {values, handleChange} = useInput({email: '', password: '', name: ''});
+
 
     const navigate = useNavigate();
 
-    const changeName = useCallback( e => {
-        setName(e.target.value);
-    }, [name])
 
-    const changeEmail = useCallback( e => {
-        setEmail(e.target.value);
-    }, [email])
-
-    const changePassword = useCallback( e => {
-        setPassword(e.target.value);
-    }, [password])
-
-    const handleSubmit = useCallback( e => {
+    const handleSubmit = useCallback(e => {
         e.preventDefault();
-        dispatch(query(SUCCESS_REQUEST_REGISTER_USER, URL_REGISTER_USER, {email, password, name}))
+        dispatch(query(SUCCESS_REQUEST_REGISTER_USER, URL_REGISTER_USER, values))
 
-    }, [name, email, password, dispatch])
+    }, [values, dispatch])
 
     return (
         <main className={styles.wrapper}>
             <section className={styles.content}>
-                <header className={`mb-6 text text_type_main-medium ${styles.header}`}>
-                    <h3>Регистрация</h3>
-                </header>
+
+                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Регистрация</h1>
+
 
                 <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <Input
+                        name={'name'}
                         placeholder={'Имя'}
-                        value={name}
-                        onChange={changeName}
+                        value={values.name}
+                        onChange={handleChange}
                     />
                     <EmailInput
+                        name={'email'}
                         placeholder={'E-mail'}
-                        onChange={changeEmail}
-                        value={email}
+                        onChange={handleChange}
+                        value={values.email}
                         extraClass="ml-1"
                     />
                     <PasswordInput
+                        name={'password'}
                         placeholder={'Пароль'}
-                        onChange={changePassword}
-                        value={password}
+                        onChange={handleChange}
+                        value={values.password}
                     />
                     <Button type={'primary'} htmlType={'submit'}>Зарегистрироваться</Button>
                 </form>

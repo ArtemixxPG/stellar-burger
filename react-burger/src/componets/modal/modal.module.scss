@@ -1,4 +1,4 @@
-.modalWrapper{
+.modalWrapper {
   position: fixed;
   display: flex;
   flex-direction: row;
@@ -10,25 +10,27 @@
   z-index: 10000;
 
 
-
-  .modalContent{
+  .modalContent {
     position: relative;
     background: #1c1c21;
     z-index: 10000;
     width: 720px;
     border-radius: 40px;
- .nav {
-   display: flex;
-   flex-direction: row;
-   align-items: baseline;
-   .headerModal {
-     flex: 1;
-   }
-   .close{
-     display: flex;
-     justify-content: flex-end;
-     cursor: pointer;
-   }
- }
+
+    .nav {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+
+      .headerModal {
+        flex: 1;
+      }
+
+      .close {
+        display: flex;
+        justify-content: flex-end;
+        cursor: pointer;
+      }
+    }
   }
 }

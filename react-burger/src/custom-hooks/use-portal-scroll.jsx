@@ -7,15 +7,15 @@ const usePortalScroll = (idElement) => {
 
 
     const portal = (e) => {
-        if(from.current && from.current.contains(e.target)){
+        if (from.current && from.current.contains(e.target)) {
             document.getElementById(idElement).scrollIntoView()
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         from.current.addEventListener('click', portal, true)
 
-        return  () =>{
+        return () => {
             from.current.removeEventListener('click', portal, true)
         }
     })

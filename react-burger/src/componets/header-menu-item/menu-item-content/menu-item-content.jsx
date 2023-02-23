@@ -7,7 +7,7 @@ const MenuItemContent = ({activeClass, inActiveIcon, activeIcon, menuItemName, p
         <>
             <Link to={path}>
                 {
-                   activeClass === 'text_type_main-default text_color_inactive' ?
+                    activeClass === 'text_type_main-default text_color_inactive' ?
                         inActiveIcon : activeIcon
                 }
                 <span className={`ml-4 text ${activeClass}`}>{menuItemName}</span>

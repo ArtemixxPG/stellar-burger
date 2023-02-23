@@ -1,11 +1,14 @@
+import {BASE_URL} from "./URL";
+import React from "react";
+
 export const hashCode = (s) => {
-    return s.split("").reduce(function(a, b) {
+    return s.split("").reduce(function (a, b) {
         a = ((a << 5) - a) + b.charCodeAt(0) + Math.floor(Math.random() * 10) + 1;
         return a & a;
     }, 0);
 }
 
-export const summaryOrder = (selectedIngredients) =>{
+export const summaryOrder = (selectedIngredients) => {
     const result = {
         sum: 0,
         listIds: []
@@ -14,7 +17,7 @@ export const summaryOrder = (selectedIngredients) =>{
     selectedIngredients.stuff.forEach(ingredient => {
         result.sum += ingredient.price;
         result.listIds.push(ingredient._id);
-})
+    })
     result.sum += selectedIngredients.bun.price;
     result.listIds.push(selectedIngredients.bun._id);
 
@@ -22,7 +25,7 @@ export const summaryOrder = (selectedIngredients) =>{
 }
 
 export const sortArray = (dragIndex, hoverIndex, arr) => {
-   const item = arr[dragIndex];
+    const item = arr[dragIndex];
     const sortArr = [...arr]
     sortArr.splice(dragIndex, 1)
     sortArr.splice(hoverIndex, 0, item)
@@ -35,13 +38,25 @@ export const checkResponse = (res) => {
     return res?.ok ? res.json() : res.json().then(err => Promise.reject(err))
 }
 
+export const checkSuccess = (res) => {
+    return res && res?.success? res : res.then(err => Promise.reject)
+}
+
+export const request = (endpoint, options) => {
+    return fetch(`${BASE_URL}${endpoint}`, options)
+        .then(checkResponse)
+        .then(checkSuccess)
+}
+
+
+
 export const calculateTotalPrice = (selectedBun, selectedIngredients) => {
-   return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
+    return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
         .reduce((totalPrice, ingredient) => totalPrice + ingredient.price, 0)
 }
 
 export const isUser = (user) => {
-    if(user.email && user.name){
+    if (user.email && user.name) {
         return true;
     }
     return false;

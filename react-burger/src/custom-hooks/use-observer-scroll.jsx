@@ -7,35 +7,34 @@ const useObserverScroll = (observeClass, setCurrentElement) => {
 
     const observer = useRef(null)
 
-    const intersectionObserver = new IntersectionObserver((entries, {root:observer})=>{
-        for(let i = 0; i < entries[0].target.children.length; i++) {
-                if (i === 0) {
-                    if (entries[0].target.children[i].intersectionRatio > 0 && entries[0].target.children[i+1].intersectionRatio === 0) {
-                        setCurrentElement('first')
-                    }
-                    if (entries[0].target.children[entries[0].target.children.length - 1]
-                        .intersectionRatio > 0 && entries[0].target.children[i-1].intersectionRatio === 0) {
-                        setCurrentElement('second')
-                    } else {
-                        setCurrentElement('third')
-                    }
+    const intersectionObserver = new IntersectionObserver((entries, {root: observer}) => {
+        for (let i = 0; i < entries[0].target.children.length; i++) {
+            if (i === 0) {
+                if (entries[0].target.children[i].intersectionRatio > 0 && entries[0].target.children[i + 1].intersectionRatio === 0) {
+                    setCurrentElement('first')
+                }
+                if (entries[0].target.children[entries[0].target.children.length - 1]
+                    .intersectionRatio > 0 && entries[0].target.children[i - 1].intersectionRatio === 0) {
+                    setCurrentElement('second')
+                } else {
+                    setCurrentElement('third')
+                }
 
             }
         }
     })
 
 
-
     const observe = (e) => {
 
-        if(observer.current && observer.current.contains(e.target)){
+        if (observer.current && observer.current.contains(e.target)) {
             intersectionObserver.observe(observer.current)
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         observer.current.addEventListener('scroll', observe, true)
-        return ()=> {
+        return () => {
             observer.current.removeEventListener('scroll', observe, true)
         }
     })

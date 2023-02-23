@@ -1,4 +1,4 @@
-.glitch-state{
+.glitch-state {
   display: block;
   animation-duration: 2s;
   animation-timing-function: linear;
@@ -12,13 +12,14 @@
   background-repeat: no-repeat;
 }
 
-.glitch-hover{
+.glitch-hover {
   position: absolute;
   background-size: 100%;
   background-position: top;
   background-repeat: no-repeat;
   opacity: 0;
-  &:hover{
+
+  &:hover {
     opacity: 1;
     display: block;
     animation-duration: 2s;
@@ -29,7 +30,8 @@
     transform: rotate(-2deg);
   }
 }
-.glitch_hover :before{
+
+.glitch_hover :before {
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
