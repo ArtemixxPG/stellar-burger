@@ -66,7 +66,7 @@ const BurgerConstructor = () => {
     }), [buns, sauces, mains, selectedIngredients])
 
     const completeBurger = useCallback(() => {
-        if(selectedIngredients > 0) {
+        if(selectedIngredients.length > 0) {
             dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
         }
     }, [selectedIngredients, selectedBun, dispatch])

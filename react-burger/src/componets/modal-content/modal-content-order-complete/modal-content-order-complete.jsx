@@ -30,7 +30,7 @@ const ModalContentOrderComplete = ({}) => {
                     <span className='text text_type_main-large'> | </span>
                     <span className='pb-8 text text_type_main-large'>  ⏜  </span>
                     <span className={`text text_type_main-large ${styles.text}`}> Для того, чтобы мы отправили заказ на орбитальную станцию, в бургере должны быть
-                    булка, соус и начинка!
+                    БУЛКА, СОУС и НАЧИНКА (добавьте в бургер хотя бы по одному ингредиенту из каждой группы)!
                     Мы ещё терпим веганов, но традиционную форму бургера нарушать нельзя! </span>
                 </div>
             </section>) : (
