@@ -3,11 +3,11 @@ import {useEffect} from 'react';
 const useEscape = (close) => {
 
     const pressed = (e) => {
-        if(e.key === 'Escape')
+        if (e.key === 'Escape')
             close()
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         document.addEventListener('keydown', pressed, true)
 
         return () => (

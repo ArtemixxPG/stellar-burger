@@ -9,10 +9,9 @@ import {IngredientPropTypes} from "../../utils/prop-types-constants";
 import {useSelector} from "react-redux";
 
 
-
 const BurgerIngredient = () => {
 
-    const {buns, sauces, mains} = useSelector (store => store.ingredients.types)
+    const {buns, sauces, mains} = useSelector(store => store.ingredients.types)
 
     const [currentTab, setCurrentTab] = useState('bun')
 
@@ -45,7 +44,6 @@ const BurgerIngredient = () => {
         </section>
     );
 };
-
 
 
 export default BurgerIngredient;

@@ -1,8 +1,8 @@
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useMemo, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import Modal from "../modal/modal";
 import ModalContentOrderComplete from "../modal-content/modal-content-order-complete/modal-content-order-complete";
-import {calculateTotalPrice, hashCode} from "../../utils/utils";
+import {calculateTotalPrice, hashCode, isUser} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 
@@ -14,18 +14,22 @@ import BurgerConstructorItem from "./burger-cunstructor-item/burger-constructor-
 import {RESET_ORDER, orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import OrderPreloader from "../preloader/order-preloader/order-preloader";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {getCookie} from "../../utils/cookie";
 
 
 const BurgerConstructor = () => {
 
-    const [failContentModal, setFailContentModal] = useState(false)
+    const location = useLocation();
+
     const [totalPrice, setTotalPrice] = useState(0)
 
     const dispatch = useDispatch()
+    const user = useSelector(store => store.user.user)
+    const navigate = useNavigate()
 
     const {buns, sauces, mains} = useSelector(store => store.ingredients.types)
     const {hasLoading, selectedBun, selectedIngredients} = useSelector(store => store.selectedIngredients)
-    const {order, name} = useSelector(store => store.order)
 
 
     const resetOrder = () => {
@@ -41,20 +45,15 @@ const BurgerConstructor = () => {
         }
     });
 
-    const closeModal = () => {
-        failContentModal ? setFailContentModal(false) : resetOrder()
-    }
 
-
-
-    const setIngredient = (id) => {
+    const setIngredient = useCallback((id) => {
         const ingredients = [...buns, ...sauces, ...mains]
         const ingredient = ingredients.find(item => item._id === id.id)
         ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
             : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient._id), ...ingredient}})
-    }
+    }, [buns, sauces, mains])
 
-    const constructor = selectedIngredients.map((item, index) => {
+    const constructor = useCallback(selectedIngredients.map((item, index) => {
         return (
             <section key={item.id}>
 
@@ -64,21 +63,20 @@ const BurgerConstructor = () => {
                                        price={item.price}/>
             </section>
         )
-    })
+    }), [buns, sauces, mains, selectedIngredients])
 
+    const completeBurger = useCallback(() => {
+        if(selectedIngredients.length > 0) {
+            dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
+        }
+    }, [selectedIngredients, selectedBun, dispatch])
 
-    const handleOpenModal = () => {
-        selectedBun && selectedIngredients.length > 0
-        && selectedIngredients.filter(item => item.type === 'main').length > 0
-        && selectedIngredients.filter(item => item.type === 'sauce').length > 0 ?
-            completeBurger() :
-            setFailContentModal(true)
-    }
+    const handleOpenModal = useCallback(() => {
+        getCookie('token') ?
+            completeBurger()
+            : navigate('/login')
 
-    const completeBurger = () => {
-        dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
-        setFailContentModal(false)
-    }
+    }, [user, selectedBun, selectedIngredients, completeBurger, navigate])
 
     useMemo(() => {
         setTotalPrice(calculateTotalPrice(selectedBun, selectedIngredients))
@@ -120,16 +118,17 @@ const BurgerConstructor = () => {
                     <span className={`text text_type_digits-medium`}>{totalPrice}</span>
                     <CurrencyIcon type={"primary"}/>
                 </div>
-                <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'>Оформить
-                    заказ</Button>
+
+                <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'> <Link
+                    to={`order`}
+                    state={{background: location}}
+                    className={styles.link}
+                >Оформить
+                    заказ </Link></Button>
+
             </div>
             <>
 
-            {hasLoading ? (<OrderPreloader/>):
-                (order || failContentModal) && (<Modal header='' close={closeModal}>
-                    <ModalContentOrderComplete fail={failContentModal} header={name} order={order}/>
-                </Modal>)
-            }
             </>
         </div>
     );

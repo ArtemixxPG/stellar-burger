@@ -1,39 +1,43 @@
-.orderContent{
+.orderContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  .id{
+  .id {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  .done{
+
+  .done {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  .otherInfo{
+
+  .otherInfo {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
-  .header{
+
+  .header {
     text-align: center;
   }
 }
 
-.fail{
+.fail {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  .text{
+
+  .text {
     color: red;
   }
 }

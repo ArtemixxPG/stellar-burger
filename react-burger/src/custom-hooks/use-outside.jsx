@@ -7,12 +7,12 @@ const useOutside = (close) => {
     const ref = useRef(null)
 
     const handleClickOutside = (e) => {
-        if(ref.current && !ref.current.contains(e.target)){
+        if (ref.current && !ref.current.contains(e.target)) {
             close()
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         document.addEventListener('click', handleClickOutside, true)
 
         return () => {

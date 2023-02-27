@@ -1,40 +1,50 @@
 import styles from "../auth-css.module.scss";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useCallback, useState} from "react";
+import {sentRequest} from "../../../services/auth/reset-password-request";
+import {URL_RESET_PASSWORD} from "../../../utils/URL";
+import useInput from "../../../custom-hooks/input/use-input";
 
 const ResetPassword = () => {
 
-    const [password, setPassword] = useState("");
-    const [confirmCode, setConfirmCode] = useState("");
+    const {values, handleChange} = useInput({password: '', token: ''});
+
 
     const navigate = useNavigate();
+
+
+    const handleSubmit = useCallback(e => {
+        e.preventDefault();
+        sentRequest(URL_RESET_PASSWORD, values, navigate, "/login").then();
+    }, [navigate, values])
 
     return (
         <main className={styles.wrapper}>
             <section className={styles.content}>
-                <header className={`mb-6 text text_type_main-medium ${styles.header}`}>
-                    <h3>Восстановление пароля</h3>
-                </header>
 
-                <form className={`mb-20 ${styles.main}`}>
+                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Восстановление пароля</h1>
+
+
+                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <PasswordInput
+                        name="password"
                         placeholder={'Введите новый пароль'}
-                        onChange={e => setPassword(e.target.value)}
-                        value={password}
+                        onChange={handleChange}
+                        value={values.password}
                     />
                     <Input placeholder={'Введите код из письма'}
-                           value={confirmCode}
-                           onChange={confirmCode => setConfirmCode(confirmCode.target.value)}/>
-                    <Button type={'primary'} htmlType={'submit'} onClick={() => {navigate('/login')
-                    }}>Сохранить</Button>
+                           name="token"
+                           value={values.token}
+                           onChange={handleChange}/>
+                    <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
                 </form>
 
                 <footer className={styles.footer}>
                     <div className={`mb-4 text text_type_main-default text_color_inactive ${styles.to}`}>
                         <p>Вы — новый пользователь?</p>
                         <Button htmlType={'button'} type={'secondary'} size={'large'}
-                                onClick={() => navigate('/register')} extraClass={styles.button}>
+                                extraClass={styles.button} onClick={() => navigate('/register')}>
                             Зарегистрироваться
                         </Button>
                     </div>

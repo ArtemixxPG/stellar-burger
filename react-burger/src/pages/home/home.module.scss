@@ -1,40 +1,42 @@
 @import '../../styles/animations/animations';
+
 .app {
-    display: grid;
+  display: grid;
 
 
-  .app_content{
+  .app_content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    }
-    .container{
-      margin: 0 auto;
-          grid-gap: 20px 40px;
-          display: grid;
-          gap: 20px 40px;
-          grid-template-areas: "title title"
+  }
+
+  .container {
+    margin: 0 auto;
+    grid-gap: 20px 40px;
+    display: grid;
+    gap: 20px 40px;
+    grid-template-areas: "title title"
 "list-ingredients constructor";
-          grid-template-columns: 1fr 1fr;
-          grid-template-rows: auto 1fr;
-          padding-bottom: 52px;
-          padding-top: 40px;
-          position: relative;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    padding-bottom: 52px;
+    padding-top: 40px;
+    position: relative;
 
 
-      .cyber_title{
-        width: 70%;
-        font-size: 2rem;
-        line-height: 2.2rem;
-        font-weight: 200;
-        position: relative;
-        grid-area: title;
-        padding-bottom: 15px;
+    .cyber_title {
+      width: 70%;
+      font-size: 2rem;
+      line-height: 2.2rem;
+      font-weight: 200;
+      position: relative;
+      grid-area: title;
+      padding-bottom: 15px;
 
 
-      .burgerIngredient{
+      .burgerIngredient {
         width: 100%;
 
         flex-grow: 1;

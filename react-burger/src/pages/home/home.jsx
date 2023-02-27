@@ -8,29 +8,23 @@ import {HTML5Backend} from "react-dnd-html5-backend";
 import {DndProvider} from "react-dnd";
 import {useSelector} from "react-redux";
 import MainPreloader from "../../componets/preloader/main-preloader/main-preloader";
+import {memo} from "react";
 
 
 const Home = () => {
-
-    const hasLoading = useSelector(store => store.ingredients.hasLoading)
-    useFetchList()
-
     return (
         <>
-        {hasLoading ? (<MainPreloader/>) :
-        (<main className={styles.app}>
-            <section className={styles.container}>
-                <h2 className={`text text_type_main-large ${styles.cyber_title}`}>Соберите бургер</h2>
-                <DndProvider backend={HTML5Backend}>
-                <BurgerIngredient/>
-                <BurgerConstructor/>
-                </DndProvider>
-            </section>
-
-        </main>)
-    }
+            <main className={styles.app}>
+                <section className={styles.container}>
+                    <h2 className={`text text_type_main-large ${styles.cyber_title}`}>Соберите бургер</h2>
+                    <DndProvider backend={HTML5Backend}>
+                        <BurgerIngredient/>
+                        <BurgerConstructor/>
+                    </DndProvider>
+                </section>
+            </main>
         </>
     );
 };
 
-export default Home;
+export default memo(Home);

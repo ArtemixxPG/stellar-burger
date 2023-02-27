@@ -1,29 +1,46 @@
 import styles from "../auth-css.module.scss";
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {memo, useCallback, useState} from "react";
+import {sentRequest} from "../../../services/auth/reset-password-request";
+import {URL_SENT_EMAIL} from "../../../utils/URL";
+import useInput from "../../../custom-hooks/input/use-input";
+
 
 const ForgotPassword = () => {
 
-    const [email, setEmail] = useState('')
+    const {values, handleChange} = useInput({email: ''});
+
 
     const navigate = useNavigate()
+
+
+    const handleSubmit = useCallback((e) => {
+        e.preventDefault()
+        if (values.email) {
+            sentRequest(URL_SENT_EMAIL, values, navigate, '/reset-password').then()
+        }
+
+    }, [values, navigate])
+
 
     return (
         <main className={styles.wrapper}>
             <section className={styles.content}>
-                <header className={`mb-6 text text_type_main-medium ${styles.header}`}>
-                    <h3>Восстановление пароля</h3>
-                </header>
 
-                <form className={`mb-20 ${styles.main}`}>
+                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Восстановление пароля</h1>
+
+
+                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
                     <EmailInput
+                        name={'email'}
                         placeholder={'E-mail'}
-                        onChange={e => setEmail(e.target.value)}
-                        value={email}
+                        onChange={handleChange}
+                        value={values.email}
                         extraClass="ml-1"
+                        autoFocus
                     />
-                    <Button type={'primary'} htmlType={'submit'} onClick={() => navigate('/reset-password')}>Восстановить</Button>
+                    <Button type={'primary'} htmlType={'submit'}>Восстановить</Button>
                 </form>
 
                 <footer className={styles.footer}>
@@ -49,4 +66,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default memo(ForgotPassword);

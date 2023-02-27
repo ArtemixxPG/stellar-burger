@@ -16,7 +16,7 @@ const BurgerTab = ({header, currentTab, setCurrentTab, to, containerID, value}) 
             smooth={true}
             duration={700}
             offset={-20}
-            containerId= {containerID}
+            containerId={containerID}
             onSetActive={() => setCurrentTab(value)}>
             <Tab className='tab-ingrdient' value={value} active={currentTab === value} onClick={handleChangeTab}>
                 {header}

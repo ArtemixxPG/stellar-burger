@@ -10,13 +10,12 @@ import PropTypes from "prop-types";
 
 const BurgerConstructorItem = ({name, image, price, index, id}) => {
 
-    const {selectedIngredients} = useSelector (store => store.selectedIngredients)
+    const {selectedIngredients} = useSelector(store => store.selectedIngredients)
     const itemRef = useRef()
     const dispatch = useDispatch()
 
 
-
-    const [{ handlerId }, dropItem] = useDrop({
+    const [{handlerId}, dropItem] = useDrop({
         accept: ["inner"],
         collect(monitor) {
             return {
@@ -56,16 +55,16 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
                 return;
             }
 
-            dispatch({ type:SET_INGREDIENTS, payload:sortArray(dragIndex, hoverIndex, selectedIngredients) });
+            dispatch({type: SET_INGREDIENTS, payload: sortArray(dragIndex, hoverIndex, selectedIngredients)});
 
 
             item.index = hoverIndex;
         }
     });
-    const [{ isDragging }, dragItem] = useDrag({
+    const [{isDragging}, dragItem] = useDrag({
         type: "inner",
         item: () => {
-            return { index };
+            return {index};
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
@@ -73,22 +72,21 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
     });
 
 
-
     dragItem(dropItem(itemRef));
 
     return (
-        <div ref={itemRef} className={isDragging? styles.item : styles.item_draging}>
+        <div ref={itemRef} className={isDragging ? styles.item : styles.item_draging}>
             <div className={styles.dragIcon}>
-            <DragIcon  type="primary"/>
+                <DragIcon type="primary"/>
             </div>
             <ConstructorElement text={name} thumbnail={image} price={price}
-            handleClose={()=>dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
+                                handleClose={() => dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
         </div>
     );
 };
 
 BurgerConstructorItem.propTypes = {
-    name : PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     index: PropTypes.number.isRequired,
