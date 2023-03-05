@@ -1,15 +1,17 @@
 import styles from './skeleton.module.scss'
-import PropTypes from "prop-types";
+import {FC} from "react";
 
-const Skeleton = ({type, name}) => {
+
+interface ISkeleton {
+    type?: string;
+    name: string;
+}
+const Skeleton:FC<ISkeleton> = ({type= '', name}) => {
     return (
         <div className={`text text_type_main-default ${styles.skeleton} ${styles[type]}`}>
             {name}
         </div>
     );
 };
-Skeleton.proTypes = {
-    type: PropTypes.string,
-    name: PropTypes.string.isRequired
-}
+
 export default Skeleton;

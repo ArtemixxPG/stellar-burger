@@ -1,6 +1,6 @@
 @import "../../styles/all";
 
-.ingredients{
+.ingredients {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,15 +8,18 @@
 
   grid-area: list-ingredients;
   height: 100%;
-  .main-header{
+
+  .main-header {
 
   }
-  .subMenu{
+
+  .subMenu {
     display: flex;
     flex-direction: row;
     justify-content: center;
   }
-  .ingredientsGroup{
+
+  .ingredientsGroup {
 
     width: 100%;
 

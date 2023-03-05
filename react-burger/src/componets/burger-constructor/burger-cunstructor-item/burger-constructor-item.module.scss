@@ -1,4 +1,4 @@
-.item{
+.item {
   width: 100%;
   opacity: 0.6;
   display: flex;
@@ -6,11 +6,11 @@
   align-items: center;
   gap: 8px;
 
-  svg{
+  svg {
     cursor: move;
   }
 
-  &_draging{
+  &_draging {
     opacity: 1;
     width: 100%;
     display: flex;
@@ -18,8 +18,8 @@
     align-items: center;
     gap: 8px;
 
-    .dragIcon{
-      svg{
+    .dragIcon {
+      svg {
         cursor: move;
       }
     }

@@ -2,7 +2,7 @@ import {RESET_ORDER, FAILURE_REQUEST_ORDER, REQUEST_ORDER, SUCCESS_REQUEST_ORDER
 
 const initialState = {
     order: 0,
-    name:'',
+    name: '',
     hasError: false,
     hasLoading: false
 }

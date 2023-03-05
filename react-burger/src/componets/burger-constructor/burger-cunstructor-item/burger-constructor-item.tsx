@@ -1,22 +1,30 @@
 import {useDrag, useDrop} from "react-dnd";
-import {useRef} from "react";
+import {FC, useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
-
+import { Identifier, XYCoord } from 'dnd-core'
 import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
 import {sortArray} from "../../../utils/utils";
 import PropTypes from "prop-types";
+import {TStore} from "../../../services/reducers/root/root-reducer";
 
-const BurgerConstructorItem = ({name, image, price, index, id}) => {
+interface IBurgerConstructorItem {
+    name: string
+    image: string
+    price: number
+    index: number
+    id: string
+}
 
-    const {selectedIngredients} = useSelector (store => store.selectedIngredients)
-    const itemRef = useRef()
+const BurgerConstructorItem:FC<IBurgerConstructorItem> = ({name, image, price, index, id}) => {
+
+    const {selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+    const itemRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
 
 
-
-    const [{ handlerId }, dropItem] = useDrop({
+    const [{handlerId}, dropItem] = useDrop<IBurgerConstructorItem, void, {handlerId: Identifier | null}>({
         accept: ["inner"],
         collect(monitor) {
             return {
@@ -44,7 +52,7 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
 
             const clientOffset = monitor.getClientOffset();
 
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
 
             if (dragIndex < hoverIndex && hoverClientY < hoverMidY) {
@@ -56,16 +64,16 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
                 return;
             }
 
-            dispatch({ type:SET_INGREDIENTS, payload:sortArray(dragIndex, hoverIndex, selectedIngredients) });
+            dispatch({type: SET_INGREDIENTS, payload: sortArray(dragIndex, hoverIndex, selectedIngredients)});
 
 
             item.index = hoverIndex;
         }
     });
-    const [{ isDragging }, dragItem] = useDrag({
+    const [{isDragging}, dragItem] = useDrag({
         type: "inner",
         item: () => {
-            return { index };
+            return {index};
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
@@ -73,26 +81,19 @@ const BurgerConstructorItem = ({name, image, price, index, id}) => {
     });
 
 
-
     dragItem(dropItem(itemRef));
 
     return (
-        <div ref={itemRef} className={isDragging? styles.item : styles.item_draging}>
+        <div ref={itemRef} className={isDragging ? styles.item : styles.item_draging}>
             <div className={styles.dragIcon}>
-            <DragIcon  type="primary"/>
+                <DragIcon type="primary"/>
             </div>
             <ConstructorElement text={name} thumbnail={image} price={price}
-            handleClose={()=>dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
+                                handleClose={() => dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
         </div>
     );
 };
 
-BurgerConstructorItem.propTypes = {
-    name : PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    index: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-}
+
 
 export default BurgerConstructorItem;

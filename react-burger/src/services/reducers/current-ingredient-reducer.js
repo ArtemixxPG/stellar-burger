@@ -1,7 +1,6 @@
 import {REMOVE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../actions/current-ingredient-actions";
 
 
-
 const initialState = {
     imageLarge: '',
     name: '',

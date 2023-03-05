@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.scss';
-import App from '././componets/app/app';
+import App from './componets/app/app';
 import reportWebVitals from './reportWebVitals';
 import {compose, createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import {rootReducer} from './services/reducers/root/root-reducer';
 import thunk from 'redux-thunk';
 import {configureStore} from "@reduxjs/toolkit";
+import AppHeader from "./componets/app-header/app-header";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -17,9 +19,11 @@ const root = ReactDOM.createRoot(
 const store = configureStore({reducer: rootReducer, middleware: [thunk], devTools: true});
 root.render(
     <React.StrictMode>
+        <BrowserRouter>
         <Provider store={store}>
             <App/>
         </Provider>
+        </BrowserRouter>
     </React.StrictMode>
 );
 

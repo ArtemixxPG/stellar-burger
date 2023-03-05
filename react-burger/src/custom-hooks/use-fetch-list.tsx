@@ -7,18 +7,15 @@ const useFetchList = () => {
 
     const dispatch = useDispatch()
 
-    useEffect(()=>{
+    useEffect(() => {
 
+        //@ts-ignore
         dispatch(getIngredients())
 
     }, [])
 
 
-
 };
 
-useFetchList.propTypes = {
-    url: PropTypes.string
-}
 
 export default useFetchList;
