@@ -9,7 +9,7 @@ const useFetchList = () => {
 
     useEffect(() => {
 
-        //@ts-ignore
+        //@ts-ignore here
         dispatch(getIngredients())
 
     }, [])
