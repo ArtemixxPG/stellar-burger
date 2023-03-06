@@ -1,9 +1,8 @@
-import {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from 'react';
+import {useDispatch} from "react-redux";
 import {getCookie, setCookie} from "../../utils/cookie";
 import {query, queryGET, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
-import {useNavigate} from "react-router-dom";
 
 
 

@@ -1,5 +1,4 @@
 import {BASE_URL} from "./URL";
-import React from "react";
 
 export const hashCode = (s: string) => {
     return s.split("").reduce(function (a:number, b:string) {
