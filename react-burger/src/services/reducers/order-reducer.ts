@@ -6,7 +6,7 @@ const initialState = {
     hasError: false,
     hasLoading: false
 }
-
+//@ts-ignore
 export const orderReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_ORDER:

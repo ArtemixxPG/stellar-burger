@@ -17,7 +17,7 @@ const initialState = {
     hasError: false,
     isLogIn: false
 }
-
+//@ts-ignore
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_USER:
@@ -63,7 +63,9 @@ export const userReducer = (state = initialState, action) => {
                 isLogIn: false,
                 accessTokenExpiration: true
             }
+        //@ts-ignore
         case SUCCESS_REFRESH_TOKEN:
+            //@ts-ignore
             setCookie('token', action.payload.refreshToken, null);
             setCookie('auth', action.payload.accessToken, {expires: 1200});
 

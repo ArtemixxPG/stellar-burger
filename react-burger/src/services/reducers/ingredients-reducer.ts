@@ -15,7 +15,7 @@ const initialState = {
     hasLoading: true,
     errorMessage: ''
 }
-
+//@ts-ignore
 export const ingredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_INGREDIENTS:
@@ -28,8 +28,11 @@ export const ingredientsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 types: {
+                    //@ts-ignore
                     buns: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.BUNS)),
+                    //@ts-ignore
                     sauces: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.SAUCES)),
+                    //@ts-ignore
                     mains: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.MAINS))
                 },
                 hasLoading: false,

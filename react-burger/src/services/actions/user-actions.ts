@@ -16,6 +16,7 @@ export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN'
 
 export const ERROR_REQUEST_USER = 'ERROR_REQUEST_LOGOUT_USER'
 
+//@ts-ignore
 export const query = (successUserAction, url, body, token) => async dispatch => {
 
     dispatch({type: REQUEST_USER})
@@ -31,7 +32,7 @@ export const query = (successUserAction, url, body, token) => async dispatch => 
         .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
 
 }
-
+//@ts-ignore
 export const queryGET = (successUserAction, url, token) => async dispatch => {
 
     dispatch({type: REQUEST_USER})

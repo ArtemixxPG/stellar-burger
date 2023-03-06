@@ -11,7 +11,7 @@ const initialState = {
         carbohydrates: 0
     }
 }
-
+//@ts-ignore
 export const currentIngredientReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_CURRENT_INGREDIENT:

@@ -2,14 +2,14 @@ import {
     ADD_BUN,
     ADD_INGREDIENT,
     REMOVE_BUN,
-    REMOVE_INGREDIENT, SET_INGREDIENTS, SET_TOTAL_PRICE
+    REMOVE_INGREDIENT, SET_INGREDIENTS
 } from "../actions/selected-ingedients-actions";
 
 const initialState = {
     selectedBun: null,
     selectedIngredients: []
 }
-
+//@ts-ignore
 export const selectedIngredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT:
@@ -20,6 +20,7 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
         case REMOVE_INGREDIENT:
             return {
                 ...state,
+                //@ts-ignore
                 selectedIngredients: [...state.selectedIngredients].filter(item => item.id !== action.payload)
             }
         case ADD_BUN:
