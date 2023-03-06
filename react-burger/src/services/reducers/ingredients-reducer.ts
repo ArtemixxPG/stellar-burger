@@ -15,7 +15,7 @@ const initialState = {
     hasLoading: true,
     errorMessage: ''
 }
-//@ts-ignore
+//@ts-ignore info
 export const ingredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_INGREDIENTS:

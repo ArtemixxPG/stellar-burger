@@ -5,7 +5,7 @@ export const REQUEST_INGREDIENTS = 'REQUEST_INGREDIENTS'
 export const SUCCESS_REQUEST_INGREDIENTS = 'SET_INGREDIENTS'
 export const ERROR_REQUEST_INGREDIENTS = 'ERROR_REQUEST_INGREDIENTS'
 
-//@ts-ignore
+//@ts-ignore info
 export const getIngredients = () => async dispatch => {
     dispatch({type: REQUEST_INGREDIENTS})
     //@ts-ignore

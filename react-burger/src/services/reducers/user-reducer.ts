@@ -1,5 +1,5 @@
 import {
-    ERROR_REQUEST_USER, EXPIRED_TOKEN,
+    ERROR_REQUEST_USER,
     REQUEST_USER, SUCCESS_REFRESH_TOKEN,
     SUCCESS_REFRESH_USER, SUCCESS_REQUEST_LOGIN_USER, SUCCESS_REQUEST_LOGOUT_USER,
     SUCCESS_REQUEST_REGISTER_USER
@@ -17,7 +17,7 @@ const initialState = {
     hasError: false,
     isLogIn: false
 }
-//@ts-ignore
+//@ts-ignore info
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
         case REQUEST_USER:

@@ -1,13 +1,12 @@
 import {URL_ORDER} from "../../utils/URL";
-import {checkResponse, request} from "../../utils/utils";
-import {ERROR_REQUEST_INGREDIENTS, SUCCESS_REQUEST_INGREDIENTS} from "./ingedients-actions";
+import {request} from "../../utils/utils";
 
 export const REQUEST_ORDER = 'REQUEST_ORDER';
 export const SUCCESS_REQUEST_ORDER = 'SUCCESS_REQUEST_ORDER'
 export const FAILURE_REQUEST_ORDER = 'FAILURE_REQUEST_ORDER'
 export const RESET_ORDER = 'RESET_ORDER'
 
-//@ts-ignore
+//@ts-ignore info
 export const orderPost = (requestBody) => async dispatch => {
     dispatch({type: REQUEST_ORDER})
     await request(URL_ORDER, {

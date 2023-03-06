@@ -1,5 +1,4 @@
-import {URL_GET_INGREDIENTS} from "../../utils/URL";
-import {checkResponse, request} from "../../utils/utils";
+import {request} from "../../utils/utils";
 
 export const REQUEST_USER = 'REQUEST_USER'
 export const SUCCESS_REQUEST_REGISTER_USER = 'SUCCESS_REQUEST_REGISTER_USER'
@@ -32,7 +31,7 @@ export const query = (successUserAction, url, body, token) => async dispatch => 
         .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
 
 }
-//@ts-ignore
+//@ts-ignore info
 export const queryGET = (successUserAction, url, token) => async dispatch => {
 
     dispatch({type: REQUEST_USER})
