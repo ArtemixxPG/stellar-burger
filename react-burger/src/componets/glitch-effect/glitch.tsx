@@ -1,5 +1,4 @@
 import {FC, ReactElement} from 'react';
-import PropTypes, {string} from "prop-types";
 
 import './glitch.scss'
 

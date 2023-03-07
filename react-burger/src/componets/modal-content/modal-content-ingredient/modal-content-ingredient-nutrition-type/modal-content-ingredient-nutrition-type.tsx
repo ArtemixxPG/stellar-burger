@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 import styles from './modal-content-ingredient-nutrition-type.module.scss'
 import {FC} from "react";
 

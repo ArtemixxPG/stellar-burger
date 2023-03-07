@@ -1,4 +1,4 @@
-import {ChangeEvent, useCallback, useRef, useState} from "react";
+import {ChangeEvent, useCallback} from "react";
 
 import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 

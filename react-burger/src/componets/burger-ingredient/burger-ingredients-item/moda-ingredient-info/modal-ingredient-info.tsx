@@ -1,4 +1,3 @@
-
 import ModalContentIngredient from "../../../modal-content/modal-content-ingredient/modal-content-ingredient";
 import Modal from "../../../modal/modal";
 import {useCallback} from "react";

@@ -1,9 +1,6 @@
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useCallback, useMemo, useState} from "react";
-import Modal from "../modal/modal";
-import ModalContentOrderComplete from "../modal-content/modal-content-order-complete/modal-content-order-complete";
 import {calculateTotalPrice, hashCode} from "../../utils/utils";
-import {Identifier} from 'dnd-core'
 
 import styles from './burger-constructor.module.scss'
 
@@ -12,9 +9,8 @@ import Skeleton from "../skeleton/burger-constructor-skeleton/skeleton";
 import {useDrop} from "react-dnd";
 import {ADD_BUN, ADD_INGREDIENT} from "../../services/actions/selected-ingedients-actions";
 import BurgerConstructorItem from "./burger-cunstructor-item/burger-constructor-item";
-import {RESET_ORDER, orderPost} from "../../services/actions/order-actions";
+import {orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
-import OrderPreloader from "../preloader/order-preloader/order-preloader";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {getCookie} from "../../utils/cookie";
 import {TStore} from "../../services/reducers/root/root-reducer";
@@ -28,7 +24,6 @@ const BurgerConstructor = () => {
     const [totalPrice, setTotalPrice] = useState(0)
 
     const dispatch = useDispatch()
-    const user = useSelector((store: TStore) => store.user.user)
     const navigate = useNavigate()
 
     const {buns, sauces, mains} = useSelector((store: TStore) => store.ingredients.types)
@@ -52,7 +47,7 @@ const BurgerConstructor = () => {
         const ingredient = ingredients.find(item => item._id === id.id)
         ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
             : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient._id), ...ingredient}})
-    }, [buns, sauces, mains])
+    }, [buns, sauces, mains, dispatch])
 
     const constructor = useCallback(selectedIngredients.map((item:TIngredient & {id:string}, index:number) => {
         return (
@@ -78,7 +73,8 @@ const BurgerConstructor = () => {
             completeBurger()
             : navigate('/login')
 
-    }, [user, selectedBun, selectedIngredients, completeBurger, navigate])
+    }, [completeBurger, navigate])
+
 
     useMemo(() => {
         setTotalPrice(calculateTotalPrice(selectedBun, selectedIngredients))

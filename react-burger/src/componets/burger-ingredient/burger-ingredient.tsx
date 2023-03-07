@@ -1,7 +1,5 @@
 import {useState} from 'react';
 import BurgerIngredientsGroup from "./burger-ingredients-group/burger-ingredients-group";
-
-
 import styles from './burger-ingredient.module.scss'
 import BurgerTab from "../burger-tab/burger-tab";
 import {useSelector} from "react-redux";

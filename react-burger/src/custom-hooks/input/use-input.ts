@@ -1,9 +1,6 @@
 import {ChangeEvent, useCallback, useState} from "react";
 
-type TInput = {
-    value: string;
-    name: string;
-}
+
 
 const useInput = <T>(inputValues: T) => {
     const [values, setValues] = useState<T>(inputValues);

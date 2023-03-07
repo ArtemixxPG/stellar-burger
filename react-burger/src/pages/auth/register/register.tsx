@@ -1,8 +1,8 @@
 import styles from "../auth-css.module.scss";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
-import {ChangeEvent, useCallback, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {ChangeEvent, useCallback} from "react";
+import {useDispatch} from "react-redux";
 import {query, SUCCESS_REQUEST_REGISTER_USER} from "../../../services/actions/user-actions";
 import {URL_REGISTER_USER} from "../../../utils/URL";
 import useInput from "../../../custom-hooks/input/use-input";

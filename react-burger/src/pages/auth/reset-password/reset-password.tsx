@@ -1,7 +1,7 @@
 import styles from "../auth-css.module.scss";
-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
-import {ChangeEvent, useCallback, useState} from "react";
+import {ChangeEvent, useCallback} from "react";
 import {sentRequest} from "../../../services/auth/reset-password-request";
 import {URL_RESET_PASSWORD} from "../../../utils/URL";
 import useInput from "../../../custom-hooks/input/use-input";
@@ -21,7 +21,9 @@ const ResetPassword = () => {
 
     const handleSubmit = useCallback((e:ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        sentRequest(URL_RESET_PASSWORD, values, navigate, "/login").then();
+        const url = `${URL_RESET_PASSWORD}`;
+        const path = '/login'
+        sentRequest({url, values, navigate, path}).then();
     }, [navigate, values])
 
     return (

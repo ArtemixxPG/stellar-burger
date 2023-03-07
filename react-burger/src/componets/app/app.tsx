@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
+import {Route, Routes, useLocation} from "react-router-dom";
 import Home from "../../pages/home/home";
 import AppHeader from "../app-header/app-header";
 import Login from "../../pages/auth/login/login";
@@ -11,7 +11,6 @@ import useFetchList from "../../custom-hooks/use-fetch-list";
 import MainPreloader from "../preloader/main-preloader/main-preloader";
 import Info from "../../pages/ingredient/info";
 import React, {FC} from "react";
-import ModalContentIngredient from "../modal-content/modal-content-ingredient/modal-content-ingredient";
 import ModalIngredientInfo
     from "../burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info";
 import ProtectedRoute from "../protected-route/protected-route";

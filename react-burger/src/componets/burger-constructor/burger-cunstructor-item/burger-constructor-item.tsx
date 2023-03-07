@@ -6,7 +6,6 @@ import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
 import {sortArray} from "../../../utils/utils";
-import PropTypes from "prop-types";
 import {TStore} from "../../../services/reducers/root/root-reducer";
 
 interface IBurgerConstructorItem {

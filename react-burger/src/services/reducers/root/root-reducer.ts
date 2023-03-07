@@ -1,4 +1,4 @@
-import {combineReducers} from "@reduxjs/toolkit";
+import {AnyAction, combineReducers, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
 import {currentIngredientReducer} from "../current-ingredient-reducer";
 import {ingredientsReducer} from "../ingredients-reducer";
 import {orderReducer} from "../order-reducer";
@@ -14,3 +14,11 @@ export const rootReducer = combineReducers({
 })
 
 export type TStore = ReturnType<typeof rootReducer>
+export type TAction = AnyAction
+export type TDispatch = ThunkDispatch<TStore, never, TAction>
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    TStore,
+    never,
+    TAction
+    >

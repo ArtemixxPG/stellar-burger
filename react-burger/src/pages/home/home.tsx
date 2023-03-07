@@ -1,6 +1,3 @@
-import AppHeader from "../../componets/app-header/app-header";
-import useFetchList from "../../custom-hooks/use-fetch-list";
-
 import styles from './home.module.scss'
 import BurgerIngredient from "../../componets/burger-ingredient/burger-ingredient";
 import BurgerConstructor from "../../componets/burger-constructor/burger-constructor";

@@ -1,11 +1,9 @@
-import {useEffect, useState} from 'react';
 
 import styles from './modal-content-ingredient.module.scss'
 import ModalContentIngredientNutritionType
     from "./modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type";
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import MainPreloader from "../../preloader/main-preloader/main-preloader";
 import {TStore} from "../../../services/reducers/root/root-reducer";
 
 const ModalContentIngredient = () => {
@@ -32,7 +30,7 @@ const ModalContentIngredient = () => {
     return (
 
         <section className={styles.modalIngredient}>
-            <div className={styles.image}><img src={image}/></div>
+            <div className={styles.image}><img alt='NO IMAGE' src={image}/></div>
             <span className={`text text_type_main-medium pt-4 pb-8 ${styles.modalIngredientName}`}>{name}</span>
             <div className={`pb-15 ${styles.modalIngredientNutrition}`}>
                 <ModalContentIngredientNutritionType header={'Каллории, ккал'} value={nutrients.calories}/>

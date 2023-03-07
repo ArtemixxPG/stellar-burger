@@ -1,6 +1,6 @@
-import {ChangeEvent, FormEvent, SyntheticEvent, useCallback, useState} from "react";
+import {ChangeEvent, SyntheticEvent, useCallback, useState} from "react";
 import styles from './profile.module.scss'
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {PROFILE_MENU_ITEMS} from "../../utils/constants";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDispatch, useSelector} from "react-redux";
@@ -8,7 +8,6 @@ import {query, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
 import {getCookie} from "../../utils/cookie";
 import useInput from "../../custom-hooks/input/use-input";
-import {AnyAction} from "@reduxjs/toolkit";
 import {TStore} from "../../services/reducers/root/root-reducer";
 
 const Profile = () => {
@@ -39,7 +38,7 @@ const Profile = () => {
     const handleCanceled = useCallback((e:SyntheticEvent) => {
         e.preventDefault()
         setValues({name: user.name, email: user.email, password: ''})
-    }, [user])
+    }, [user, setValues])
 
     const logout = useCallback((e:SyntheticEvent, path:string, onComplete:any) => {
         e.preventDefault()

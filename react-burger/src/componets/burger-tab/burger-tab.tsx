@@ -1,7 +1,7 @@
 import {Link} from "react-scroll";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import {ChangeEvent, FC} from "react";
+import {FC} from "react";
 
 interface IBurgerTab{
     header: string

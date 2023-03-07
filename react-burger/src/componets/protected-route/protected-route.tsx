@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, useLocation} from "react-router-dom";
 import PropTypes from "prop-types";
 import {FC, ReactElement} from "react";
 import {TStore} from "../../services/reducers/root/root-reducer";

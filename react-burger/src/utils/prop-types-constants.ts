@@ -1,5 +1,3 @@
-import {number} from "prop-types";
-
 
 export type TIngredient = {
     _id: string

@@ -1,11 +1,9 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients-item.module.scss'
-import Modal from "../../modal/modal";
-import ModalContentIngredient from "../../modal-content/modal-content-ingredient/modal-content-ingredient";
-import {FC, memo, useMemo, useState} from "react";
-import {TIngredient, INutritions} from "../../../utils/prop-types-constants";
+import {FC, memo, useMemo} from "react";
+import {TIngredient} from "../../../utils/prop-types-constants";
 import {useDispatch, useSelector} from "react-redux";
-import {REMOVE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../../../services/actions/current-ingredient-actions";
+import {SET_CURRENT_INGREDIENT} from "../../../services/actions/current-ingredient-actions";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
 import {setCookie} from "../../../utils/cookie";
@@ -50,7 +48,7 @@ const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
                 className={styles.link}
                 onClick={handleOpenModal}
             >
-                <img ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image}/>
+                <img alt='NO IMAGE' ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image}/>
                 <div className={`text text_type_main-small ${styles.burgerItemPrice}`}>
                     <span>{ingredient.price}</span>
                     <CurrencyIcon type={'primary'}/>

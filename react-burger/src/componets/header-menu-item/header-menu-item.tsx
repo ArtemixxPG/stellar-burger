@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import styles from './header-menu-item.module.scss'
 import MenuItemContent from "./menu-item-content/menu-item-content";
 import {useLocation} from "react-router-dom";
@@ -44,7 +43,7 @@ const HeaderMenuItem: FC<IHeaderMenuItem> = ({type, activeClass, setActiveClass,
                 account: menuItemState.inactive
             })
         }
-    }, [location]);
+    }, [location, setActiveClass]);
 
 
     const handleChangeMenuItem = () => {

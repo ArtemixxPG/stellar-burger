@@ -5,10 +5,9 @@ export const REQUEST_INGREDIENTS = 'REQUEST_INGREDIENTS'
 export const SUCCESS_REQUEST_INGREDIENTS = 'SET_INGREDIENTS'
 export const ERROR_REQUEST_INGREDIENTS = 'ERROR_REQUEST_INGREDIENTS'
 
-//@ts-ignore info
-export const getIngredients = () => async dispatch => {
+
+export const getIngredients = () => async (dispatch: (arg: { type: string; payload?: any; }) => void) => {
     dispatch({type: REQUEST_INGREDIENTS})
-    //@ts-ignore
     await request(URL_GET_INGREDIENTS).then(
         data => dispatch({type: SUCCESS_REQUEST_INGREDIENTS, payload: data.data})
     ).catch(error => dispatch({type: ERROR_REQUEST_INGREDIENTS, payload: error.message}))

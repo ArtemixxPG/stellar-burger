@@ -1,19 +1,31 @@
-import {URL_SENT_EMAIL} from "../../utils/URL";
 import {checkResponse} from "../../utils/utils";
+import {NavigateFunction} from "react-router-dom";
 
-//@ts-ignore
-export const sentRequest = async (url, body, navigate, path) => {
+type TInput = {
+    password?: string
+    token?: string
+    email?: string
+}
+
+type TRequestBody = {
+    url: string
+    values: TInput
+    navigate: NavigateFunction
+    path: string
+}
+
+export const sentRequest = async ({url, values, navigate, path} : TRequestBody) => {
     try {
 
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
-            }, body: JSON.stringify(body)
+            }, body: JSON.stringify(values)
         })
         const json = await checkResponse(response)
-        //@ts-ignore
-        json?.success ? navigate(path) : json.then(err => Promise.reject(err))
+
+        json?.success ? navigate(path) : json.then((err: any) => Promise.reject(err))
 
     } catch (error) {
         console.log(error)

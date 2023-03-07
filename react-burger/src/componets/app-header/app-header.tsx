@@ -5,7 +5,7 @@ import styles from './app-header.module.scss'
 import HeaderMenuItem from "../header-menu-item/header-menu-item";
 import Glitch from "../glitch-effect/glitch";
 import {TYPE_HEADER_MENU_ITEM} from "../../utils/constants";
-import {Link, NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 
 type THeaderMenuItemClasses = {
