@@ -1,5 +1,5 @@
 import {useDrag, useDrop} from "react-dnd";
-import {FC, useRef} from "react";
+import {useRef} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { Identifier, XYCoord } from 'dnd-core'
 import styles from './burger-constructor-item.module.scss'
@@ -16,7 +16,7 @@ interface IBurgerConstructorItem {
     id: string
 }
 
-const BurgerConstructorItem:FC<IBurgerConstructorItem> = ({name, image, price, index, id}) => {
+const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstructorItem) => {
 
     const {selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
     const itemRef = useRef<HTMLDivElement>(null)
