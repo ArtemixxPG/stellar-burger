@@ -14,7 +14,7 @@ type THeaderMenuItemClasses = {
     account: string
 }
 
-const AppHeader:FC = () => {
+const AppHeader = () => {
 
     const [activeClassButton, setActiveClassButton] = useState<THeaderMenuItemClasses>({
         constructor: 'text_type_main-default ',
