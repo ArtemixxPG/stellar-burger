@@ -9,7 +9,12 @@ const ModalContentOrderComplete = () => {
 
     const [fail, setFailContentModal] = useState(false)
     const {selectedBun, selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
-    const {hasLoading, order, name} = useSelector((store:TStore) => store.order)
+    const {hasLoading, order, name} = useSelector((store:TStore) =>{
+        return {
+         hasLoading: store.order.hasLoading,
+         order: store.order.order.order_id,
+         name:   store.order.order.name
+        }})
 
     useEffect(
         () => {

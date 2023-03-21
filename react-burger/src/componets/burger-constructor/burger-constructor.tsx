@@ -13,7 +13,7 @@ import {orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {getCookie} from "../../utils/cookie";
-import {TStore} from "../../services/reducers/root/root-reducer";
+import {TDispatch, TStore} from "../../services/reducers/root/root-reducer";
 import {TIngredient} from "../../utils/prop-types-constants";
 
 
@@ -23,7 +23,7 @@ const BurgerConstructor = () => {
 
     const [totalPrice, setTotalPrice] = useState(0)
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<TDispatch>()
     const navigate = useNavigate()
 
     const {buns, sauces, mains} = useSelector((store: TStore) => store.ingredients.types)
@@ -32,7 +32,7 @@ const BurgerConstructor = () => {
 
 
 
-    const [{isHover}, dropTarget] = useDrop<{id: string},  void , {isHover: boolean}>({
+    const [{isHover}, dropTarget] = useDrop<{id: string},  void, {isHover: boolean}>({
         accept: 'ingredient',
         collect: monitor => ({
             isHover: monitor.isOver()
@@ -44,9 +44,10 @@ const BurgerConstructor = () => {
 
     const setIngredient = useCallback((id:{id: string}) => {
         const ingredients = [...buns, ...sauces, ...mains]
-        const ingredient = ingredients.find(item => item._id === id.id)
-        ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
-            : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient._id), ...ingredient}})
+        const ingredient = ingredients.find((item:TIngredient) => item._id === id.id)
+         ingredient?.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
+
+            : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient?._id? ingredient._id : ''), ...ingredient}})
     }, [buns, sauces, mains, dispatch])
 
     const constructor = useCallback(selectedIngredients.map((item:TIngredient & {id:string}, index:number) => {

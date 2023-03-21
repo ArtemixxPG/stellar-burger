@@ -1,42 +1,74 @@
-import {RESET_ORDER, FAILURE_REQUEST_ORDER, REQUEST_ORDER, SUCCESS_REQUEST_ORDER} from "../actions/order-actions";
+import {
+    RESET_ORDER,
+    FAILURE_REQUEST_ORDER,
+    REQUEST_ORDER,
+    SUCCESS_REQUEST_ORDER,
+    requestOrder, errorOrder
+} from "../actions/order-actions";
+import {IError, IOrder} from "../../utils/prop-types-constants";
+import {CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
-const initialState = {
-    order: 0,
-    name: '',
-    hasError: false,
+interface IOrderState {
+    order: IOrder
+    error: IError
+    hasLoading: boolean
+}
+
+interface IOrderPayload {
+    order: {
+        number: number
+    }
+    name: string
+}
+
+const initialState: IOrderState = {
+    order: {
+        order_id: 0,
+        name: ''
+    },
+    error: {
+        message: '',
+        hasError: false
+    },
     hasLoading: false
 }
-//@ts-ignore info
-export const orderReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case REQUEST_ORDER:
+
+
+const successOrder: CaseReducer<IOrderState, PayloadAction<IOrderPayload>> = (state, action) =>{
+    state.order.order_id = action.payload.order.number
+    state.order.name = action.payload.name
+    state.error = initialState.error
+    state.hasLoading = false
+}
+
+const orderSlice = createSlice({
+    name: 'order',
+    initialState,
+    reducers:{
+        successOrder
+    },
+    extraReducers: (builder) => {
+        builder.addCase(requestOrder, (state)=>{
             return {
                 ...state,
-                hasError: false,
+                error: initialState.error,
                 hasLoading: true
             }
-        case SUCCESS_REQUEST_ORDER:
+        })
+        builder.addCase(errorOrder, (state, action) => {
             return {
                 ...state,
-                hasError: false,
-                hasLoading: false,
-                order: action.payload.order.number,
-                name: action.payload.name
-            }
-        case RESET_ORDER:
-            return {
-                ...state,
-                order: 0
-            }
-        case FAILURE_REQUEST_ORDER: {
-            return {
-                ...state,
-                hasError: true,
+                error: {
+                    message: action.payload,
+                    hasError: true
+                },
                 hasLoading: false
             }
-        }
-
-        default:
-            return state
+        })
     }
-}
+})
+
+export const orderReducer = orderSlice.reducer
+export const orderActions = orderSlice.actions

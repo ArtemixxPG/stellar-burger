@@ -1,24 +1,29 @@
-import {AnyAction, combineReducers, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
-import {currentIngredientReducer} from "../current-ingredient-reducer";
-import {ingredientsReducer} from "../ingredients-reducer";
-import {orderReducer} from "../order-reducer";
+import {AnyAction, combineReducers, configureStore, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
+import {ingredientsActions, ingredientsReducer} from "../ingredients-reducer";
+import {orderActions, orderReducer} from "../order-reducer";
 import {selectedIngredientsReducer} from "../selected-ingedients-reducers";
 import {userReducer} from "../user-reducer";
+import {ingredientsExtraAction} from "../../actions/ingedients-actions";
+import {store} from "../../../index";
+import {TOrderExtraActions} from "../../actions/order-actions";
 
 export const rootReducer = combineReducers({
-    currentIngredient: currentIngredientReducer,
     ingredients: ingredientsReducer,
     order: orderReducer,
     selectedIngredients: selectedIngredientsReducer,
     user: userReducer
 })
 
+
+
 export type TStore = ReturnType<typeof rootReducer>
-export type TAction = AnyAction
-export type TDispatch = ThunkDispatch<TStore, never, TAction>
+export type TActions = ReturnType<typeof ingredientsActions.ingredientsSuccess> |
+    ingredientsExtraAction |
+    ReturnType<typeof orderActions.successOrder> | TOrderExtraActions
+export type TDispatch = ReturnType<typeof store.dispatch>
 export type AppThunk<ReturnType = void> = ThunkAction<
     ReturnType,
     TStore,
     never,
-    TAction
+    TActions
     >

@@ -17,11 +17,11 @@ const ModalContentIngredient = () => {
             ...store.ingredients.types.sauces].find(el => el._id === id);
 
         return {
-            name: ingredient.name,
-            image: ingredient.image_large,
+            name: ingredient?.name,
+            image: ingredient?.image_large,
             nutrients: {
-                calories: ingredient.calories, fat: ingredient.fat, carbohydrates: ingredient.carbohydrates,
-                proteins: ingredient.proteins
+                calories: ingredient?.calories, fat: ingredient?.fat, carbohydrates: ingredient?.carbohydrates,
+                proteins: ingredient?.proteins
             }
         }
     })

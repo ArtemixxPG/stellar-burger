@@ -4,12 +4,21 @@ import {
     REMOVE_BUN,
     REMOVE_INGREDIENT, SET_INGREDIENTS
 } from "../actions/selected-ingedients-actions";
+import {TIngredient} from "../../utils/prop-types-constants";
 
-const initialState = {
+interface ISelectedIngredientsState {
+    selectedBun: TIngredient | null
+    selectedIngredients: Array<TIngredient>
+}
+
+const initialState:ISelectedIngredientsState = {
     selectedBun: null,
     selectedIngredients: []
 }
 //@ts-ignore
+
+
+
 export const selectedIngredientsReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_INGREDIENT:

@@ -20,3 +20,13 @@ export interface INutritions {
     fat:number
     carbohydrates:number
 }
+
+export interface IError{
+    message: string
+    hasError: boolean
+}
+
+export interface IOrder {
+    order_id: number
+    name: string
+}
