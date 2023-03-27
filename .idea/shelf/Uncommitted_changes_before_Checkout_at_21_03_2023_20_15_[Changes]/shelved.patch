@@ -1,0 +1,4586 @@
+Index: react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.module.scss b/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,20 +0,0 @@
+-.content {
+-  display: flex;
+-  flex-direction: column;
+-  justify-content: center;
+-  gap: 0 24px;
+-
+-
+-  .header {
+-    display: flex;
+-    justify-content: start;
+-  }
+-
+-  .list {
+-    grid-gap: 32px 24px;
+-    display: grid;
+-    gap: 32px 24px;
+-    grid-template-columns: repeat(2, 1fr);
+-    padding: 0 16px;
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/services/reducers/selected-ingedients-reducers.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/selected-ingedients-reducers.ts b/react-burger/src/services/reducers/selected-ingedients-reducers.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/selected-ingedients-reducers.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,54 +0,0 @@
+-import {
+-    ADD_BUN,
+-    ADD_INGREDIENT,
+-    REMOVE_BUN,
+-    REMOVE_INGREDIENT, SET_INGREDIENTS
+-} from "../actions/selected-ingedients-actions";
+-import {TIngredient} from "../../utils/prop-types-constants";
+-
+-interface ISelectedIngredientsState {
+-    selectedBun: TIngredient | null
+-    selectedIngredients: Array<TIngredient>
+-}
+-
+-const initialState:ISelectedIngredientsState = {
+-    selectedBun: null,
+-    selectedIngredients: []
+-}
+-//@ts-ignore
+-
+-
+-
+-export const selectedIngredientsReducer = (state = initialState, action) => {
+-    switch (action.type) {
+-        case ADD_INGREDIENT:
+-            return {
+-                ...state,
+-                selectedIngredients: [...state.selectedIngredients, action.payload]
+-            }
+-        case REMOVE_INGREDIENT:
+-            return {
+-                ...state,
+-                //@ts-ignore info
+-                selectedIngredients: [...state.selectedIngredients].filter(item => item.id !== action.payload)
+-            }
+-        case ADD_BUN:
+-            return {
+-                ...state,
+-                selectedBun: action.payload
+-            }
+-        case REMOVE_BUN:
+-            return {
+-                ...state,
+-                selectedBun: null
+-            }
+-        case SET_INGREDIENTS: {
+-            return {
+-                ...state,
+-                selectedIngredients: action.payload
+-            }
+-        }
+-        default:
+-            return state
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.module.scss b/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,50 +0,0 @@
+-@import "../../../styles/all";
+-
+-.burgerItemContent {
+-  align-items: center;
+-  display: flex;
+-  flex-direction: column;
+-  max-width: 280px;
+-  position: relative;
+-  row-gap: 4px;
+-  width: 100%;
+-  cursor: pointer;
+-
+-  .link {
+-    text-decoration: none;
+-    color: white;
+-    text-align: center;
+-
+-    a {
+-
+-    }
+-
+-    .burgerItemImage {
+-      display: flex;
+-      flex-direction: row;
+-      align-items: center;
+-      justify-content: center;
+-    }
+-
+-    .burgerItemPrice {
+-      display: flex;
+-      flex-direction: row;
+-      align-items: center;
+-      justify-content: center;
+-      gap: 8px;
+-      @include a-style
+-    }
+-
+-    .burgerItemName {
+-      text-align: center;
+-    }
+-  }
+-
+-  &_drag {
+-    box-shadow: 0px 0px 8px rgba(51, 51, 255, 0.25),
+-    0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 16px rgba(51, 51, 255, 0.5);;
+-    opacity: 0.8;
+-  }
+-
+-}
+-
+Index: react-burger/src/componets/header-menu-item/menu-item-content/menu-item-content.tsx
+===================================================================
+diff --git a/react-burger/src/componets/header-menu-item/menu-item-content/menu-item-content.tsx b/react-burger/src/componets/header-menu-item/menu-item-content/menu-item-content.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/header-menu-item/menu-item-content/menu-item-content.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,25 +0,0 @@
+-import {Link} from "react-router-dom";
+-import {FC, ReactElement} from "react";
+-
+-interface IMenuItemContent {
+-    activeClass: string
+-    inActiveIcon: ReactElement
+-    activeIcon: ReactElement
+-    menuItemName: string
+-    path: string
+-}
+-const MenuItemContent: FC<IMenuItemContent> = ({activeClass, inActiveIcon, activeIcon, menuItemName, path}) => {
+-    return (
+-        <>
+-            <Link to={path}>
+-                {
+-                    activeClass === 'text_type_main-default text_color_inactive' ?
+-                        inActiveIcon : activeIcon
+-                }
+-                <span className={`ml-4 text ${activeClass}`}>{menuItemName}</span>
+-            </Link>
+-        </>
+-    );
+-};
+-
+-export default MenuItemContent;
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order-feed.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order-feed.module.scss b/react-burger/src/componets/order-feed/order-feed.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order-feed.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,3 +0,0 @@
+-.wrapper{
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/utils/constants.ts
+===================================================================
+diff --git a/react-burger/src/utils/constants.ts b/react-burger/src/utils/constants.ts
+deleted file mode 100644
+--- a/react-burger/src/utils/constants.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,23 +0,0 @@
+-import {query, SUCCESS_REQUEST_LOGOUT_USER} from "../services/actions/user-actions";
+-import {URL_LOGOUT_USER} from "./URL";
+-import {getCookie} from "./cookie";
+-
+-export const INGREDIENT_TYPES = {
+-    BUNS: 'bun',
+-    MAINS: 'main',
+-    SAUCES: 'sauce'
+-}
+-export const TYPE_HEADER_MENU_ITEM = {
+-    CONSTRUCTOR: 'constructor',
+-    LIST_ORDER: 'listOrder',
+-    ACCOUNT: 'account'
+-}
+-
+-export const PROFILE_MENU_ITEMS = [{name: 'Профиль', path: '/profile'},
+-    {name: 'История заказов', path: '/register'}, {
+-        name: 'Выход', path: '/login', complete: {
+-            path: '/',
+-            //@ts-ignore
+-            onComplete: query(SUCCESS_REQUEST_LOGOUT_USER, URL_LOGOUT_USER, {token: getCookie('token')})
+-        }
+-    }]
+\ No newline at end of file
+Index: react-burger/src/pages/auth/reset-password/reset-password.tsx
+===================================================================
+diff --git a/react-burger/src/pages/auth/reset-password/reset-password.tsx b/react-burger/src/pages/auth/reset-password/reset-password.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/auth/reset-password/reset-password.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,73 +0,0 @@
+-import styles from "../auth-css.module.scss";
+-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {useNavigate} from "react-router-dom";
+-import {ChangeEvent, useCallback} from "react";
+-import {sentRequest} from "../../../services/auth/reset-password-request";
+-import {URL_RESET_PASSWORD} from "../../../utils/URL";
+-import useInput from "../../../custom-hooks/input/use-input";
+-
+-
+-type TInput = {
+-    password: string
+-    token: string
+-}
+-const ResetPassword = () => {
+-
+-    const {values, handleChange} = useInput<TInput>({password: '', token: ''});
+-
+-
+-    const navigate = useNavigate();
+-
+-
+-    const handleSubmit = useCallback((e:ChangeEvent<HTMLFormElement>) => {
+-        e.preventDefault();
+-        const url = `${URL_RESET_PASSWORD}`;
+-        const path = '/login'
+-        sentRequest({url, values, navigate, path}).then();
+-    }, [navigate, values])
+-
+-    return (
+-        <main className={styles.wrapper}>
+-            <section className={styles.content}>
+-
+-                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Восстановление пароля</h1>
+-
+-
+-                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
+-                    <PasswordInput
+-                        name="password"
+-                        placeholder={'Введите новый пароль'}
+-                        onChange={handleChange}
+-                        value={values.password}
+-                    />
+-                    <Input placeholder={'Введите код из письма'}
+-                           name="token"
+-                           value={values.token}
+-                           onChange={handleChange}/>
+-                    <Button type={'primary'} htmlType={'submit'}>Сохранить</Button>
+-                </form>
+-
+-                <footer className={styles.footer}>
+-                    <div className={`mb-4 text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Вы — новый пользователь?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-                                extraClass={styles.button} onClick={() => navigate('/register')}>
+-                            Зарегистрироваться
+-                        </Button>
+-                    </div>
+-                    <div className={`text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Вспомнили пароль?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-
+-                                onClick={() => navigate('/login')}
+-                                extraClass={styles.button}>
+-                            Войти
+-                        </Button>
+-                    </div>
+-                </footer>
+-            </section>
+-        </main>
+-    );
+-};
+-
+-export default ResetPassword;
+\ No newline at end of file
+Index: react-burger/src/styles/all.scss
+===================================================================
+diff --git a/react-burger/src/styles/all.scss b/react-burger/src/styles/all.scss
+deleted file mode 100644
+--- a/react-burger/src/styles/all.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,34 +0,0 @@
+-$scroll-color-border:#2f2f37;
+-$scroll-color-background:#8585ad;
+-
+-@mixin scroll{
+-  overflow-y: scroll;
+-
+-  &::-webkit-scrollbar {
+-    width: 12px;
+-  }
+-
+-  &::-webkit-scrollbar-track {
+-    border-radius: 6px;
+-    background-color:$scroll-color-border;
+-    // margin-block-end: 3em;
+-  }
+-
+-  &::-webkit-scrollbar-thumb {
+-    border-radius: 6px;
+-    border: 3px solid $scroll-color-border;
+-    background-color: $scroll-color-background;
+-
+-    &:hover {
+-      background-color: lighten($scroll-color-background, 10);
+-    }
+-  }
+-}
+-
+-@mixin a-style{
+-  a {
+-    all: unset;
+-    display: flex;
+-    align-items: center;
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/pages/auth/forgot-password/forgot-password.tsx
+===================================================================
+diff --git a/react-burger/src/pages/auth/forgot-password/forgot-password.tsx b/react-burger/src/pages/auth/forgot-password/forgot-password.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/auth/forgot-password/forgot-password.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,73 +0,0 @@
+-import styles from "../auth-css.module.scss";
+-import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {useNavigate} from "react-router-dom";
+-import {ChangeEvent, memo, useCallback} from "react";
+-import {sentRequest} from "../../../services/auth/reset-password-request";
+-import {URL_SENT_EMAIL} from "../../../utils/URL";
+-import useInput from "../../../custom-hooks/input/use-input";
+-
+-type TInput = {
+-    email: string
+-}
+-const ForgotPassword = () => {
+-
+-    const {values, handleChange} = useInput<TInput>({email: ''});
+-
+-
+-    const navigate = useNavigate()
+-
+-
+-    const handleSubmit = useCallback((e:ChangeEvent<HTMLFormElement>) => {
+-        e.preventDefault()
+-        if (values.email) {
+-            const url = `${URL_SENT_EMAIL}`;
+-            const path = '/reset-password'
+-            sentRequest({url, values, navigate, path}).then()
+-        }
+-
+-    }, [values, navigate])
+-
+-
+-    return (
+-        <main className={styles.wrapper}>
+-            <section className={styles.content}>
+-
+-                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Восстановление пароля</h1>
+-
+-
+-                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
+-                    <EmailInput
+-                        name={'email'}
+-                        placeholder={'E-mail'}
+-                        onChange={handleChange}
+-                        value={values.email}
+-                        extraClass="ml-1"
+-                        autoFocus
+-                    />
+-                    <Button type={'primary'} htmlType={'submit'}>Восстановить</Button>
+-                </form>
+-
+-                <footer className={styles.footer}>
+-                    <div className={`mb-4 text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Вы — новый пользователь?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-                                onClick={() => navigate('/register')} extraClass={styles.button}>
+-                            Зарегистрироваться
+-                        </Button>
+-                    </div>
+-                    <div className={`text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Вспомнили пароль?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-
+-                                onClick={() => navigate('/login')}
+-                                extraClass={styles.button}>
+-                            Войти
+-                        </Button>
+-                    </div>
+-                </footer>
+-            </section>
+-        </main>
+-    );
+-};
+-
+-export default memo(ForgotPassword);
+\ No newline at end of file
+Index: react-burger/src/pages/not-found/not-found.module.scss
+===================================================================
+diff --git a/react-burger/src/pages/not-found/not-found.module.scss b/react-burger/src/pages/not-found/not-found.module.scss
+deleted file mode 100644
+--- a/react-burger/src/pages/not-found/not-found.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,11 +0,0 @@
+-.wrapper {
+-
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-
+-  .title {
+-    text-align: center;
+-    line-height: 1
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info.tsx b/react-burger/src/componets/burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,22 +0,0 @@
+-import ModalContentIngredient from "../../../modal-content/modal-content-ingredient/modal-content-ingredient";
+-import Modal from "../../../modal/modal";
+-import {useCallback} from "react";
+-import {useLocation, useNavigate} from "react-router-dom";
+-
+-const ModalIngredientInfo = () => {
+-
+-    const location = useLocation()
+-    const navigate = useNavigate()
+-
+-    const onClose = useCallback(() => {
+-        location?.state?.background && navigate(location.state.background)
+-    }, [location.state, navigate])
+-
+-    return (
+-        <Modal close={onClose} header='Детали ингредиента'>
+-            <ModalContentIngredient/>
+-        </Modal>
+-    );
+-};
+-
+-export default ModalIngredientInfo;
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.module.scss b/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,7 +0,0 @@
+-.nutrition {
+-  display: flex;
+-  flex-direction: column;
+-  align-items: center;
+-  flex: 1;
+-  gap: 8px;
+-}
+\ No newline at end of file
+Index: react-burger/src/services/reducers/user-reducer.js
+===================================================================
+diff --git a/react-burger/src/services/reducers/user-reducer.js b/react-burger/src/services/reducers/user-reducer.js
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/user-reducer.js	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,73 +0,0 @@
+-import {
+-    ERROR_REQUEST_USER, EXPIRED_TOKEN,
+-    REQUEST_USER, SUCCESS_REFRESH_TOKEN,
+-    SUCCESS_REFRESH_USER, SUCCESS_REQUEST_LOGIN_USER, SUCCESS_REQUEST_LOGOUT_USER,
+-    SUCCESS_REQUEST_REGISTER_USER
+-} from "../actions/user-actions";
+-import {setCookie} from "../../utils/cookie";
+-
+-const user = {
+-    email: '',
+-    name: ''
+-}
+-
+-const initialState = {
+-    user,
+-    hasLoading: false,
+-    hasError: false,
+-    isLogIn: false
+-}
+-
+-export const userReducer = (state = initialState, action) => {
+-    switch (action.type) {
+-        case REQUEST_USER:
+-            return {
+-                ...state,
+-                hasLoading: true,
+-                hasError: false
+-            }
+-        case ERROR_REQUEST_USER:
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: true
+-            }
+-        case SUCCESS_REQUEST_REGISTER_USER:
+-        case SUCCESS_REQUEST_LOGIN_USER:
+-            setCookie('token', action.payload.refreshToken, {expires: 1200});
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: action.payload.user,
+-                isLogIn: true,
+-            }
+-        case SUCCESS_REFRESH_USER: {
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: action.payload.user,
+-                isLogIn: true,
+-            }
+-        }
+-
+-        case SUCCESS_REQUEST_LOGOUT_USER:
+-            setCookie('token', '');
+-            setCookie('auth', '')
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: user,
+-                isLogIn: false,
+-                accessTokenExpiration: true
+-            }
+-        case SUCCESS_REFRESH_TOKEN:
+-            setCookie('token', action.payload.refreshToken);
+-            setCookie('auth', action.payload.accessToken, {expires: 1200});
+-
+-        default:
+-            return state
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/index.scss
+===================================================================
+diff --git a/react-burger/src/index.scss b/react-burger/src/index.scss
+deleted file mode 100644
+--- a/react-burger/src/index.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,20 +0,0 @@
+-body {
+-  margin: 0;
+-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+-    sans-serif;
+-  -webkit-font-smoothing: antialiased;
+-  -moz-osx-font-smoothing: grayscale;
+-  height: 100%;
+-}
+-
+-code {
+-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+-    monospace;
+-}
+-#root{
+-  display: grid;
+-  grid-template-rows: 88px 1fr;
+-  height: 100vh;
+-  width: 100%;
+-}
+\ No newline at end of file
+Index: react-burger/src/styles/animations/animations.scss
+===================================================================
+diff --git a/react-burger/src/styles/animations/animations.scss b/react-burger/src/styles/animations/animations.scss
+deleted file mode 100644
+--- a/react-burger/src/styles/animations/animations.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,71 +0,0 @@
+-@keyframes hxafter {
+-  0% {
+-    opacity: 0;
+-  }
+-  50% {
+-    opacity: 0;
+-  }
+-  51% {
+-    opacity: 1;
+-  }
+-  100% {
+-    opacity: 1;
+-  }
+-}
+-
+-@keyframes titleglitched {
+-  0% {
+-    transform: skew(-20deg);
+-    left: -4px;
+-  }
+-  10% {
+-    transform: skew(-20deg);
+-    left: -4px;
+-  }
+-  11% {
+-    transform: skew(0deg);
+-    left: 2px;
+-  }
+-  50% {
+-    transform: skew(0deg);
+-  }
+-  51% {
+-    transform: skew(10deg);
+-  }
+-  59% {
+-    transform: skew(10deg);
+-  }
+-  60% {
+-    transform: skew(0deg);
+-  }
+-  100% {
+-    transform: skew(0deg);
+-  }
+-}
+-
+-@keyframes titlebeforeglitched {
+-  0% {
+-    transform: scaleY(1);
+-  }
+-  10% {
+-    transform: scaleY(1);
+-  }
+-  11% {
+-    transform: scaleY(-1);
+-  }
+-  50% {
+-    transform: scaleY(-1);
+-  }
+-  51% {
+-    transform: scaleY(1);
+-  }
+-  59% {
+-    transform: scaleY(1);
+-  }
+-  60% {
+-    transform: scaleY(1);
+-  }
+-  100% {
+-    transform: scaleY(1);
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.tsx b/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredients-item/burger-ingredients-item.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,59 +0,0 @@
+-import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+-import styles from './burger-ingredients-item.module.scss'
+-import {FC, memo, useMemo} from "react";
+-import {TIngredient} from "../../../utils/prop-types-constants";
+-import {useDispatch, useSelector} from "react-redux";
+-import {useDrag} from "react-dnd";
+-import {Link, useLocation} from "react-router-dom";
+-import {TStore} from "../../../services/reducers/root/root-reducer";
+-
+-
+-interface IBurgerIngredientsItem {
+-    ingredient: TIngredient;
+-}
+-
+-const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
+-
+-    const location = useLocation()
+-
+-    const {selectedBun, selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+-
+-    const [{isDrag}, drag] = useDrag({
+-        type: "ingredient",
+-        item: {id: ingredient._id},
+-        collect: monitor => ({
+-            isDrag: monitor.isDragging()
+-        })
+-    });
+-
+-    const count = useMemo(() => {
+-        return ingredient.type === 'bun' ? selectedBun?._id === ingredient._id ? 2 : 0 :
+-            selectedIngredients.filter( (item: TIngredient) => item._id === ingredient._id).length
+-    }, [ingredient, selectedIngredients, selectedBun]);
+-
+-
+-
+-
+-    return (
+-        <section className={` ${styles.burgerItemContent} ${isDrag ? styles.burgerItemContent_drag : ''}`}>
+-            <Link
+-                to={`ingredient/${ingredient._id}`}
+-                state={{background: location}}
+-                className={styles.link}
+-            >
+-                <img alt='NO IMAGE' ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image}/>
+-                <div className={`text text_type_main-small ${styles.burgerItemPrice}`}>
+-                    <span>{ingredient.price}</span>
+-                    <CurrencyIcon type={'primary'}/>
+-                </div>
+-                <span className={`text text_type_main-default pb-1 ${styles.burgerItemName}`}>{ingredient.name}</span>
+-
+-            </Link>
+-            {count ? <Counter count={count} size="default"/> : null}
+-        </section>
+-    );
+-};
+-
+-
+-
+-export default memo(BurgerIngredientsItem);
+\ No newline at end of file
+Index: react-burger/src/services/actions/current-ingredient-actions.ts
+===================================================================
+diff --git a/react-burger/src/services/actions/current-ingredient-actions.ts b/react-burger/src/services/actions/current-ingredient-actions.ts
+deleted file mode 100644
+--- a/react-burger/src/services/actions/current-ingredient-actions.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,3 +0,0 @@
+-//todo
+-export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT'
+-export const REMOVE_CURRENT_INGREDIENT = 'REMOVE_CURRENT_INGREDIENT'
+\ No newline at end of file
+Index: react-burger/src/services/reducers/user-reducer.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/user-reducer.ts b/react-burger/src/services/reducers/user-reducer.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/user-reducer.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,75 +0,0 @@
+-import {
+-    ERROR_REQUEST_USER,
+-    REQUEST_USER, SUCCESS_REFRESH_TOKEN,
+-    SUCCESS_REFRESH_USER, SUCCESS_REQUEST_LOGIN_USER, SUCCESS_REQUEST_LOGOUT_USER,
+-    SUCCESS_REQUEST_REGISTER_USER
+-} from "../actions/user-actions";
+-import {setCookie} from "../../utils/cookie";
+-
+-const user = {
+-    email: '',
+-    name: ''
+-}
+-
+-const initialState = {
+-    user,
+-    hasLoading: false,
+-    hasError: false,
+-    isLogIn: false
+-}
+-//@ts-ignore info
+-export const userReducer = (state = initialState, action) => {
+-    switch (action.type) {
+-        case REQUEST_USER:
+-            return {
+-                ...state,
+-                hasLoading: true,
+-                hasError: false
+-            }
+-        case ERROR_REQUEST_USER:
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: true
+-            }
+-        case SUCCESS_REQUEST_REGISTER_USER:
+-        case SUCCESS_REQUEST_LOGIN_USER:
+-            setCookie('token', action.payload.refreshToken, {expires: 1200});
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: action.payload.user,
+-                isLogIn: true,
+-            }
+-        case SUCCESS_REFRESH_USER: {
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: action.payload.user,
+-                isLogIn: true,
+-            }
+-        }
+-
+-        case SUCCESS_REQUEST_LOGOUT_USER:
+-            setCookie('token', '');
+-            setCookie('auth', '')
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                hasError: false,
+-                user: user,
+-                isLogIn: false,
+-                accessTokenExpiration: true
+-            }
+-        //@ts-ignore
+-        case SUCCESS_REFRESH_TOKEN:
+-            //@ts-ignore
+-            setCookie('token', action.payload.refreshToken, null);
+-            setCookie('auth', action.payload.accessToken, {expires: 1200});
+-
+-        default:
+-            return state
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.module.scss b/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,28 +0,0 @@
+-.item {
+-  width: 100%;
+-  opacity: 0.6;
+-  display: flex;
+-  flex-direction: row;
+-  align-items: center;
+-  gap: 8px;
+-
+-  svg {
+-    cursor: move;
+-  }
+-
+-  &_draging {
+-    opacity: 1;
+-    width: 100%;
+-    display: flex;
+-    flex-direction: row;
+-    align-items: center;
+-    gap: 8px;
+-
+-    .dragIcon {
+-      svg {
+-        cursor: move;
+-      }
+-    }
+-
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order/order.tsx
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order/order.tsx b/react-burger/src/componets/order-feed/order/order.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order/order.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,22 +0,0 @@
+-import {TIngredient} from "../../../utils/prop-types-constants";
+-
+-import styles from './order.module.scss'
+-
+-interface IOrder {
+-    ingredients: Array<TIngredient>
+-}
+-
+-const orderNumber = '#26255'
+-const orderName = 'Order Name'
+-
+-const Order = ({ingredients}: IOrder) => {
+-    return (
+-        <section className={styles.wrapper}>
+-            <p>{orderNumber}</p>
+-            <p>{orderName}</p>
+-        </section>
+-    );
+-};
+-
+-export default Order;
+-
+Index: react-burger/src/pages/profile/profile.module.scss
+===================================================================
+diff --git a/react-burger/src/pages/profile/profile.module.scss b/react-burger/src/pages/profile/profile.module.scss
+deleted file mode 100644
+--- a/react-burger/src/pages/profile/profile.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,35 +0,0 @@
+-.wrapper{
+-  display: flex;
+-  justify-content: center;
+-  .content{
+-    display: flex;
+-    width: 70%;
+-    .menu{
+-      display: flex;
+-      flex-direction: column;
+-
+-      .button{
+-        width: 320px;
+-        height: 64px;
+-        text-align: left;
+-        &_active{
+-          width: 320px;
+-          height: 64px;
+-          text-align: left;
+-          color: white;
+-        }
+-      }
+-    }
+-    .edit{
+-      display: flex;
+-      flex-direction: column;
+-      gap: 24px;
+-
+-      .buttons{
+-        display: flex;
+-        justify-content: flex-end;
+-
+-      }
+-    }
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order/list-icon/list-icon.tsx
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order/list-icon/list-icon.tsx b/react-burger/src/componets/order-feed/order/list-icon/list-icon.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order/list-icon/list-icon.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,18 +0,0 @@
+-
+-import styles from './list-icon.module.scss'
+-
+-interface IListIcon {
+-    urlImage: string,
+-    index: number
+-}
+-
+-const ListIcon = ({urlImage, index} : IListIcon) => {
+-    return (
+-        <li className={styles.wrapper}>
+-            <img style={{left: index * 48, zIndex:index}} src={urlImage} alt=''/>
+-        </li>
+-    );
+-};
+-
+-
+-export default ListIcon;
+\ No newline at end of file
+Index: react-burger/src/services/actions/ingedients-actions.ts
+===================================================================
+diff --git a/react-burger/src/services/actions/ingedients-actions.ts b/react-burger/src/services/actions/ingedients-actions.ts
+deleted file mode 100644
+--- a/react-burger/src/services/actions/ingedients-actions.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,21 +0,0 @@
+-import {URL_GET_INGREDIENTS} from "../../utils/URL";
+-import {request} from "../../utils/utils";
+-import {createAction} from "@reduxjs/toolkit";
+-import {ingredientsActions} from "../reducers/ingredients-reducer";
+-import {AppThunk, TDispatch} from "../reducers/root/root-reducer";
+-
+-export const REQUEST_INGREDIENTS = 'REQUEST_INGREDIENTS'
+-export const SUCCESS_REQUEST_INGREDIENTS = 'SET_INGREDIENTS'
+-export const ERROR_REQUEST_INGREDIENTS = 'ERROR_REQUEST_INGREDIENTS'
+-
+-export const ingredientsRequest = createAction(REQUEST_INGREDIENTS)
+-export const ingredientsError = createAction<string>(ERROR_REQUEST_INGREDIENTS)
+-
+-export type ingredientsExtraAction = ReturnType<typeof ingredientsRequest> | ReturnType<typeof ingredientsError>
+-
+-export const getIngredients = ():AppThunk => async (dispatch:TDispatch) => {
+-    dispatch(ingredientsRequest)
+-    await request(URL_GET_INGREDIENTS).then(
+-        data => dispatch(ingredientsActions.ingredientsSuccess(data.data))
+-    ).catch(error => dispatch( ingredientsError(error.message)))
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/preloader/main-preloader/main-preloader.tsx
+===================================================================
+diff --git a/react-burger/src/componets/preloader/main-preloader/main-preloader.tsx b/react-burger/src/componets/preloader/main-preloader/main-preloader.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/preloader/main-preloader/main-preloader.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,26 +0,0 @@
+-import styles from './main-preloader.module.scss'
+-
+-const MainPreloader = () => {
+-    return (
+-        <section className={styles.wrapper}>
+-            <div className={styles.content}>
+-                <div className={styles.planet}>
+-                    <div className={styles.ring}></div>
+-                    <div className={styles.coverRing}></div>
+-                    <div className={styles.spots}>
+-                        <span></span>
+-                        <span></span>
+-                        <span></span>
+-                        <span></span>
+-                        <span></span>
+-                        <span></span>
+-                        <span></span>
+-                    </div>
+-                </div>
+-                <p>Загрузка...</p>
+-            </div>
+-        </section>
+-    );
+-};
+-
+-export default MainPreloader;
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.tsx
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.tsx b/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,69 +0,0 @@
+-import styles from './modal-content-order-complete.module.scss'
+-import img from '../../../images/done.png'
+-import {useSelector} from "react-redux";
+-import {useEffect, useState} from "react";
+-import {TStore} from "../../../services/reducers/root/root-reducer";
+-import {TIngredient} from "../../../utils/prop-types-constants";
+-
+-const ModalContentOrderComplete = () => {
+-
+-    const [fail, setFailContentModal] = useState(false)
+-    const {selectedBun, selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+-    const {hasLoading, order, name} = useSelector((store:TStore) =>{
+-        return {
+-         hasLoading: store.order.hasLoading,
+-         order: store.order.order.order_id,
+-         name:   store.order.order.name
+-        }})
+-
+-    useEffect(
+-        () => {
+-            selectedBun && selectedIngredients.length > 0
+-            && selectedIngredients.filter((item:TIngredient) => item.type === 'main').length > 0
+-            && selectedIngredients.filter((item:TIngredient) => item.type === 'sauce').length > 0 ?
+-                setFailContentModal(false) :
+-                setFailContentModal(true)
+-        },
+-        [selectedBun, selectedIngredients]
+-    );
+-
+-
+-    return (
+-        <>
+-            {fail ? (<section>
+-                <div className={`p-25 ${styles.fail}`}>
+-                    <span className='text text_type_main-large'>* *</span>
+-                    <span className='text text_type_main-large'> | </span>
+-                    <span className='pb-8 text text_type_main-large'>  ⏜  </span>
+-                    <span className={`text text_type_main-large ${styles.text}`}> Для того, чтобы мы отправили заказ на орбитальную станцию, в бургере должны быть
+-                    БУЛКА, СОУС и НАЧИНКА (добавьте в бургер хотя бы по одному ингредиенту из каждой группы)!
+-                    Мы ещё терпим веганов, но традиционную форму бургера нарушать нельзя! </span>
+-                </div>
+-            </section>) : (
+-                <section className={`pl-25 pr-25 ${styles.orderContent}`}>
+-                    { hasLoading? (<div className={`pt-9 pb-15 ${styles.id}`}>
+-                            <span className='pb-8 text text_type_digits-large'>#####</span>
+-                            <span className='text text_type_main-default'>Ожидайте!</span>
+-                            <span className={`text text_type_main-default pt-8 ${styles.header}`}>Ваш заказ оформляется!</span>
+-                        </div>) :
+-                        (<div className={`pt-9 pb-15 ${styles.id}`}>
+-                            <span className='pb-8 text text_type_digits-large'>{order}</span>
+-                            <span className='text text_type_main-default'>Индификатор заказа</span>
+-                            <span className={`text text_type_main-default pt-8 ${styles.header}`}>{name}</span>
+-                        </div>)
+-                    }
+-                    <div className={styles.done}>
+-                        <img src={img}/>
+-                    </div>
+-                    <div className={`pt-15 pb-30 ${styles.otherInfo}`}>
+-                        <span className='pb-2 text text_type_main-small'>Ваш заказ начали готовить</span>
+-                        <span className='text text_type_main-small text_color_inactive'>Дождитесь ожидания готовности на орбитальной станции</span>
+-                    </div>
+-                </section>)}
+-        </>
+-    );
+-
+-};
+-
+-
+-export default ModalContentOrderComplete;
+\ No newline at end of file
+Index: react-burger/src/services/auth/reset-password-request.ts
+===================================================================
+diff --git a/react-burger/src/services/auth/reset-password-request.ts b/react-burger/src/services/auth/reset-password-request.ts
+deleted file mode 100644
+--- a/react-burger/src/services/auth/reset-password-request.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,33 +0,0 @@
+-import {checkResponse} from "../../utils/utils";
+-import {NavigateFunction} from "react-router-dom";
+-
+-type TInput = {
+-    password?: string
+-    token?: string
+-    email?: string
+-}
+-
+-type TRequestBody = {
+-    url: string
+-    values: TInput
+-    navigate: NavigateFunction
+-    path: string
+-}
+-
+-export const sentRequest = async ({url, values, navigate, path} : TRequestBody) => {
+-    try {
+-
+-        const response = await fetch(url, {
+-            method: 'POST',
+-            headers: {
+-                'Content-Type': 'application/json;charset=utf-8',
+-            }, body: JSON.stringify(values)
+-        })
+-        const json = await checkResponse(response)
+-
+-        json?.success ? navigate(path) : json.then((err: any) => Promise.reject(err))
+-
+-    } catch (error) {
+-        console.log(error)
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/custom-hooks/use-outside.ts
+===================================================================
+diff --git a/react-burger/src/custom-hooks/use-outside.ts b/react-burger/src/custom-hooks/use-outside.ts
+deleted file mode 100644
+--- a/react-burger/src/custom-hooks/use-outside.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,26 +0,0 @@
+-import {useEffect, useRef} from "react";
+-
+-
+-const useOutside = (close: ()=> void) => {
+-
+-
+-    const ref = useRef<HTMLDivElement>(null)
+-
+-    const handleClickOutside = (e: MouseEvent) => {
+-        if (ref.current && !ref.current.contains(e.target as HTMLElement)) {
+-            close()
+-        }
+-    }
+-
+-    useEffect(() => {
+-        document.addEventListener('click', handleClickOutside, true)
+-
+-        return () => {
+-            document.removeEventListener('click', handleClickOutside, true)
+-        }
+-    })
+-
+-    return ref
+-};
+-
+-export default useOutside;
+\ No newline at end of file
+Index: react-burger/src/services/reducers/order-reducer.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/order-reducer.ts b/react-burger/src/services/reducers/order-reducer.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/order-reducer.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,74 +0,0 @@
+-import {
+-    RESET_ORDER,
+-    FAILURE_REQUEST_ORDER,
+-    REQUEST_ORDER,
+-    SUCCESS_REQUEST_ORDER,
+-    requestOrder, errorOrder
+-} from "../actions/order-actions";
+-import {IError, IOrder} from "../../utils/prop-types-constants";
+-import {CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
+-import {Simulate} from "react-dom/test-utils";
+-import error = Simulate.error;
+-
+-interface IOrderState {
+-    order: IOrder
+-    error: IError
+-    hasLoading: boolean
+-}
+-
+-interface IOrderPayload {
+-    order: {
+-        number: number
+-    }
+-    name: string
+-}
+-
+-const initialState: IOrderState = {
+-    order: {
+-        order_id: 0,
+-        name: ''
+-    },
+-    error: {
+-        message: '',
+-        hasError: false
+-    },
+-    hasLoading: false
+-}
+-
+-
+-const successOrder: CaseReducer<IOrderState, PayloadAction<IOrderPayload>> = (state, action) =>{
+-    state.order.order_id = action.payload.order.number
+-    state.order.name = action.payload.name
+-    state.error = initialState.error
+-    state.hasLoading = false
+-}
+-
+-const orderSlice = createSlice({
+-    name: 'order',
+-    initialState,
+-    reducers:{
+-        successOrder
+-    },
+-    extraReducers: (builder) => {
+-        builder.addCase(requestOrder, (state)=>{
+-            return {
+-                ...state,
+-                error: initialState.error,
+-                hasLoading: true
+-            }
+-        })
+-        builder.addCase(errorOrder, (state, action) => {
+-            return {
+-                ...state,
+-                error: {
+-                    message: action.payload,
+-                    hasError: true
+-                },
+-                hasLoading: false
+-            }
+-        })
+-    }
+-})
+-
+-export const orderReducer = orderSlice.reducer
+-export const orderActions = orderSlice.actions
+\ No newline at end of file
+Index: react-burger/src/componets/burger-ingredient/burger-ingredient.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredient.module.scss b/react-burger/src/componets/burger-ingredient/burger-ingredient.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredient.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,42 +0,0 @@
+-@import "../../styles/all";
+-
+-.ingredients {
+-  display: flex;
+-  flex-direction: column;
+-  justify-content: center;
+-  align-items: center;
+-
+-  grid-area: list-ingredients;
+-  height: 100%;
+-
+-  .main-header {
+-
+-  }
+-
+-  .subMenu {
+-    display: flex;
+-    flex-direction: row;
+-    justify-content: center;
+-  }
+-
+-  .ingredientsGroup {
+-
+-    width: 100%;
+-
+-    flex-grow: 1;
+-
+-    position: relative;
+-
+-    &_list {
+-      display: flex;
+-      flex-direction: column;
+-      row-gap: 40px;
+-      position: absolute;
+-      inset: 0;
+-      @include scroll;
+-
+-
+-    }
+-  }
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/burger-constructor/burger-cunstructor-item/order-complete.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/order-complete.tsx b/react-burger/src/componets/burger-constructor/burger-cunstructor-item/order-complete.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/order-complete.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,22 +0,0 @@
+-import {useCallback} from 'react';
+-import Modal from "../../modal/modal";
+-import ModalContentOrderComplete from "../../modal-content/modal-content-order-complete/modal-content-order-complete";
+-import {useLocation, useNavigate} from "react-router-dom";
+-
+-const OrderComplete = () => {
+-
+-    const location = useLocation();
+-    const navigate = useNavigate();
+-
+-    const onClose = useCallback(() => {
+-        location?.state?.background && navigate(location.state.background)
+-    }, [location, navigate])
+-
+-    return (
+-        <Modal close={onClose} header=''>
+-            <ModalContentOrderComplete/>
+-        </Modal>
+-    );
+-};
+-
+-export default OrderComplete;
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.module.scss b/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,23 +0,0 @@
+-.modalIngredient {
+-
+-  .image {
+-    display: flex;
+-    justify-content: center;
+-    align-items: center;
+-  }
+-
+-  .modalIngredientName {
+-    display: flex;
+-    justify-content: center;
+-  }
+-
+-  .modalIngredientNutrition {
+-    display: flex;
+-    flex-direction: row;
+-    justify-content: space-between;
+-    gap: 20px;
+-
+-
+-  }
+-}
+-
+Index: react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.tsx b/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-constructor/burger-cunstructor-item/burger-constructor-item.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,98 +0,0 @@
+-import {useDrag, useDrop} from "react-dnd";
+-import {useRef} from "react";
+-import {useDispatch, useSelector} from "react-redux";
+-import { Identifier, XYCoord } from 'dnd-core'
+-import styles from './burger-constructor-item.module.scss'
+-import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
+-import {sortArray} from "../../../utils/utils";
+-import {TStore} from "../../../services/reducers/root/root-reducer";
+-
+-interface IBurgerConstructorItem {
+-    name: string
+-    image: string
+-    price: number
+-    index: number
+-    id: string
+-}
+-
+-const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstructorItem) => {
+-
+-    const {selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+-    const itemRef = useRef<HTMLDivElement>(null)
+-    const dispatch = useDispatch()
+-
+-
+-    const [{handlerId}, dropItem] = useDrop<IBurgerConstructorItem, void, {handlerId: Identifier | null}>({
+-        accept: ["inner"],
+-        collect(monitor) {
+-            return {
+-                handlerId: monitor.getHandlerId()
+-            };
+-        },
+-        hover(item, monitor) {
+-            if (!itemRef.current) {
+-                return;
+-            }
+-            const dragIndex = item.index;
+-
+-            const hoverIndex = index;
+-
+-
+-            if (dragIndex === hoverIndex) {
+-                return;
+-            }
+-
+-
+-            const hoverBoundingRect = itemRef.current?.getBoundingClientRect();
+-
+-            const hoverMidY =
+-                (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+-
+-            const clientOffset = monitor.getClientOffset();
+-
+-            const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+-
+-
+-            if (dragIndex < hoverIndex && hoverClientY < hoverMidY) {
+-                return;
+-            }
+-
+-
+-            if (dragIndex > hoverIndex && hoverClientY > hoverMidY) {
+-                return;
+-            }
+-
+-            dispatch({type: SET_INGREDIENTS, payload: sortArray(dragIndex, hoverIndex, selectedIngredients)});
+-
+-
+-            item.index = hoverIndex;
+-        }
+-    });
+-    const [{isDragging}, dragItem] = useDrag({
+-        type: "inner",
+-        item: () => {
+-            return {index};
+-        },
+-        collect: (monitor) => ({
+-            isDragging: monitor.isDragging()
+-        })
+-    });
+-
+-
+-    dragItem(dropItem(itemRef));
+-
+-    return (
+-        <div ref={itemRef} className={isDragging ? styles.item : styles.item_draging}>
+-            <div className={styles.dragIcon}>
+-                <DragIcon type="primary"/>
+-            </div>
+-            <ConstructorElement text={name} thumbnail={image} price={price}
+-                                handleClose={() => dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
+-        </div>
+-    );
+-};
+-
+-
+-
+-export default BurgerConstructorItem;
+\ No newline at end of file
+Index: react-burger/src/services/reducers/root/root-reducer.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/root/root-reducer.ts b/react-burger/src/services/reducers/root/root-reducer.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/root/root-reducer.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,29 +0,0 @@
+-import {AnyAction, combineReducers, configureStore, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
+-import {ingredientsActions, ingredientsReducer} from "../ingredients-reducer";
+-import {orderActions, orderReducer} from "../order-reducer";
+-import {selectedIngredientsReducer} from "../selected-ingedients-reducers";
+-import {userReducer} from "../user-reducer";
+-import {ingredientsExtraAction} from "../../actions/ingedients-actions";
+-import {store} from "../../../index";
+-import {TOrderExtraActions} from "../../actions/order-actions";
+-
+-export const rootReducer = combineReducers({
+-    ingredients: ingredientsReducer,
+-    order: orderReducer,
+-    selectedIngredients: selectedIngredientsReducer,
+-    user: userReducer
+-})
+-
+-
+-
+-export type TStore = ReturnType<typeof rootReducer>
+-export type TActions = ReturnType<typeof ingredientsActions.ingredientsSuccess> |
+-    ingredientsExtraAction |
+-    ReturnType<typeof orderActions.successOrder> | TOrderExtraActions
+-export type TDispatch = ReturnType<typeof store.dispatch>
+-export type AppThunk<ReturnType = void> = ThunkAction<
+-    ReturnType,
+-    TStore,
+-    never,
+-    TActions
+-    >
+\ No newline at end of file
+Index: react-burger/src/componets/modal/modal.tsx
+===================================================================
+diff --git a/react-burger/src/componets/modal/modal.tsx b/react-burger/src/componets/modal/modal.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/modal/modal.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,41 +0,0 @@
+-import {FC, memo, ReactElement, useMemo} from 'react';
+-import {createPortal} from "react-dom";
+-import useOutside from "../../custom-hooks/use-outside";
+-import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+-
+-import styles from './modal.module.scss'
+-import ModalOverlay from "./modal-overlay/modal-overlay";
+-import useEscape from "../../custom-hooks/use-escape";
+-
+-interface IModal{
+-    close:() => void
+-    header: string
+-    children: ReactElement
+-}
+-
+-const Modal:FC<IModal> = ({close, header, children}) => {
+-
+-    useEscape(close)
+-    const ref = useOutside(close)
+-
+-    const modalRoot = useMemo(
+-        () => document.getElementById('modal') as HTMLLIElement,
+-        [],)
+-
+-    return createPortal(
+-        <section className={styles.modalWrapper}>
+-            <div className={styles.modalContent} ref={ref}>
+-                <div className={`pr-10 pl-10 ${styles.nav}`}>
+-                    <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
+-                    <div className={`pt-15   ${styles.close}`}><CloseIcon onClick={close} type="primary"/></div>
+-                </div>
+-                {children}
+-            </div>
+-            <ModalOverlay/>
+-        </section>, modalRoot
+-    )
+-};
+-
+-
+-
+-export default memo(Modal);
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order/list-icon/list-icon.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order/list-icon/list-icon.module.scss b/react-burger/src/componets/order-feed/order/list-icon/list-icon.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order/list-icon/list-icon.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,3 +0,0 @@
+-.wrapper {
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.tsx
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.tsx b/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,47 +0,0 @@
+-
+-import styles from './modal-content-ingredient.module.scss'
+-import ModalContentIngredientNutritionType
+-    from "./modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type";
+-import {useSelector} from "react-redux";
+-import {useParams} from "react-router-dom";
+-import {TStore} from "../../../services/reducers/root/root-reducer";
+-
+-const ModalContentIngredient = () => {
+-
+-    const {id} = useParams();
+-
+-
+-    const {name, image, nutrients} = useSelector((store:TStore) => {
+-
+-        const ingredient = [...store.ingredients.types.buns, ...store.ingredients.types.mains,
+-            ...store.ingredients.types.sauces].find(el => el._id === id);
+-
+-        return {
+-            name: ingredient?.name,
+-            image: ingredient?.image_large,
+-            nutrients: {
+-                calories: ingredient?.calories, fat: ingredient?.fat, carbohydrates: ingredient?.carbohydrates,
+-                proteins: ingredient?.proteins
+-            }
+-        }
+-    })
+-
+-
+-    return (
+-
+-        <section className={styles.modalIngredient}>
+-            <div className={styles.image}><img alt='NO IMAGE' src={image}/></div>
+-            <span className={`text text_type_main-medium pt-4 pb-8 ${styles.modalIngredientName}`}>{name}</span>
+-            <div className={`pb-15 ${styles.modalIngredientNutrition}`}>
+-                <ModalContentIngredientNutritionType header={'Каллории, ккал'} value={nutrients.calories}/>
+-                <ModalContentIngredientNutritionType header={'Белки, г'} value={nutrients.proteins}/>
+-                <ModalContentIngredientNutritionType header={'Жиры, г'} value={nutrients.fat}/>
+-                <ModalContentIngredientNutritionType header={'Углеводы, г'} value={nutrients.carbohydrates}/>
+-            </div>
+-        </section>
+-
+-    );
+-};
+-
+-
+-export default ModalContentIngredient;
+\ No newline at end of file
+Index: react-burger/src/componets/modal/modal-overlay/modal-overlay.tsx
+===================================================================
+diff --git a/react-burger/src/componets/modal/modal-overlay/modal-overlay.tsx b/react-burger/src/componets/modal/modal-overlay/modal-overlay.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/modal/modal-overlay/modal-overlay.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,9 +0,0 @@
+-import styles from './modal-overlay.module.scss'
+-
+-const ModalOverlay = () => {
+-    return (
+-        <section className={styles.modalOverlay}/>
+-    );
+-};
+-
+-export default ModalOverlay;
+\ No newline at end of file
+Index: react-burger/src/services/auth/reset-password-request.js
+===================================================================
+diff --git a/react-burger/src/services/auth/reset-password-request.js b/react-burger/src/services/auth/reset-password-request.js
+deleted file mode 100644
+--- a/react-burger/src/services/auth/reset-password-request.js	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,20 +0,0 @@
+-import {URL_SENT_EMAIL} from "../../utils/URL";
+-import {checkResponse} from "../../utils/utils";
+-
+-
+-export const sentRequest = async (url, body, navigate, path) => {
+-    try {
+-
+-        const response = await fetch(url, {
+-            method: 'POST',
+-            headers: {
+-                'Content-Type': 'application/json;charset=utf-8',
+-            }, body: JSON.stringify(body)
+-        })
+-        const json = await checkResponse(response)
+-        json?.success ? navigate(path) : json.then(err => Promise.reject(err))
+-
+-    } catch (error) {
+-        console.log(error)
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/pages/order-feed/index.tsx
+===================================================================
+diff --git a/react-burger/src/pages/order-feed/index.tsx b/react-burger/src/pages/order-feed/index.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/order-feed/index.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,11 +0,0 @@
+-
+-
+-const OrderFeedPage = () => {
+-    return (
+-        <main>
+-
+-        </main>
+-    );
+-};
+-
+-export default OrderFeedPage;
+\ No newline at end of file
+Index: react-burger/src/utils/prop-types-constants.ts
+===================================================================
+diff --git a/react-burger/src/utils/prop-types-constants.ts b/react-burger/src/utils/prop-types-constants.ts
+deleted file mode 100644
+--- a/react-burger/src/utils/prop-types-constants.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,32 +0,0 @@
+-
+-export type TIngredient = {
+-    _id: string
+-    name: string
+-    type: string
+-    proteins: number
+-    carbohydrates: number
+-    calories: number
+-    fat: number
+-    price: number
+-    image: string
+-    image_mobile: string
+-    image_large: string
+-    __v: number
+-}
+-
+-export interface INutritions {
+-    calories: number
+-    proteins: number
+-    fat:number
+-    carbohydrates:number
+-}
+-
+-export interface IError{
+-    message: string
+-    hasError: boolean
+-}
+-
+-export interface IOrder {
+-    order_id: number
+-    name: string
+-}
+Index: react-burger/src/componets/burger-ingredient/burger-ingredient.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredient.tsx b/react-burger/src/componets/burger-ingredient/burger-ingredient.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredient.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,46 +0,0 @@
+-import {useState} from 'react';
+-import BurgerIngredientsGroup from "./burger-ingredients-group/burger-ingredients-group";
+-import styles from './burger-ingredient.module.scss'
+-import BurgerTab from "../burger-tab/burger-tab";
+-import {useSelector} from "react-redux";
+-import {TStore} from "../../services/reducers/root/root-reducer";
+-
+-
+-const BurgerIngredient = () => {
+-
+-    const {buns, sauces, mains} = useSelector((store: TStore) => store.ingredients.types)
+-
+-    const [currentTab, setCurrentTab] = useState<string>('bun')
+-
+-    return (
+-        <section className={`pt-5 ${styles.ingredients}`}>
+-            <div className={`pb-10 ${styles.subMenu}`}>
+-                <BurgerTab header={'Булки'} currentTab={currentTab} setCurrentTab={setCurrentTab} to={'buns'}
+-                           containerID={'ingredients-group'} value={'bun'}/>
+-                <BurgerTab header={'Соусы'} currentTab={currentTab} setCurrentTab={setCurrentTab} to={'sauces'}
+-                           containerID={'ingredients-group'} value={'sauce'}/>
+-                <BurgerTab header={'Начинки'} currentTab={currentTab} setCurrentTab={setCurrentTab} to={'mains'}
+-                           containerID={'ingredients-group'} value={'main'}/>
+-            </div>
+-            <div className={`pt-5 ${styles.ingredientsGroup}`}>
+-                <div id='ingredients-group' className={`pt-5 ${styles.ingredientsGroup_list}`}>
+-                    <div id='buns' className={styles.ingredientsGroup}>
+-                        <BurgerIngredientsGroup  header='Булки'
+-                                                listIngredients={buns}/>
+-                    </div>
+-                    <div id='sauces' className={styles.ingredientsGroup}>
+-                        <BurgerIngredientsGroup  header='Соусы'
+-                                                listIngredients={sauces}/>
+-                    </div>
+-                    <div id='mains' className={styles.ingredientsGroup}>
+-                        <BurgerIngredientsGroup header='Начинки'
+-                                                listIngredients={mains}/>
+-                    </div>
+-                </div>
+-            </div>
+-        </section>
+-    );
+-};
+-
+-
+-export default BurgerIngredient;
+\ No newline at end of file
+Index: react-burger/src/componets/app-header/app-header.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/app-header/app-header.module.scss b/react-burger/src/componets/app-header/app-header.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/app-header/app-header.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,40 +0,0 @@
+-@import "../../styles/all";
+-
+-.header {
+-  display: flex;
+-  flex-direction: row;
+-  justify-content: center;
+-  width: 100%;
+-  background-color: #1c1c21;
+-
+-  .leftMenu {
+-    display: flex;
+-    flex-direction: row;
+-    width: 25%;
+-    justify-content: flex-end;
+-    gap: 8px;
+-
+-    @include a-style
+-  }
+-
+-  .logo {
+-    display: flex;
+-    width: 30%;
+-    align-items: center;
+-    justify-content: center;
+-    cursor: pointer;
+-  }
+-
+-
+-  .rightMenu {
+-    display: flex;
+-    flex-direction: row;
+-    width: 25%;
+-    justify-content: center;
+-
+-    @include a-style
+-  }
+-}
+-
+-
+-
+Index: react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.tsx
+===================================================================
+diff --git a/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.tsx b/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,17 +0,0 @@
+-import styles from './skeleton.module.scss'
+-import {FC} from "react";
+-
+-
+-interface ISkeleton {
+-    type?: string;
+-    name: string;
+-}
+-const Skeleton:FC<ISkeleton> = ({type= '', name}) => {
+-    return (
+-        <div className={`text text_type_main-default ${styles.skeleton} ${styles[type]}`}>
+-            {name}
+-        </div>
+-    );
+-};
+-
+-export default Skeleton;
+\ No newline at end of file
+Index: react-burger/src/componets/burger-constructor/burger-constructor.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-constructor/burger-constructor.tsx b/react-burger/src/componets/burger-constructor/burger-constructor.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-constructor/burger-constructor.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,137 +0,0 @@
+-import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {useCallback, useMemo, useState} from "react";
+-import {calculateTotalPrice, hashCode} from "../../utils/utils";
+-
+-import styles from './burger-constructor.module.scss'
+-
+-import {useDispatch, useSelector} from "react-redux";
+-import Skeleton from "../skeleton/burger-constructor-skeleton/skeleton";
+-import {useDrop} from "react-dnd";
+-import {ADD_BUN, ADD_INGREDIENT} from "../../services/actions/selected-ingedients-actions";
+-import BurgerConstructorItem from "./burger-cunstructor-item/burger-constructor-item";
+-import {orderPost} from "../../services/actions/order-actions";
+-import {INGREDIENT_TYPES} from "../../utils/constants";
+-import {Link, useLocation, useNavigate} from "react-router-dom";
+-import {getCookie} from "../../utils/cookie";
+-import {TDispatch, TStore} from "../../services/reducers/root/root-reducer";
+-import {TIngredient} from "../../utils/prop-types-constants";
+-
+-
+-const BurgerConstructor = () => {
+-
+-    const location = useLocation();
+-
+-    const [totalPrice, setTotalPrice] = useState(0)
+-
+-    const dispatch = useDispatch<TDispatch>()
+-    const navigate = useNavigate()
+-
+-    const {buns, sauces, mains} = useSelector((store: TStore) => store.ingredients.types)
+-    const {selectedBun, selectedIngredients} = useSelector((store: TStore) => store.selectedIngredients)
+-
+-
+-
+-
+-    const [{isHover}, dropTarget] = useDrop<{id: string},  void, {isHover: boolean}>({
+-        accept: 'ingredient',
+-        collect: monitor => ({
+-            isHover: monitor.isOver()
+-        }), drop(id) {
+-            setIngredient(id)
+-        }
+-    });
+-
+-
+-    const setIngredient = useCallback((id:{id: string}) => {
+-        const ingredients = [...buns, ...sauces, ...mains]
+-        const ingredient = ingredients.find((item:TIngredient) => item._id === id.id)
+-         ingredient?.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
+-
+-            : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient?._id? ingredient._id : ''), ...ingredient}})
+-    }, [buns, sauces, mains, dispatch])
+-
+-    const constructor = useCallback(selectedIngredients.map((item:TIngredient & {id:string}, index:number) => {
+-        return (
+-            <section key={item.id}>
+-
+-                <BurgerConstructorItem id={item.id} name={item.name}
+-                                       index={index}
+-                                       image={item.image_mobile}
+-                                       price={item.price}/>
+-            </section>
+-        )
+-    }), [buns, sauces, mains, selectedIngredients])
+-
+-    const completeBurger = useCallback(() => {
+-        if(selectedIngredients.length > 0) {
+-            //@ts-ignore
+-            dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun._id]}))
+-        }
+-    }, [selectedIngredients, selectedBun, dispatch])
+-
+-    const handleOpenModal = useCallback(() => {
+-        getCookie('token') ?
+-            completeBurger()
+-            : navigate('/login')
+-
+-    }, [completeBurger, navigate])
+-
+-
+-    useMemo(() => {
+-        setTotalPrice(calculateTotalPrice(selectedBun, selectedIngredients))
+-    }, [selectedBun, selectedIngredients])
+-
+-
+-    return (
+-        <div className={styles.constructorContainer}>
+-            <div ref={dropTarget}
+-                 className={`${styles.constructorArea} ${isHover ? styles.constructorArea_isHover : ''}`}>
+-
+-
+-                <div className={styles.ban}>
+-                    {selectedBun ?
+-                        (<ConstructorElement type='top' isLocked={true} text={`${selectedBun.name} (верх)`}
+-                                             thumbnail={selectedBun.image_mobile}
+-                                             price={selectedBun.price}/>) :
+-                        (<Skeleton type='top' name='Выбирете булку!'/>)
+-                    }
+-                </div>
+-                <div className={styles.constructorList}>
+-                    {selectedIngredients.length > 0 ?
+-                        (<div className={styles.constructorList_container}>
+-                            {constructor}</div>)
+-                        : (<div className={styles.constructorList_skeleton}><Skeleton name='Выбирете ингредиент!'/>
+-                        </div>)
+-                    }
+-                </div>
+-                <div className={styles.ban}>
+-                    {selectedBun ?
+-                        (<ConstructorElement type='bottom' isLocked={true} text={`${selectedBun.name} (низ)`}
+-                                             thumbnail={selectedBun.image_mobile}
+-                                             price={selectedBun.price}/>) : (
+-                            <Skeleton type='bottom' name='Выбирете булку!'/>)}
+-                </div>
+-            </div>
+-            <div className={styles.constructorBottom}>
+-                <div className={styles.price}>
+-                    <span className={`text text_type_digits-medium`}>{totalPrice}</span>
+-                    <CurrencyIcon type={"primary"}/>
+-                </div>
+-
+-                <Button onClick={handleOpenModal} htmlType={'button'} type='primary' size='large'> <Link
+-                    to={`order`}
+-                    state={{background: location}}
+-                    className={styles.link}
+-                >Оформить
+-                    заказ </Link></Button>
+-
+-            </div>
+-            <>
+-
+-            </>
+-        </div>
+-    );
+-};
+-
+-
+-export default BurgerConstructor;
+\ No newline at end of file
+Index: react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.tsx b/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-ingredient/burger-ingredients-group/burger-ingredients-group.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,38 +0,0 @@
+-import styles from './burger-ingredients-group.module.scss'
+-import BurgerIngredientsItem from "../burger-ingredients-item/burger-ingredients-item";
+-import {hashCode} from "../../../utils/utils";
+-import {TIngredient} from "../../../utils/prop-types-constants";
+-import {FC} from "react";
+-
+-interface IBurgerIngredientsGroup {
+-    header: string;
+-    listIngredients: Array<TIngredient>;
+-}
+-
+-const BurgerIngredientsGroup:FC<IBurgerIngredientsGroup> = ({header, listIngredients}) => {
+-
+-
+-    const ingredients = listIngredients.map((item) => {
+-        return (
+-            <BurgerIngredientsItem key={hashCode(item.name)}
+-                                   ingredient={item}
+-            />
+-        )
+-    })
+-
+-
+-    return (
+-        <li className={styles.content}>
+-            <h3 className={`text text_type_main-medium pb-6 ${styles.header}`}>
+-                {header}
+-            </h3>
+-            <ul className={styles.list}>
+-                {ingredients}
+-            </ul>
+-        </li>
+-    );
+-};
+-
+-
+-export default BurgerIngredientsGroup;
+-
+Index: react-burger/src/componets/burger-tab/burger-tab.tsx
+===================================================================
+diff --git a/react-burger/src/componets/burger-tab/burger-tab.tsx b/react-burger/src/componets/burger-tab/burger-tab.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-tab/burger-tab.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,44 +0,0 @@
+-import {Link} from "react-scroll";
+-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+-import PropTypes from "prop-types";
+-import {FC} from "react";
+-
+-interface IBurgerTab{
+-    header: string
+-    currentTab: string
+-    setCurrentTab: (tab: string) => void
+-    to: string
+-    containerID: string,
+-    value: string
+-}
+-
+-const BurgerTab:FC<IBurgerTab> = ({header, currentTab, setCurrentTab, to, containerID, value}) => {
+-
+-
+-
+-    return (
+-        <Link
+-            to={to}
+-            spy={true}
+-            smooth={true}
+-            duration={700}
+-            offset={-20}
+-            containerId={containerID}
+-            onSetActive={() => setCurrentTab(value)}>
+-            <Tab value={value} active={currentTab === value} onClick={(type:string) => type ? currentTab : ''}>
+-                {header}
+-            </Tab>
+-        </Link>
+-    );
+-};
+-
+-BurgerTab.propTypes = {
+-    header: PropTypes.string.isRequired,
+-    currentTab: PropTypes.string.isRequired,
+-    setCurrentTab: PropTypes.func.isRequired,
+-    to: PropTypes.string.isRequired,
+-    containerID: PropTypes.string.isRequired,
+-    value: PropTypes.string.isRequired,
+-}
+-
+-export default BurgerTab;
+\ No newline at end of file
+Index: react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.module.scss b/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/skeleton/burger-constructor-skeleton/skeleton.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,25 +0,0 @@
+-.skeleton{
+-  width: 100%;
+-  max-width: 536px;
+-  min-height: 80px;
+-  padding: 16px 24px;
+-
+-  display: flex;
+-  flex-direction: row;
+-  justify-content: center;
+-  align-items: center;
+-
+-  background: #2f2f37;
+-  border-radius: 40px;
+-
+-  font-size: 16px;
+-  line-height: 24px;
+-  box-sizing: border-box;
+-
+-  &.top{
+-    border-radius: 88px 88px 40px 40px;
+-  }
+-  &.bottom{
+-    border-radius: 40px 40px 88px 88px;
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/custom-hooks/input/use-input.ts
+===================================================================
+diff --git a/react-burger/src/custom-hooks/input/use-input.ts b/react-burger/src/custom-hooks/input/use-input.ts
+deleted file mode 100644
+--- a/react-burger/src/custom-hooks/input/use-input.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,15 +0,0 @@
+-import {ChangeEvent, useCallback, useState} from "react";
+-
+-
+-
+-const useInput = <T>(inputValues: T) => {
+-    const [values, setValues] = useState<T>(inputValues);
+-
+-    const handleChange = useCallback( (e: ChangeEvent<HTMLInputElement>) => {
+-        const {value, name} = e.target;
+-        setValues({...values, [name]: value});
+-    }, [values])
+-    return {values, handleChange, setValues};
+-};
+-
+-export default useInput;
+\ No newline at end of file
+Index: react-burger/src/utils/URL.ts
+===================================================================
+diff --git a/react-burger/src/utils/URL.ts b/react-burger/src/utils/URL.ts
+deleted file mode 100644
+--- a/react-burger/src/utils/URL.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,12 +0,0 @@
+-export const BASE_URL = 'https://norma.nomoreparties.space/api'
+-const authPath = 'auth'
+-export const URL_ORDER = `/orders`
+-export const URL_GET_INGREDIENTS = `/ingredients`
+-export const URL_SENT_EMAIL = `${BASE_URL}/password-reset`
+-export const URL_RESET_PASSWORD = `/password-reset/reset`
+-export const URL_REGISTER_USER = `/${authPath}/register`
+-export const URL_LOGIN_USER = `/${authPath}/login`
+-export const URL_LOGOUT_USER = `/${authPath}/logout`
+-export const URL_GET_TOKEN = `/${authPath}/token`
+-export const URL_GET_USER = `/${authPath}/user`
+-
+Index: react-burger/src/componets/burger-constructor/burger-constructor.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/burger-constructor/burger-constructor.module.scss b/react-burger/src/componets/burger-constructor/burger-constructor.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/burger-constructor/burger-constructor.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,101 +0,0 @@
+-@import "../../styles/all";
+-
+-.constructorContainer {
+-  display: flex;
+-  flex-direction: column;
+-  justify-content: space-between;
+-  align-items: flex-end;
+-  row-gap: 40px;
+-
+-  grid-area: constructor;
+-
+-  height: 100%;
+-
+-  .constructorArea {
+-    display: flex;
+-    flex-direction: column;
+-    align-items: flex-end;
+-    row-gap: 16px;
+-    flex: 1;
+-    width: 100%;
+-
+-    .constructorList {
+-      width: 100%;
+-      flex-grow: 1;
+-      position: relative;
+-
+-      &_container {
+-
+-        width: 100%;
+-
+-        position: absolute;
+-        inset: 0;
+-
+-        display: flex;
+-        flex-direction: column;
+-
+-        gap: 16px 0;
+-
+-        padding: 0 16px;
+-        @include scroll
+-
+-      }
+-
+-      &_skeleton {
+-
+-        width: 100%;
+-
+-        position: absolute;
+-        inset: 0;
+-
+-        display: flex;
+-        flex-direction: column;
+-
+-        gap: 16px 0;
+-
+-        padding: 0 48px;
+-      }
+-    }
+-
+-    .ban {
+-      width: 100%;
+-      padding: 0 16px;
+-      display: flex;
+-      flex-direction: row;
+-      align-items: center;
+-      justify-content: flex-end;
+-    }
+-
+-
+-    &_isHover {
+-      box-shadow: 0px 0px 8px rgba(51, 51, 255, 0.25),
+-      0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 16px rgba(51, 51, 255, 0.5);;
+-      opacity: 0.8;
+-    }
+-
+-  }
+-
+-  .constructorBottom {
+-    display: flex;
+-    flex-direction: row;
+-    align-items: center;
+-    gap: 32px;
+-
+-    .link {
+-      text-decoration: none;
+-      color: white;
+-      text-align: center;
+-    }
+-
+-    .price {
+-      display: flex;
+-      align-items: center;
+-      gap: 8px;
+-
+-      svg {
+-        width: 40px;
+-        height: 40px;
+-      }
+-    }
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/custom-hooks/use-fetch-list.tsx
+===================================================================
+diff --git a/react-burger/src/custom-hooks/use-fetch-list.tsx b/react-burger/src/custom-hooks/use-fetch-list.tsx
+deleted file mode 100644
+--- a/react-burger/src/custom-hooks/use-fetch-list.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,19 +0,0 @@
+-import {useEffect} from "react";
+-import {useDispatch} from "react-redux";
+-import {getIngredients} from "../services/actions/ingedients-actions";
+-import {TDispatch} from "../services/reducers/root/root-reducer";
+-
+-const useFetchList = () => {
+-
+-    const dispatch = useDispatch<TDispatch>()
+-
+-    useEffect(() => {
+-
+-        dispatch(getIngredients())
+-
+-    }, [dispatch])
+-
+-};
+-
+-
+-export default useFetchList;
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.tsx
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.tsx b/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-ingredient/modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,21 +0,0 @@
+-import styles from './modal-content-ingredient-nutrition-type.module.scss'
+-import {FC} from "react";
+-
+-
+-interface IModalContentIngredientNutrition {
+-    header: string
+-    value: number | undefined
+-}
+-const ModalContentIngredientNutritionType:FC<IModalContentIngredientNutrition> = ({header, value = 0 }) => {
+-    return (
+-        <section
+-            className={`text text_type_digits-small text text_type_main-small text_color_inactive ${styles.nutrition}`}>
+-            <span>{header}</span>
+-            <span>{value}</span>
+-        </section>
+-    );
+-};
+-
+-
+-
+-export default ModalContentIngredientNutritionType;
+\ No newline at end of file
+Index: react-burger/src/pages/ingredient/info.tsx
+===================================================================
+diff --git a/react-burger/src/pages/ingredient/info.tsx b/react-burger/src/pages/ingredient/info.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/ingredient/info.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,12 +0,0 @@
+-import ModalContentIngredient from "../../componets/modal-content/modal-content-ingredient/modal-content-ingredient";
+-import styles from './info.module.scss'
+-
+-const Info = () => {
+-    return (
+-        <main className={styles.wrapper}>
+-            <ModalContentIngredient/>
+-        </main>
+-    );
+-};
+-
+-export default Info;
+\ No newline at end of file
+Index: react-burger/src/pages/auth/login/login.tsx
+===================================================================
+diff --git a/react-burger/src/pages/auth/login/login.tsx b/react-burger/src/pages/auth/login/login.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/auth/login/login.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,79 +0,0 @@
+-import {ChangeEvent, useCallback} from "react";
+-
+-import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+-
+-import styles from '../auth-css.module.scss'
+-import {useNavigate} from "react-router-dom";
+-import {useDispatch} from "react-redux";
+-import {query, SUCCESS_REQUEST_LOGIN_USER} from "../../../services/actions/user-actions";
+-import {URL_LOGIN_USER} from "../../../utils/URL";
+-import useInput from "../../../custom-hooks/input/use-input";
+-
+-type TInput = {
+-    email: string
+-    password: string
+-}
+-
+-const Login = () => {
+-
+-
+-    const navigate = useNavigate();
+-
+-
+-    const {values, handleChange} = useInput<TInput>({email: '', password: ''});
+-
+-    const dispatch = useDispatch();
+-
+-    const handleSubmit = useCallback((e: ChangeEvent<HTMLFormElement>) => {
+-        e.preventDefault();
+-        //@ts-ignore
+-        dispatch(query(SUCCESS_REQUEST_LOGIN_USER, URL_LOGIN_USER, values, null));
+-    }, [values, dispatch]);
+-
+-    return (
+-        <main className={styles.wrapper}>
+-            <section className={styles.content}>
+-
+-                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Вход</h1>
+-
+-                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
+-                    <EmailInput
+-                        name={'email'}
+-                        placeholder={'E-mail'}
+-                        onChange={handleChange}
+-                        value={values.email}
+-                        extraClass="ml-1"
+-                    />
+-                    <PasswordInput
+-                        name={'password'}
+-                        placeholder={'Пароль'}
+-                        onChange={handleChange}
+-                        value={values.password}
+-                    />
+-                    <Button type={'primary'} htmlType={'submit'}>Войти</Button>
+-                </form>
+-
+-                <footer className={styles.footer}>
+-                    <div className={`mb-4 text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Вы — новый пользователь?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-                                onClick={() => navigate('/register')} extraClass={styles.button}>
+-                            Зарегистрироваться
+-                        </Button>
+-                    </div>
+-                    <div className={`text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Забыли пароль?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-
+-                                onClick={() => navigate('/forgot-password')}
+-                                extraClass={styles.button}>
+-                            Восстановить пароль
+-                        </Button>
+-                    </div>
+-                </footer>
+-            </section>
+-        </main>
+-    );
+-};
+-
+-export default Login;
+\ No newline at end of file
+Index: react-burger/src/custom-hooks/auth/use-auth.tsx
+===================================================================
+diff --git a/react-burger/src/custom-hooks/auth/use-auth.tsx b/react-burger/src/custom-hooks/auth/use-auth.tsx
+deleted file mode 100644
+--- a/react-burger/src/custom-hooks/auth/use-auth.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,31 +0,0 @@
+-import {useEffect} from 'react';
+-import {useDispatch} from "react-redux";
+-import {getCookie} from "../../utils/cookie";
+-import {query, queryGET, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
+-import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
+-
+-
+-const useAuth = () => {
+-
+-    const dispatch = useDispatch();
+-
+-    const token = getCookie('token');
+-    const auth = getCookie('auth');
+-
+-
+-    useEffect(() => {
+-
+-        if (auth) {
+-            //@ts-ignore
+-            dispatch(queryGET(SUCCESS_REFRESH_USER, URL_GET_USER, auth))
+-
+-        } else {
+-            //@ts-ignore
+-            dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: token}))
+-        }
+-    }, [auth, token, dispatch]);
+-
+-
+-};
+-
+-export default useAuth;
+\ No newline at end of file
+Index: react-burger/src/utils/utils.ts
+===================================================================
+diff --git a/react-burger/src/utils/utils.ts b/react-burger/src/utils/utils.ts
+deleted file mode 100644
+--- a/react-burger/src/utils/utils.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,44 +0,0 @@
+-import {BASE_URL} from "./URL";
+-import {TIngredient} from "./prop-types-constants";
+-
+-export const hashCode = (s: string) => {
+-    return s.split("").reduce(function (a:number, b:string) {
+-        a = ((a << 5) - a) + b.charCodeAt(0) + Math.floor(Math.random() * 10) + 1;
+-        return a & a;
+-    }, 0);
+-}
+-
+-
+-
+-export const sortArray = <T> (dragIndex:number, hoverIndex:number, arr:T[]) => {
+-    const item: T = arr[dragIndex];
+-    const sortArr: T[] = [...arr]
+-    sortArr.splice(dragIndex, 1)
+-    sortArr.splice(hoverIndex, 0, item)
+-
+-    return sortArr
+-
+-}
+-
+-export const checkResponse = <T>(res:Response): T & {success:boolean} | Promise<any> => {
+-    return res?.ok ? res.json() : res.json().then((err:any) => Promise.reject(err))
+-}
+-
+-export const checkSuccess = <T> (res: T & {success:boolean} & Promise<any>): T & {success:boolean} | PromiseLike<any> => {
+-    return res && res?.success? res : res.then((err:any) => Promise.reject(err) )
+-}
+-
+-export const request = <T>(endpoint:string, options?:any) => {
+-    return fetch(`${BASE_URL}${endpoint}`, options)
+-        .then(checkResponse<T>)
+-        .then(checkSuccess<T>)
+-}
+-
+-
+-
+-export const calculateTotalPrice = (selectedBun: TIngredient, selectedIngredients: Array<TIngredient>) => {
+-    return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
+-        .reduce((totalPrice: number, ingredient: TIngredient) => totalPrice + ingredient.price, 0)
+-}
+-
+-
+Index: react-burger/src/pages/auth/register/register.tsx
+===================================================================
+diff --git a/react-burger/src/pages/auth/register/register.tsx b/react-burger/src/pages/auth/register/register.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/auth/register/register.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,79 +0,0 @@
+-import styles from "../auth-css.module.scss";
+-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {useNavigate} from "react-router-dom";
+-import {ChangeEvent, useCallback} from "react";
+-import {useDispatch} from "react-redux";
+-import {query, SUCCESS_REQUEST_REGISTER_USER} from "../../../services/actions/user-actions";
+-import {URL_REGISTER_USER} from "../../../utils/URL";
+-import useInput from "../../../custom-hooks/input/use-input";
+-
+-
+-type TInput = {
+-    email: string
+-    password: string
+-    name: string
+-}
+-
+-const Register = () => {
+-
+-
+-    const dispatch = useDispatch();
+-
+-    const {values, handleChange} = useInput<TInput>({email: '', password: '', name: ''});
+-
+-
+-    const navigate = useNavigate();
+-
+-
+-    const handleSubmit = useCallback((e:ChangeEvent<HTMLFormElement>) => {
+-        e.preventDefault();
+-        //@ts-ignore
+-        dispatch(query(SUCCESS_REQUEST_REGISTER_USER, URL_REGISTER_USER, values))
+-
+-    }, [values, dispatch])
+-
+-    return (
+-        <main className={styles.wrapper}>
+-            <section className={styles.content}>
+-
+-                <h1 className={`mb-6 text text_type_main-medium ${styles.header}`}>Регистрация</h1>
+-
+-
+-                <form className={`mb-20 ${styles.main}`} onSubmit={handleSubmit}>
+-                    <Input
+-                        name={'name'}
+-                        placeholder={'Имя'}
+-                        value={values.name}
+-                        onChange={handleChange}
+-                    />
+-                    <EmailInput
+-                        name={'email'}
+-                        placeholder={'E-mail'}
+-                        onChange={handleChange}
+-                        value={values.email}
+-                        extraClass="ml-1"
+-                    />
+-                    <PasswordInput
+-                        name={'password'}
+-                        placeholder={'Пароль'}
+-                        onChange={handleChange}
+-                        value={values.password}
+-                    />
+-                    <Button type={'primary'} htmlType={'submit'}>Зарегистрироваться</Button>
+-                </form>
+-
+-                <footer className={styles.footer}>
+-                    <div className={`mb-4 text text_type_main-default text_color_inactive ${styles.to}`}>
+-                        <p>Уже зарегитстрированы?</p>
+-                        <Button htmlType={'button'} type={'secondary'} size={'large'}
+-                                onClick={() => navigate('/login')} extraClass={styles.button}>
+-                            Войти
+-                        </Button>
+-                    </div>
+-                </footer>
+-            </section>
+-        </main>
+-    );
+-};
+-
+-export default Register;
+\ No newline at end of file
+Index: react-burger/src/pages/home/home.tsx
+===================================================================
+diff --git a/react-burger/src/pages/home/home.tsx b/react-burger/src/pages/home/home.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/home/home.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,25 +0,0 @@
+-import styles from './home.module.scss'
+-import BurgerIngredient from "../../componets/burger-ingredient/burger-ingredient";
+-import BurgerConstructor from "../../componets/burger-constructor/burger-constructor";
+-import {HTML5Backend} from "react-dnd-html5-backend";
+-import {DndProvider} from "react-dnd";
+-import {memo} from "react";
+-
+-
+-const Home = () => {
+-    return (
+-        <>
+-            <main className={styles.app}>
+-                <section className={styles.container}>
+-                    <h2 className={`text text_type_main-large ${styles.cyber_title}`}>Соберите бургер</h2>
+-                    <DndProvider backend={HTML5Backend}>
+-                        <BurgerIngredient/>
+-                        <BurgerConstructor/>
+-                    </DndProvider>
+-                </section>
+-            </main>
+-        </>
+-    );
+-};
+-
+-export default memo(Home);
+\ No newline at end of file
+Index: react-burger/src/reportWebVitals.ts
+===================================================================
+diff --git a/react-burger/src/reportWebVitals.ts b/react-burger/src/reportWebVitals.ts
+deleted file mode 100644
+--- a/react-burger/src/reportWebVitals.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,15 +0,0 @@
+-import { ReportHandler } from 'web-vitals';
+-
+-const reportWebVitals = (onPerfEntry?: ReportHandler) => {
+-  if (onPerfEntry && onPerfEntry instanceof Function) {
+-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+-      getCLS(onPerfEntry);
+-      getFID(onPerfEntry);
+-      getFCP(onPerfEntry);
+-      getLCP(onPerfEntry);
+-      getTTFB(onPerfEntry);
+-    });
+-  }
+-};
+-
+-export default reportWebVitals;
+Index: react-burger/src/componets/header-menu-item/header-menu-item.tsx
+===================================================================
+diff --git a/react-burger/src/componets/header-menu-item/header-menu-item.tsx b/react-burger/src/componets/header-menu-item/header-menu-item.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/header-menu-item/header-menu-item.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,92 +0,0 @@
+-import styles from './header-menu-item.module.scss'
+-import MenuItemContent from "./menu-item-content/menu-item-content";
+-import {useLocation} from "react-router-dom";
+-import {FC, ReactElement, useEffect} from "react";
+-
+-type TMenuItemState = {
+-    active: string
+-    inactive: string
+-}
+-
+-type TActiveClass = {
+-    [key: string]: string
+-    constructor: string
+-    listOrder: string
+-    account: string
+-}
+-
+-const menuItemState: TMenuItemState = {
+-    active: 'text_type_main-default',
+-    inactive: 'text_type_main-default text_color_inactive'
+-}
+-
+-interface IHeaderMenuItem {
+-    type: string
+-    activeClass: TActiveClass
+-    setActiveClass: (activeClass: TActiveClass) => void;
+-    inActiveIcon: ReactElement
+-    activeIcon: ReactElement
+-    menuItemName: string
+-    path: string
+-}
+-
+-const HeaderMenuItem: FC<IHeaderMenuItem> = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}) => {
+-
+-    const location = useLocation()
+-
+-    useEffect(() => {
+-        if (location.pathname !== '/' && location.pathname !== '/order' && location.pathname !== '/profile') {
+-            setActiveClass
+-            ({
+-                constructor: menuItemState.inactive,
+-                listOrder: menuItemState.inactive,
+-                account: menuItemState.inactive
+-            })
+-        }
+-    }, [location, setActiveClass]);
+-
+-
+-    const handleChangeMenuItem = () => {
+-        if (type === 'constructor') {
+-            setActiveClass({
+-                constructor: menuItemState.active,
+-                listOrder: menuItemState.inactive,
+-                account: menuItemState.inactive
+-            })
+-
+-
+-        }
+-        if (type === 'listOrder') {
+-            setActiveClass({
+-                constructor: menuItemState.inactive,
+-                listOrder: menuItemState.active,
+-                account: menuItemState.inactive
+-            })
+-
+-        }
+-        if (type === 'account') {
+-            setActiveClass({
+-                constructor: menuItemState.inactive,
+-                listOrder: menuItemState.inactive,
+-                account: menuItemState.active
+-            })
+-
+-        }
+-
+-
+-    }
+-    return (
+-        <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
+-            <MenuItemContent activeClass={activeClass['type']} inActiveIcon={inActiveIcon}
+-                             activeIcon={activeIcon}
+-                             menuItemName={menuItemName}
+-                             path={path}
+-            />
+-        </section>
+-    );
+-};
+-
+-
+-
+-
+-export default HeaderMenuItem;
+\ No newline at end of file
+Index: react-burger/src/componets/app-header/app-header.tsx
+===================================================================
+diff --git a/react-burger/src/componets/app-header/app-header.tsx b/react-burger/src/componets/app-header/app-header.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/app-header/app-header.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,58 +0,0 @@
+-import {FC, useState} from "react";
+-import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
+-
+-import styles from './app-header.module.scss'
+-import HeaderMenuItem from "../header-menu-item/header-menu-item";
+-import Glitch from "../glitch-effect/glitch";
+-import {TYPE_HEADER_MENU_ITEM} from "../../utils/constants";
+-import {Link} from "react-router-dom";
+-
+-
+-type THeaderMenuItemClasses = {
+-    constructor: string
+-    listOrder: string
+-    account: string
+-}
+-
+-const AppHeader = () => {
+-
+-    const [activeClassButton, setActiveClassButton] = useState<THeaderMenuItemClasses>({
+-        constructor: 'text_type_main-default ',
+-        listOrder: 'text_type_main-default text_color_inactive',
+-        account: 'text_type_main-default text_color_inactive'
+-    })
+-
+-
+-    return (
+-        <div className={`pt-4 pb-4 ${styles.header}`}>
+-            <div className={styles.leftMenu}>
+-                <HeaderMenuItem activeClass={activeClassButton}
+-                                setActiveClass={setActiveClassButton}
+-                                type={TYPE_HEADER_MENU_ITEM.CONSTRUCTOR} inActiveIcon={<BurgerIcon type="secondary"/>}
+-                                activeIcon={<BurgerIcon type="primary"/>} menuItemName={'Конструктор'}
+-                                path='/'
+-                />
+-                <HeaderMenuItem activeClass={activeClassButton}
+-                                setActiveClass={setActiveClassButton}
+-                                type={TYPE_HEADER_MENU_ITEM.LIST_ORDER} inActiveIcon={<ListIcon type="secondary"/>}
+-                                activeIcon={<ListIcon type="primary"/>} menuItemName={'Лента заказов'}
+-                                path='/order'
+-                />
+-            </div>
+-            <div className={styles.logo}>
+-                <Link to={'/'}><Logo/></Link>
+-                <Glitch glitchClass='glitch-state' glitchImage={<Logo/>}/>
+-            </div>
+-            <div className={styles.rightMenu}>
+-                <HeaderMenuItem activeClass={activeClassButton}
+-                                setActiveClass={setActiveClassButton}
+-                                type={TYPE_HEADER_MENU_ITEM.ACCOUNT} inActiveIcon={<ProfileIcon type="secondary"/>}
+-                                activeIcon={<ProfileIcon type="primary"/>} menuItemName={'Личный кабинет'}
+-                                path='/profile'
+-                />
+-            </div>
+-        </div>
+-    );
+-};
+-
+-export default AppHeader;
+\ No newline at end of file
+Index: react-burger/src/componets/protected-route/protected-route.tsx
+===================================================================
+diff --git a/react-burger/src/componets/protected-route/protected-route.tsx b/react-burger/src/componets/protected-route/protected-route.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/protected-route/protected-route.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,36 +0,0 @@
+-import {useSelector} from "react-redux";
+-import {Navigate, useLocation} from "react-router-dom";
+-import PropTypes from "prop-types";
+-import {FC, ReactElement} from "react";
+-import {TStore} from "../../services/reducers/root/root-reducer";
+-
+-interface IProtectedRoute {
+-    element: ReactElement
+-    isUnProtected?: boolean
+-}
+-
+-const ProtectedRoute:FC<IProtectedRoute> = ({element, isUnProtected = false}) => {
+-
+-    const isLogIn = useSelector((store:TStore) => store.user.isLogIn);
+-
+-    const location = useLocation()
+-
+-
+-    if (isLogIn && isUnProtected) {
+-        return <Navigate to={location.state?.target || '/'} replace/>;
+-    }
+-
+-    if (!isLogIn && !isUnProtected) {
+-        return <Navigate to='/login' state={{target: location}} replace/>;
+-    }
+-
+-
+-    return element
+-};
+-
+-ProtectedRoute.propTypes = {
+-    element: PropTypes.element.isRequired
+-}
+-
+-
+-export default ProtectedRoute;
+\ No newline at end of file
+Index: react-burger/src/utils/cookie.ts
+===================================================================
+diff --git a/react-burger/src/utils/cookie.ts b/react-burger/src/utils/cookie.ts
+deleted file mode 100644
+--- a/react-burger/src/utils/cookie.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,30 +0,0 @@
+-export function getCookie(name: string): string {
+-    const matches : RegExpMatchArray | null = document.cookie.match(
+-        new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+-    );
+-    return matches ? decodeURIComponent(matches[1]) : '';
+-}
+-
+-export function setCookie(name: string, value:any, props?:{[expires:string]:number | string | Date} ) {
+-
+-    props = props || {};
+-    let exp: any = props.expires;
+-    if (typeof exp == 'number' && exp) {
+-        const d: Date = new Date();
+-        d.setTime(d.getTime() + exp * 1000);
+-        exp = props.expires = d;
+-    }
+-    if (exp && exp.toUTCString) {
+-        props.expires = exp.toUTCString();
+-    }
+-    value = encodeURIComponent(value);
+-    let updatedCookie: string = name + '=' + value;
+-    for (const propName in props) {
+-        updatedCookie += '; ' + propName;
+-        const propValue: any = props[propName];
+-        if (propValue !== true) {
+-            updatedCookie += '=' + propValue;
+-        }
+-    }
+-    document.cookie = updatedCookie;
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/app/app.tsx
+===================================================================
+diff --git a/react-burger/src/componets/app/app.tsx b/react-burger/src/componets/app/app.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/app/app.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,66 +0,0 @@
+-import {Route, Routes, useLocation} from "react-router-dom";
+-import Home from "../../pages/home/home";
+-import AppHeader from "../app-header/app-header";
+-import Login from "../../pages/auth/login/login";
+-import Register from "../../pages/auth/register/register";
+-import ForgotPassword from "../../pages/auth/forgot-password/forgot-password";
+-import ResetPassword from "../../pages/auth/reset-password/reset-password";
+-import Profile from "../../pages/profile/profile";
+-import {useSelector} from "react-redux";
+-import useFetchList from "../../custom-hooks/use-fetch-list";
+-import MainPreloader from "../preloader/main-preloader/main-preloader";
+-import Info from "../../pages/ingredient/info";
+-import React, {FC} from "react";
+-import ModalIngredientInfo
+-    from "../burger-ingredient/burger-ingredients-item/moda-ingredient-info/modal-ingredient-info";
+-import ProtectedRoute from "../protected-route/protected-route";
+-import NotFound from "../../pages/not-found/not-found";
+-import OrderComplete from "../burger-constructor/burger-cunstructor-item/order-complete";
+-import useAuth from "../../custom-hooks/auth/use-auth";
+-
+-const App:FC = () => {
+-
+-    //@ts-ignore
+-    const hasLoading = useSelector(store => store.ingredients.hasLoading)
+-    useFetchList()
+-
+-    useAuth()
+-
+-    const location = useLocation();
+-
+-    const background = location.state && location.state.background
+-
+-    return (
+-        <>
+-            {hasLoading ? (<MainPreloader/>) :
+-                (
+-                    <>
+-                        <AppHeader/>
+-                        <Routes location={background || location}>
+-                            <Route index element={<Home/>}/>
+-                            <Route path='/login' element={<ProtectedRoute isUnProtected element={<Login/>}/>}/>
+-                            <Route path='/register' element={<ProtectedRoute isUnProtected element={<Register/>}/>}/>
+-                            <Route path='/forgot-password'
+-                                   element={<ProtectedRoute isUnProtected element={<ForgotPassword/>}/>}/>
+-                            <Route path='/reset-password'
+-                                   element={<ProtectedRoute isUnProtected element={<ResetPassword/>}/>}/>
+-                            <Route path='/profile' element={<ProtectedRoute element={<Profile/>}/>}/>
+-                            <Route path='ingredient/:id' element={<Info/>}/>
+-                            <Route path="*" element={<NotFound/>}/>
+-
+-                        </Routes>
+-
+-                        {background && (
+-                            <Routes>
+-                                <Route path='ingredient/:id' element={<ModalIngredientInfo/>}/>
+-                                <Route path='/order' element={<OrderComplete/>}/>
+-                            </Routes>
+-                        )}
+-
+-                    </>
+-                )}
+-        </>
+-    );
+-}
+-
+-export default App;
+\ No newline at end of file
+Index: react-burger/src/componets/glitch-effect/glitch.scss
+===================================================================
+diff --git a/react-burger/src/componets/glitch-effect/glitch.scss b/react-burger/src/componets/glitch-effect/glitch.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/glitch-effect/glitch.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,134 +0,0 @@
+-.glitch-state {
+-  display: block;
+-  animation-duration: 2s;
+-  animation-timing-function: linear;
+-  animation-iteration-count: infinite;
+-  animation-name: glitch;
+-  animation-direction: alternate;
+-  transform: rotate(-2deg);
+-  position: absolute;
+-  background-size: 100%;
+-  background-position: top;
+-  background-repeat: no-repeat;
+-}
+-
+-.glitch-hover {
+-  position: absolute;
+-  background-size: 100%;
+-  background-position: top;
+-  background-repeat: no-repeat;
+-  opacity: 0;
+-
+-  &:hover {
+-    opacity: 1;
+-    display: block;
+-    animation-duration: 2s;
+-    animation-timing-function: linear;
+-    animation-iteration-count: infinite;
+-    animation-name: glitch;
+-    animation-direction: alternate;
+-    transform: rotate(-2deg);
+-  }
+-}
+-
+-.glitch_hover :before {
+-  animation-duration: 2s;
+-  animation-timing-function: linear;
+-  animation-iteration-count: infinite;
+-  animation-name: glitch;
+-  animation-direction: alternate;
+-  transform: rotate(-2deg);
+-
+-}
+-
+-@keyframes glitch {
+-  0% {
+-    opacity: 1;
+-    transform: translateZ(0) rotate(-2deg);
+-    clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%)
+-  }
+-  2% {
+-    clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
+-    transform: translate(-5px) rotate(-2deg)
+-  }
+-  6% {
+-    clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
+-    transform: translate(5px) rotate(-2deg)
+-  }
+-  8% {
+-    clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
+-    transform: translate(-5px) rotate(-2deg)
+-  }
+-  9% {
+-    clip-path: polygon(0 78%, 100% 78%, 100% 100%, 0 100%);
+-    transform: translate(0) rotate(-2deg)
+-  }
+-  10% {
+-    clip-path: polygon(0 54%, 100% 54%, 100% 44%, 0 44%);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  13% {
+-    clip-path: polygon(0 54%, 100% 54%, 100% 44%, 0 44%);
+-    transform: translateZ(0) rotate(-2deg)
+-  }
+-  13.1% {
+-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  15% {
+-    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  20% {
+-    clip-path: polygon(0 60%, 100% 60%, 100% 40%, 0 40%);
+-    transform: translate3d(-5px, 0, 0) rotate(-2deg)
+-  }
+-  20.1% {
+-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  25% {
+-    clip-path: polygon(0 85%, 100% 85%, 100% 40%, 0 40%);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  30% {
+-    clip-path: polygon(0 85%, 100% 85%, 100% 40%, 0 40%);
+-    transform: translate3d(-5px, 0, 0) rotate(-2deg)
+-  }
+-  30.1% {
+-    clip-path: polygon(0 0, 0 0, 0 0, 0 0) rotate(-2deg)
+-  }
+-  35% {
+-    clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
+-    transform: translate(-5px) rotate(-2deg)
+-  }
+-  40% {
+-    clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
+-    transform: translate(5px) rotate(-2deg)
+-  }
+-  45% {
+-    clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
+-    transform: translate(-5px) rotate(-2deg)
+-  }
+-  50% {
+-    clip-path: polygon(0 63%, 100% 63%, 100% 80%, 0 80%);
+-    transform: translate(0) rotate(-2deg)
+-  }
+-  55% {
+-    clip-path: polygon(0 10%, 100% 10%, 100% 0, 0 0);
+-    transform: translate3d(5px, 0, 0) rotate(-2deg)
+-  }
+-  60% {
+-    clip-path: polygon(0 10%, 100% 10%, 100% 0, 0 0);
+-    transform: translateZ(0) rotate(-2deg);
+-    opacity: 1
+-  }
+-  60.1% {
+-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+-    opacity: 1
+-  }
+-  to {
+-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+-    opacity: 1
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/preloader/main-preloader/main-preloader.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/preloader/main-preloader/main-preloader.module.scss b/react-burger/src/componets/preloader/main-preloader/main-preloader.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/preloader/main-preloader/main-preloader.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,236 +0,0 @@
+-$m-01: #3c4359;
+-$m-02: #546c8c;
+-$m-03: #7ea1bf;
+-$m-04: #bacbd9;
+-$m-05: #bf80a9;
+-
+-
+-.wrapper {
+-  margin: 0;
+-  padding: 0;
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  height: 100vh;
+-  width: 100%;
+-  background: no-repeat url('../../../images/preloader/space.png');
+-
+-  .content {
+-    width: 300px;
+-    height: 300px;
+-    position: relative;
+-    display: flex;
+-    justify-content: center;
+-    align-items: center;
+-
+-    .planet {
+-
+-      width: 65%;
+-      height: 65%;
+-      background-color: $m-02;
+-      border-radius: 100%;
+-      position: absolute;
+-      display: flex;
+-      align-items: center;
+-      transform-origin: center center;
+-      box-shadow: inset 2px -10px 0px rgba(0, 0, 0, 0.1);
+-      animation: planet 5s ease infinite alternate;
+-
+-      @keyframes planet {
+-        0% {
+-          transform: rotate(10deg);
+-        }
+-
+-        100% {
+-          transform: rotate(-10deg);
+-        }
+-      }
+-
+-      .ring {
+-
+-        position: absolute;
+-        width: 300px;
+-        height: 300px;
+-        border-radius: 100%;
+-        background-color: $m-04;
+-        display: flex;
+-        align-items: center;
+-        justify-content: center;
+-        transform-origin: 33% center;
+-        box-shadow: 2px -10px 0px rgba(0, 0, 0, 0.1),
+-        inset -5px -10px 0px rgba(0, 0, 0, 0.1);
+-        animation: ring 3s ease infinite;
+-
+-        @keyframes ring {
+-          0% {
+-            transform: rotateX(110deg) rotateZ(0deg) translate(-50px, 5px);
+-          }
+-
+-          100% {
+-            transform: rotateX(110deg) rotateZ(360deg) translate(-50px, 5px);
+-          }
+-        }
+-
+-        /* small ball */
+-        &:before {
+-          content: "";
+-          position: absolute;
+-          width: 10px;
+-          height: 30px;
+-          border-radius: 100%;
+-          background-color: $m-03;
+-          z-index: 2;
+-          left: calc(0px - 5px);
+-          box-shadow: inset -3px 3px 0px rgba(0, 0, 0, 0.2);
+-        }
+-
+-        /* inner ring */
+-        &:after {
+-          content: "";
+-          position: absolute;
+-          width: 240px;
+-          height: 240px;
+-          border-radius: 100%;
+-          background-color: $m-03;
+-          box-shadow: inset 2px -10px 0px rgba(0, 0, 0, 0.1);
+-        }
+-      }
+-
+-
+-      .coverRing {
+-
+-        position: absolute;
+-        width: 100%;
+-        height: 50%;
+-        border-bottom-left-radius: 80%;
+-        border-bottom-right-radius: 80%;
+-        border-top-left-radius: 100px;
+-        border-top-right-radius: 100px;
+-        transform: translate(0px, -17px);
+-        background-color: $m-02;
+-        z-index: 2;
+-        box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
+-
+-      }
+-
+-      .spots {
+-        width: 100%;
+-        height: 100%;
+-        display: flex;
+-        align-items: center;
+-        justify-content: center;
+-        position: absolute;
+-        z-index: 2;
+-
+-        span {
+-          width: 30px;
+-          height: 30px;
+-          background-color: $m-01;
+-          position: absolute;
+-          border-radius: 100%;
+-          box-shadow: inset -2px 3px 0px rgba(0, 0, 0, 0.3);
+-          animation: dots 5s ease infinite alternate;
+-
+-          @keyframes dots {
+-            0% {
+-              box-shadow: inset -3px 3px 0px rgba(0, 0, 0, 0.3);
+-            }
+-            100% {
+-              box-shadow: inset 3px 3px 0px rgba(0, 0, 0, 0.3);
+-            }
+-          }
+-
+-          &:nth-child(1) {
+-            top: 20px;
+-            right: 50px;
+-          }
+-
+-          &:nth-child(2) {
+-            top: 40px;
+-            left: 50px;
+-            width: 15px;
+-            height: 15px;
+-          }
+-
+-          &:nth-child(3) {
+-            top: 80px;
+-            left: 20px;
+-            width: 25px;
+-            height: 25px;
+-          }
+-
+-          &:nth-child(4) {
+-            top: 80px;
+-            left: 90px;
+-            width: 40px;
+-            height: 40px;
+-          }
+-
+-          &:nth-child(5) {
+-            top: 160px;
+-            left: 70px;
+-            width: 15px;
+-            height: 15px;
+-          }
+-
+-          &:nth-child(6) {
+-            top: 165px;
+-            left: 125px;
+-            width: 10px;
+-            height: 10px;
+-          }
+-
+-          &:nth-child(7) {
+-            top: 90px;
+-            left: 150px;
+-            width: 15px;
+-            height: 15px;
+-          }
+-        }
+-      }
+-    }
+-
+-    p {
+-      color: $m-04;
+-      font-size: 14px;
+-      z-index: 2;
+-      position: absolute;
+-      bottom: -20px;
+-      font-family: "Roboto Mono", monospace;
+-      animation: text 4s ease infinite;
+-      width: 100px;
+-      text-align: center;
+-
+-      @keyframes text {
+-        0% {
+-          transform: translateX(-30px);
+-          letter-spacing: 0px;
+-          color: $m-04;
+-        }
+-
+-        25% {
+-          letter-spacing: 3px;
+-          color: $m-03;
+-        }
+-
+-        50% {
+-          transform: translateX(30px);
+-          letter-spacing: 0px;
+-          color: $m-04;
+-        }
+-
+-        75% {
+-          letter-spacing: 3px;
+-          color: $m-03;
+-        }
+-
+-        100% {
+-          transform: translateX(-30px);
+-          letter-spacing: 0px;
+-          color: $m-04;
+-        }
+-      }
+-    }
+-  }
+-}
+-
+Index: react-burger/src/pages/ingredient/info.module.scss
+===================================================================
+diff --git a/react-burger/src/pages/ingredient/info.module.scss b/react-burger/src/pages/ingredient/info.module.scss
+deleted file mode 100644
+--- a/react-burger/src/pages/ingredient/info.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,5 +0,0 @@
+-.wrapper {
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/glitch-effect/glitch.tsx
+===================================================================
+diff --git a/react-burger/src/componets/glitch-effect/glitch.tsx b/react-burger/src/componets/glitch-effect/glitch.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/glitch-effect/glitch.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,22 +0,0 @@
+-import {FC, ReactElement} from 'react';
+-
+-import './glitch.scss'
+-
+-interface IGlitch {
+-    glitchImage: ReactElement
+-    glitchClass: string
+-}
+-
+-const Glitch: FC<IGlitch> = ({glitchImage, glitchClass}) => {
+-    return (
+-        <>
+-            <div className={glitchClass}>
+-                {glitchImage}
+-            </div>
+-        </>
+-    );
+-};
+-
+-
+-
+-export default Glitch;
+\ No newline at end of file
+Index: react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.module.scss b/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/modal-content/modal-content-order-complete/modal-content-order-complete.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,43 +0,0 @@
+-.orderContent {
+-  display: flex;
+-  flex-direction: column;
+-  justify-content: center;
+-  align-items: center;
+-
+-  .id {
+-    display: flex;
+-    flex-direction: column;
+-    justify-content: center;
+-    align-items: center;
+-  }
+-
+-  .done {
+-    display: flex;
+-    flex-direction: column;
+-    justify-content: center;
+-    align-items: center;
+-  }
+-
+-  .otherInfo {
+-    display: flex;
+-    flex-direction: column;
+-    justify-content: center;
+-    align-items: center;
+-  }
+-
+-  .header {
+-    text-align: center;
+-  }
+-}
+-
+-.fail {
+-  display: flex;
+-  flex-direction: column;
+-  justify-content: center;
+-  align-items: center;
+-  text-align: center;
+-
+-  .text {
+-    color: red;
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/index.tsx
+===================================================================
+diff --git a/react-burger/src/index.tsx b/react-burger/src/index.tsx
+deleted file mode 100644
+--- a/react-burger/src/index.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,31 +0,0 @@
+-import React from 'react';
+-import ReactDOM from 'react-dom/client';
+-import './index.scss';
+-import App from './componets/app/app';
+-import reportWebVitals from './reportWebVitals';
+-import {Provider} from 'react-redux';
+-import {rootReducer} from './services/reducers/root/root-reducer';
+-import thunk from 'redux-thunk';
+-import {configureStore} from "@reduxjs/toolkit";
+-import {BrowserRouter} from "react-router-dom";
+-
+-const root = ReactDOM.createRoot(
+-    document.getElementById('root') as HTMLElement
+-);
+-
+-
+-export const store = configureStore({reducer: rootReducer, middleware: [thunk], devTools: true});
+-root.render(
+-    <React.StrictMode>
+-        <BrowserRouter>
+-        <Provider store={store}>
+-            <App/>
+-        </Provider>
+-        </BrowserRouter>
+-    </React.StrictMode>
+-);
+-
+-// If you want to start measuring performance in your home, pass a function
+-// to log results (for example: reportWebVitals(console.log))
+-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+-reportWebVitals();
+Index: react-burger/src/services/actions/user-actions.ts
+===================================================================
+diff --git a/react-burger/src/services/actions/user-actions.ts b/react-burger/src/services/actions/user-actions.ts
+deleted file mode 100644
+--- a/react-burger/src/services/actions/user-actions.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,55 +0,0 @@
+-import {request} from "../../utils/utils";
+-import {AppThunk, TDispatch} from "../reducers/root/root-reducer";
+-
+-export const REQUEST_USER = 'REQUEST_USER'
+-export const SUCCESS_REQUEST_REGISTER_USER = 'SUCCESS_REQUEST_REGISTER_USER'
+-
+-export const SUCCESS_REFRESH_USER = 'SUCCESS_REFRESH_USER'
+-
+-export const SUCCESS_REQUEST_LOGIN_USER = 'SUCCESS_REQUEST_LOGIN_USER'
+-
+-export const SUCCESS_REQUEST_LOGOUT_USER = 'SUCCESS_REQUEST_LOGOUT_USER'
+-
+-export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN'
+-
+-export const ERROR_REQUEST_USER = 'ERROR_REQUEST_LOGOUT_USER'
+-
+-type TUserResponseOptions = {
+-    successUserAction: string
+-    url: string
+-    body? : any,
+-    token? : string
+-}
+-
+-
+-export const query = ({successUserAction, url, body, token}: TUserResponseOptions):AppThunk => async (dispatch: TDispatch) => {
+-
+-    dispatch({type: REQUEST_USER})
+-
+-    await request(url, {
+-        method: token ? body ? 'PATCH' : 'GET' : 'POST',
+-        headers: {
+-            authorization: token,
+-            'Content-Type': 'application/json;charset=utf-8',
+-        }, body: JSON.stringify(body)
+-    })
+-        .then(data => dispatch({type: successUserAction, payload: data}))
+-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
+-
+-}
+-
+-export const queryGET = ({successUserAction, url, token}:TUserResponseOptions) => async (dispatch: (arg: { type: string; payload?: any; }) => void) => {
+-
+-    dispatch({type: REQUEST_USER})
+-
+-    await request(url, {
+-        method:  'GET',
+-        headers: {
+-            authorization: token,
+-            'Content-Type': 'application/json;charset=utf-8',
+-        }
+-    })
+-        .then(data => dispatch({type: successUserAction, payload: data}))
+-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/utils/cookie.js
+===================================================================
+diff --git a/react-burger/src/utils/cookie.js b/react-burger/src/utils/cookie.js
+deleted file mode 100644
+--- a/react-burger/src/utils/cookie.js	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,29 +0,0 @@
+-export function getCookie(name) {
+-    const matches = document.cookie.match(
+-        new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
+-    );
+-    return matches ? decodeURIComponent(matches[1]) : undefined;
+-}
+-
+-export function setCookie(name, value, props) {
+-    props = props || {};
+-    let exp = props.expires;
+-    if (typeof exp == 'number' && exp) {
+-        const d = new Date();
+-        d.setTime(d.getTime() + exp * 1000);
+-        exp = props.expires = d;
+-    }
+-    if (exp && exp.toUTCString) {
+-        props.expires = exp.toUTCString();
+-    }
+-    value = encodeURIComponent(value);
+-    let updatedCookie = name + '=' + value;
+-    for (const propName in props) {
+-        updatedCookie += '; ' + propName;
+-        const propValue = props[propName];
+-        if (propValue !== true) {
+-            updatedCookie += '=' + propValue;
+-        }
+-    }
+-    document.cookie = updatedCookie;
+-}
+\ No newline at end of file
+Index: react-burger/src/services/reducers/current-ingredient-reducer.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/current-ingredient-reducer.ts b/react-burger/src/services/reducers/current-ingredient-reducer.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/current-ingredient-reducer.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,34 +0,0 @@
+-import {REMOVE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT} from "../actions/current-ingredient-actions";
+-
+-
+-const initialState = {
+-    imageLarge: '',
+-    name: '',
+-    nutrients: {
+-        calories: 0,
+-        proteins: 0,
+-        fat: 0,
+-        carbohydrates: 0
+-    }
+-}
+-//@ts-ignore info
+-export const currentIngredientReducer = (state = initialState, action) => {
+-    switch (action.type) {
+-        case SET_CURRENT_INGREDIENT:
+-            return {
+-                imageLarge: action.payload.image_large,
+-                name: action.payload.name,
+-                nutrients: {
+-                    calories: action.payload.calories,
+-                    proteins: action.payload.proteins,
+-                    fat: action.payload.fat,
+-                    carbohydrates: action.payload.carbohydrates
+-                }
+-            }
+-        case REMOVE_CURRENT_INGREDIENT:
+-            return initialState
+-
+-        default :
+-            return state
+-    }
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/modal/modal-overlay/modal-overlay.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/modal/modal-overlay/modal-overlay.module.scss b/react-burger/src/componets/modal/modal-overlay/modal-overlay.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/modal/modal-overlay/modal-overlay.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,8 +0,0 @@
+-.modalOverlay {
+-  inset: 0;
+-  position: absolute;
+-  width: 100%;
+-  height: 100%;
+-  background: #2f2f37;
+-  opacity: 0.6;
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order-feed.tsx
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order-feed.tsx b/react-burger/src/componets/order-feed/order-feed.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order-feed.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,11 +0,0 @@
+-import React from 'react';
+-import styles from './order-feed.module.scss'
+-const OrderFeed = () => {
+-    return (
+-        <section className={styles.wrapper}>
+-
+-        </section>
+-    );
+-};
+-
+-export default OrderFeed;
+\ No newline at end of file
+Index: react-burger/src/custom-hooks/use-escape.tsx
+===================================================================
+diff --git a/react-burger/src/custom-hooks/use-escape.tsx b/react-burger/src/custom-hooks/use-escape.tsx
+deleted file mode 100644
+--- a/react-burger/src/custom-hooks/use-escape.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,20 +0,0 @@
+-import {useEffect} from 'react';
+-
+-const useEscape = (close: () => void) => {
+-
+-    const pressed = (e: KeyboardEvent): void => {
+-        if (e.key === 'Escape')
+-            close()
+-    }
+-
+-    useEffect(() => {
+-        document.addEventListener('keydown', pressed, true)
+-
+-        return () => (
+-            document.removeEventListener('keydown', pressed, true)
+-        )
+-    })
+-
+-};
+-
+-export default useEscape;
+\ No newline at end of file
+Index: react-burger/src/componets/preloader/order-preloader/order-preloader.tsx
+===================================================================
+diff --git a/react-burger/src/componets/preloader/order-preloader/order-preloader.tsx b/react-burger/src/componets/preloader/order-preloader/order-preloader.tsx
+deleted file mode 100644
+--- a/react-burger/src/componets/preloader/order-preloader/order-preloader.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,12 +0,0 @@
+-import React from 'react';
+-
+-const OrderPreloader = () => {
+-    return (
+-        <div>
+-            <h1 className="title">Подтверждаем заказ...</h1>
+-            <div className="rainbow-marker-loader"></div>
+-        </div>
+-    );
+-};
+-
+-export default OrderPreloader;
+\ No newline at end of file
+Index: react-burger/src/pages/not-found/not-found.tsx
+===================================================================
+diff --git a/react-burger/src/pages/not-found/not-found.tsx b/react-burger/src/pages/not-found/not-found.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/not-found/not-found.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,14 +0,0 @@
+-import React from 'react';
+-
+-import styles from './not-found.module.scss'
+-
+-const NotFound = () => {
+-    return (
+-        <main className={styles.wrapper}>
+-            <h1 className={`text text_type_main-large text text_type_digits-large ${styles.title}`}>ОШИБКА 404! СТРАНИЦА
+-                НЕ НАЙДЕНА</h1>
+-        </main>
+-    );
+-};
+-
+-export default NotFound;
+\ No newline at end of file
+Index: react-burger/src/services/actions/selected-ingedients-actions.ts
+===================================================================
+diff --git a/react-burger/src/services/actions/selected-ingedients-actions.ts b/react-burger/src/services/actions/selected-ingedients-actions.ts
+deleted file mode 100644
+--- a/react-burger/src/services/actions/selected-ingedients-actions.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,5 +0,0 @@
+-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+-export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+-export const ADD_BUN = 'ADD_BUN';
+-export const REMOVE_BUN = 'REMOVE_BUN';
+-export const SET_INGREDIENTS = 'SET_INGREDIENTS';
+\ No newline at end of file
+Index: react-burger/src/pages/profile/profile.tsx
+===================================================================
+diff --git a/react-burger/src/pages/profile/profile.tsx b/react-burger/src/pages/profile/profile.tsx
+deleted file mode 100644
+--- a/react-burger/src/pages/profile/profile.tsx	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,95 +0,0 @@
+-import {ChangeEvent, SyntheticEvent, useCallback, useState} from "react";
+-import styles from './profile.module.scss'
+-import {useNavigate} from "react-router-dom";
+-import {PROFILE_MENU_ITEMS} from "../../utils/constants";
+-import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+-import {useDispatch, useSelector} from "react-redux";
+-import {query, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
+-import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
+-import {getCookie} from "../../utils/cookie";
+-import useInput from "../../custom-hooks/input/use-input";
+-import {TStore} from "../../services/reducers/root/root-reducer";
+-
+-const Profile = () => {
+-
+-    const user = useSelector((store:TStore) => store.user.user);
+-    const isLogin = useSelector((store:TStore) => store.user.isLogIn);
+-
+-    const {values, handleChange, setValues} = useInput({name: user.name, email: user.email, password: ''});
+-
+-
+-    const navigate = useNavigate()
+-    const dispatch = useDispatch()
+-
+-    const [activeMenuButton, setActiveMenuButton] = useState([true, false, false])
+-
+-    const handleSaveUser = useCallback((e:ChangeEvent<HTMLFormElement>) => {
+-        e.preventDefault()
+-        //@ts-ignore
+-        dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, getCookie('auth')))
+-        if (!isLogin) {
+-            //@ts-ignore
+-            dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: getCookie('token')}))
+-            //@ts-ignore
+-            dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, getCookie('auth')))
+-        }
+-    }, [values, isLogin, dispatch])
+-
+-    const handleCanceled = useCallback((e:SyntheticEvent) => {
+-        e.preventDefault()
+-        setValues({name: user.name, email: user.email, password: ''})
+-    }, [user, setValues])
+-
+-    const logout = useCallback((e:SyntheticEvent, path:string, onComplete:any) => {
+-        e.preventDefault()
+-
+-        dispatch(onComplete)
+-        navigate(path)
+-    }, [navigate, dispatch])
+-
+-    const menuItems = PROFILE_MENU_ITEMS.map((item, index) => {
+-        return (
+-            <Button htmlType={"button"}
+-                    key={index}
+-                    onClick={item.complete ? (e:SyntheticEvent) => {
+-                        logout(e, item.path, item.complete.onComplete)
+-                        activeMenuButton[index] = !activeMenuButton[index]
+-                        setActiveMenuButton([...activeMenuButton])
+-                    } : () => {
+-                        activeMenuButton[index] = !activeMenuButton[index]
+-                        setActiveMenuButton([...activeMenuButton])
+-                        navigate(item.path)
+-                    }
+-                    }
+-                    size={'large'}
+-                    type={'secondary'}
+-                    extraClass={`text text_type_main-medium text_color_inactive ${activeMenuButton[index] ? styles.button_active : styles.button} `}
+-            >{item.name}</Button>
+-        )
+-    })
+-
+-
+-    return (
+-        <main className={`mt-30 ${styles.wrapper}`}>
+-            <section className={`pl-3 ${styles.content}`}>
+-                <div className={styles.menu}>
+-                    {menuItems}
+-                </div>
+-                <form className={styles.edit} onSubmit={handleSaveUser}>
+-                    <Input name="name" placeholder={'Имя'} value={values.name} onChange={handleChange}/>
+-                    <EmailInput name="email" placeholder={'E-mail'} value={values.email} onChange={handleChange}/>
+-                    <PasswordInput name="password" placeholder={'Пароль'} value={values.password}
+-                                   onChange={handleChange}/>
+-                    {values.email && values.password && values.name ? (<div className={styles.buttons}>
+-                        <Button extraClass='' htmlType='button' type="secondary" size="large" onClick={handleCanceled}>Отмена</Button>
+-                        <Button extraClass='' htmlType='button' type="primary" size="large">Сохранить</Button>
+-                    </div>) : null}
+-                </form>
+-
+-            </section>
+-
+-        </main>
+-    );
+-};
+-
+-export default Profile;
+\ No newline at end of file
+Index: react-burger/src/componets/order-feed/order/order.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/order-feed/order/order.module.scss b/react-burger/src/componets/order-feed/order/order.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/order-feed/order/order.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,3 +0,0 @@
+-.wrapper{
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/pages/auth/auth-css.module.scss
+===================================================================
+diff --git a/react-burger/src/pages/auth/auth-css.module.scss b/react-burger/src/pages/auth/auth-css.module.scss
+deleted file mode 100644
+--- a/react-burger/src/pages/auth/auth-css.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,51 +0,0 @@
+-.wrapper {
+-
+-  display: flex;
+-  justify-content: center;
+-  align-items: center;
+-
+-  .content {
+-
+-    .header {
+-      display: flex;
+-      align-items: center;
+-      justify-content: center;
+-
+-      h3 {
+-        margin: 0;
+-      }
+-    }
+-
+-    .main {
+-      display: flex;
+-      flex-direction: column;
+-      justify-content: center;
+-      align-items: center;
+-      gap: 24px;
+-
+-      .error{
+-        display: flex;
+-        text-align: center;
+-      }
+-    }
+-
+-    .footer {
+-
+-      .to {
+-        display: flex;
+-        justify-content: center;
+-        align-items: center;
+-        gap: 8px;
+-
+-        p {
+-          margin: 0;
+-        }
+-
+-        .button {
+-          padding: 0;
+-        }
+-
+-      }
+-    }
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/services/reducers/ingredients-reducer.ts
+===================================================================
+diff --git a/react-burger/src/services/reducers/ingredients-reducer.ts b/react-burger/src/services/reducers/ingredients-reducer.ts
+deleted file mode 100644
+--- a/react-burger/src/services/reducers/ingredients-reducer.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,115 +0,0 @@
+-import {
+-    ERROR_REQUEST_INGREDIENTS, ingredientsError, ingredientsRequest,
+-    REQUEST_INGREDIENTS,
+-    SUCCESS_REQUEST_INGREDIENTS,
+-} from "../actions/ingedients-actions";
+-import {INGREDIENT_TYPES} from "../../utils/constants";
+-import {IError, TIngredient} from "../../utils/prop-types-constants";
+-import {Action, CaseReducer, createAction, createSlice, PayloadAction} from "@reduxjs/toolkit";
+-import {Simulate} from "react-dom/test-utils";
+-import error = Simulate.error;
+-
+-
+-interface ITypes{
+-    buns: Array<TIngredient>
+-    sauces: Array<TIngredient>
+-    mains: Array<TIngredient>
+-}
+-
+-interface IIngredient {
+-    types: ITypes
+-    error: IError
+-    hasLoading: boolean
+-}
+-
+-const initialState: IIngredient = {
+-    types: {
+-        buns: [],
+-        sauces: [],
+-        mains: []
+-    },
+-    error: {
+-        message: '',
+-        hasError: false
+-    },
+-    hasLoading: true
+-}
+-
+-
+-
+-
+-const ingredientsSuccess:  CaseReducer<IIngredient, PayloadAction<Array<TIngredient>>> = (state, action):void => {
+-    state.types.buns =  action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.BUNS))
+-    state.types.sauces = action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.SAUCES))
+-    state.types.mains = action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.MAINS))
+-    state.hasLoading = false
+-    state.error = initialState.error
+-}
+-
+-
+-
+-const ingredientSlice = createSlice({
+-    name: 'ingredients',
+-    initialState,
+-    reducers: {
+-        ingredientsSuccess
+-    },
+-    extraReducers: (builder) => {
+-        builder.addCase(ingredientsRequest, (state) => {
+-           return {
+-               ...state,
+-               hasLoading: true,
+-               error: initialState.error
+-           }
+-        })
+-        builder.addCase(ingredientsError, (state, action) => {
+-            return {
+-                ...state,
+-                hasLoading: false,
+-                error: {
+-                    message: action.payload,
+-                    hasError: true
+-                }
+-            }
+-        })
+-    }
+-})
+-
+-
+-export const ingredientsActions = ingredientSlice.actions
+-export const ingredientsReducer = ingredientSlice.reducer
+-
+-// export const ingredientsReducer = (state = initialState, action) => {
+-//     switch (action.type) {
+-//         case REQUEST_INGREDIENTS:
+-//             return {
+-//                 ...state,
+-//                 hasLoading: true,
+-//                 hasErrors: false
+-//             }
+-//         case SUCCESS_REQUEST_INGREDIENTS:
+-//             return {
+-//                 ...state,
+-//                 types: {
+-//                     //@ts-ignore
+-//                     buns: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.BUNS)),
+-//                     //@ts-ignore
+-//                     sauces: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.SAUCES)),
+-//                     //@ts-ignore
+-//                     mains: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.MAINS))
+-//                 },
+-//                 hasLoading: false,
+-//                 hasErrors: false
+-//             }
+-//         case ERROR_REQUEST_INGREDIENTS:
+-//             return {
+-//                 ...state,
+-//                 hasLoading: false,
+-//                 hasErrors: true,
+-//                 errorMessage: action.payload
+-//             }
+-//
+-//         default:
+-//             return state
+-//     }
+-// }
+\ No newline at end of file
+Index: react-burger/src/services/actions/user-actions.js
+===================================================================
+diff --git a/react-burger/src/services/actions/user-actions.js b/react-burger/src/services/actions/user-actions.js
+deleted file mode 100644
+--- a/react-burger/src/services/actions/user-actions.js	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,49 +0,0 @@
+-import {URL_GET_INGREDIENTS} from "../../utils/URL";
+-import {checkResponse, request} from "../../utils/utils";
+-
+-export const REQUEST_USER = 'REQUEST_USER'
+-export const SUCCESS_REQUEST_REGISTER_USER = 'SUCCESS_REQUEST_REGISTER_USER'
+-
+-export const SUCCESS_REFRESH_USER = 'SUCCESS_REFRESH_USER'
+-
+-export const SUCCESS_REQUEST_LOGIN_USER = 'SUCCESS_REQUEST_LOGIN_USER'
+-
+-export const SUCCESS_REQUEST_LOGOUT_USER = 'SUCCESS_REQUEST_LOGOUT_USER'
+-
+-export const EXPIRED_TOKEN = 'EXPIRED_TOKEN'
+-
+-export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN'
+-
+-export const ERROR_REQUEST_USER = 'ERROR_REQUEST_LOGOUT_USER'
+-
+-export const query = (successUserAction, url, body, token) => async dispatch => {
+-
+-    dispatch({type: REQUEST_USER})
+-
+-    await request(url, {
+-        method: token ? body ? 'PATCH' : 'GET' : 'POST',
+-        headers: {
+-            authorization: token,
+-            'Content-Type': 'application/json;charset=utf-8',
+-        }, body: JSON.stringify(body)
+-    })
+-        .then(data => dispatch({type: successUserAction, payload: data}))
+-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
+-
+-}
+-
+-export const queryGET = (successUserAction, url, token) => async dispatch => {
+-
+-    dispatch({type: REQUEST_USER})
+-
+-    await request(url, {
+-        method:  'GET',
+-        headers: {
+-            authorization: token,
+-            'Content-Type': 'application/json;charset=utf-8',
+-        }
+-    })
+-        .then(data => dispatch({type: successUserAction, payload: data}))
+-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/header-menu-item/header-menu-item.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/header-menu-item/header-menu-item.module.scss b/react-burger/src/componets/header-menu-item/header-menu-item.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/header-menu-item/header-menu-item.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,12 +0,0 @@
+-@import '../../styles/animations/animations';
+-
+-.menuItem {
+-  display: flex;
+-  align-items: center;
+-  cursor: pointer;
+-
+-  &:hover {
+-    color: whitesmoke;
+-  }
+-}
+-
+Index: react-burger/src/componets/preloader/order-preloader/order-preloader.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/preloader/order-preloader/order-preloader.module.scss b/react-burger/src/componets/preloader/order-preloader/order-preloader.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/preloader/order-preloader/order-preloader.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,273 +0,0 @@
+-:root {
+-
+-  --steps: 10;
+-  --saturation: 80%;
+-  --lightness: 60%;
+-  --hue-offset: 320;
+-  --duration: 5000ms;
+-
+-
+-  --color-01: hsl(calc(360 / var(--steps) * 1 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-02: hsl(calc(360 / var(--steps) * 2 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-03: hsl(calc(360 / var(--steps) * 3 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-04: hsl(calc(360 / var(--steps) * 4 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-05: hsl(calc(360 / var(--steps) * 5 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-06: hsl(calc(360 / var(--steps) * 6 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-07: hsl(calc(360 / var(--steps) * 7 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-08: hsl(calc(360 / var(--steps) * 8 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-09: hsl(calc(360 / var(--steps) * 9 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-10: hsl(calc(360 / var(--steps) * 10 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-11: hsl(calc(360 / var(--steps) * 11 + var(--hue-offset)), var(--saturation), var(--lightness));
+-  --color-crayon: #202036;
+-
+-
+-  --bg-01-a: no-repeat left 0% top    / 11% 0% linear-gradient(to right, var(--color-01), var(--color-02));
+-  --bg-01-b: no-repeat left 0% top    / 11% 100% linear-gradient(to right, var(--color-01), var(--color-02));
+-  --bg-02-a: no-repeat left 11.11% bottom / 11% 0% linear-gradient(to right, var(--color-02), var(--color-03));
+-  --bg-02-b: no-repeat left 11.11% bottom / 11% 100% linear-gradient(to right, var(--color-02), var(--color-03));
+-  --bg-03-a: no-repeat left 22.22% top    / 11% 0% linear-gradient(to right, var(--color-03), var(--color-04));
+-  --bg-03-b: no-repeat left 22.22% top    / 11% 100% linear-gradient(to right, var(--color-03), var(--color-04));
+-  --bg-04-a: no-repeat left 33.33% bottom / 11% 0% linear-gradient(to right, var(--color-04), var(--color-05));
+-  --bg-04-b: no-repeat left 33.33% bottom / 11% 100% linear-gradient(to right, var(--color-04), var(--color-05));
+-  --bg-05-a: no-repeat left 44.44% top    / 11% 0% linear-gradient(to right, var(--color-05), var(--color-06));
+-  --bg-05-b: no-repeat left 44.44% top    / 11% 100% linear-gradient(to right, var(--color-05), var(--color-06));
+-  --bg-06-a: no-repeat left 55.55% bottom / 11% 0% linear-gradient(to right, var(--color-06), var(--color-07));
+-  --bg-06-b: no-repeat left 55.55% bottom / 11% 100% linear-gradient(to right, var(--color-06), var(--color-07));
+-  --bg-07-a: no-repeat left 66.66% top    / 11% 0% linear-gradient(to right, var(--color-07), var(--color-08));
+-  --bg-07-b: no-repeat left 66.66% top    / 11% 100% linear-gradient(to right, var(--color-07), var(--color-08));
+-  --bg-08-a: no-repeat left 77.77% bottom / 11% 0% linear-gradient(to right, var(--color-08), var(--color-09));
+-  --bg-08-b: no-repeat left 77.77% bottom / 11% 100% linear-gradient(to right, var(--color-08), var(--color-09));
+-  --bg-09-a: no-repeat left 88.88% top    / 11% 0% linear-gradient(to right, var(--color-09), var(--color-10));
+-  --bg-09-b: no-repeat left 88.88% top    / 11% 100% linear-gradient(to right, var(--color-09), var(--color-10));
+-  --bg-10-a: no-repeat left 99.99% bottom / 11% 0% linear-gradient(to right, var(--color-10), var(--color-11));
+-  --bg-10-b: no-repeat left 99.99% bottom / 12% 100% linear-gradient(to right, var(--color-10), var(--color-11));
+-}
+-
+-.rainbow-marker-loader {
+-  height: 3rem;
+-  width: 8rem;
+-  max-width: 100%;
+-  border: .5rem solid var(--color-crayon);
+-  border-radius: .5rem;
+-  animation: infinite alternate rainbow-fill var(--duration) ease-in-out;
+-  box-sizing: border-box;
+-  position: relative;
+-  margin: 1rem;
+-  background: var(--bg-01-a),
+-  var(--bg-02-a),
+-  var(--bg-03-a),
+-  var(--bg-04-a),
+-  var(--bg-05-a),
+-  var(--bg-06-a),
+-  var(--bg-07-a),
+-  var(--bg-08-a),
+-  var(--bg-09-a),
+-  var(--bg-10-a);
+-}
+-
+-.rainbow-marker-loader::after {
+-  content: '';
+-  display: block;
+-  position: absolute;
+-  top: 0;
+-  left: 0;
+-  width: 100%;
+-  height: 100%;
+-  transform-origin: left center;
+-  border-radius: .5rem;
+-  box-sizing: border-box;
+-  margin-top: -7.5%;
+-  margin-left: -2.5%;
+-  animation: infinite alternate move-marker var(--duration) ease-in-out;
+-  background: no-repeat left 0% top    / 3rem 50% linear-gradient(to bottom right, transparent, transparent 40%, var(--color-crayon) 40%),
+-  no-repeat left 0% bottom / 3rem 50% linear-gradient(to top right, transparent, transparent 40%, var(--color-crayon) 40%),
+-  no-repeat left 3rem bottom / 100% 100% linear-gradient(var(--color-crayon), var(--color-crayon))
+-}
+-
+-@keyframes move-marker {
+-  10% {
+-    transform: translate(5%, 100%) rotate(2.5deg);
+-  }
+-  20% {
+-    transform: translate(20%, 0) rotate(-5deg);
+-  }
+-  30% {
+-    transform: translate(30%, 100%) rotate(2.5deg);
+-  }
+-  40% {
+-    transform: translate(40%, 0) rotate(-5deg);
+-  }
+-  50% {
+-    transform: translate(50%, 100%) rotate(2.5deg);
+-  }
+-  60% {
+-    transform: translate(60%, 0) rotate(-5deg);
+-  }
+-  70% {
+-    transform: translate(70%, 100%) rotate(2.5deg);
+-  }
+-  80% {
+-    transform: translate(80%, 0) rotate(-5deg);
+-  }
+-  90% {
+-    transform: translate(90%, 100%) rotate(2.5deg);
+-  }
+-  100% {
+-    transform: translate(100%, 0) rotate(-5deg);
+-  }
+-}
+-
+-@keyframes rainbow-fill {
+-  0% {
+-    background: var(--bg-01-a),
+-    var(--bg-02-a),
+-    var(--bg-03-a),
+-    var(--bg-04-a),
+-    var(--bg-05-a),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  10% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-a),
+-    var(--bg-03-a),
+-    var(--bg-04-a),
+-    var(--bg-05-a),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  20% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-a),
+-    var(--bg-04-a),
+-    var(--bg-05-a),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  30% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-a),
+-    var(--bg-05-a),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  40% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-a),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  50% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-a),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  60% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-b),
+-    var(--bg-07-a),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  70% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-b),
+-    var(--bg-07-b),
+-    var(--bg-08-a),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  80% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-b),
+-    var(--bg-07-b),
+-    var(--bg-08-b),
+-    var(--bg-09-a),
+-    var(--bg-10-a);
+-  }
+-  90% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-b),
+-    var(--bg-07-b),
+-    var(--bg-08-b),
+-    var(--bg-09-b),
+-    var(--bg-10-a);
+-  }
+-  100% {
+-    background: var(--bg-01-b),
+-    var(--bg-02-b),
+-    var(--bg-03-b),
+-    var(--bg-04-b),
+-    var(--bg-05-b),
+-    var(--bg-06-b),
+-    var(--bg-07-b),
+-    var(--bg-08-b),
+-    var(--bg-09-b),
+-    var(--bg-10-b);
+-  }
+-}
+-
+-
+-.wrapper {
+-  display: flex;
+-  flex-direction: column;
+-  align-items: center;
+-  justify-content: center;
+-  min-height: 100vh;
+-  padding: 1rem 1rem 2rem 1rem;
+-  box-sizing: border-box;
+-  overflow: hidden;
+-}
+-
+-.title {
+-  color: var(--color-crayon);
+-  font-size: 1.5rem;
+-  font-family: 'M PLUS Rounded 1c', sans-serif;
+-  text-transform: uppercase;
+-  letter-spacing: 1px;
+-}
+\ No newline at end of file
+Index: react-burger/src/pages/home/home.module.scss
+===================================================================
+diff --git a/react-burger/src/pages/home/home.module.scss b/react-burger/src/pages/home/home.module.scss
+deleted file mode 100644
+--- a/react-burger/src/pages/home/home.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,48 +0,0 @@
+-@import '../../styles/animations/animations';
+-
+-.app {
+-  display: grid;
+-
+-
+-  .app_content {
+-    display: flex;
+-    flex-direction: column;
+-    justify-content: center;
+-    align-items: center;
+-
+-  }
+-
+-  .container {
+-    margin: 0 auto;
+-    grid-gap: 20px 40px;
+-    display: grid;
+-    gap: 20px 40px;
+-    grid-template-areas: "title title"
+-"list-ingredients constructor";
+-    grid-template-columns: 1fr 1fr;
+-    grid-template-rows: auto 1fr;
+-    padding-bottom: 52px;
+-    padding-top: 40px;
+-    position: relative;
+-
+-
+-    .cyber_title {
+-      width: 70%;
+-      font-size: 2rem;
+-      line-height: 2.2rem;
+-      font-weight: 200;
+-      position: relative;
+-      grid-area: title;
+-      padding-bottom: 15px;
+-
+-
+-      .burgerIngredient {
+-        width: 100%;
+-
+-        flex-grow: 1;
+-
+-        position: relative;
+-      }
+-    }
+-  }
+-}
+\ No newline at end of file
+Index: react-burger/src/services/actions/order-actions.ts
+===================================================================
+diff --git a/react-burger/src/services/actions/order-actions.ts b/react-burger/src/services/actions/order-actions.ts
+deleted file mode 100644
+--- a/react-burger/src/services/actions/order-actions.ts	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,34 +0,0 @@
+-import {URL_ORDER} from "../../utils/URL";
+-import {request} from "../../utils/utils";
+-import {TIngredient} from "../../utils/prop-types-constants";
+-import {createAction} from "@reduxjs/toolkit";
+-import {AppThunk, TDispatch} from "../reducers/root/root-reducer";
+-import {orderActions} from "../reducers/order-reducer";
+-
+-export const REQUEST_ORDER = 'REQUEST_ORDER';
+-export const SUCCESS_REQUEST_ORDER = 'SUCCESS_REQUEST_ORDER'
+-export const FAILURE_REQUEST_ORDER = 'FAILURE_REQUEST_ORDER'
+-export const RESET_ORDER = 'RESET_ORDER'
+-
+-export const requestOrder = createAction(REQUEST_ORDER)
+-export const errorOrder = createAction<string>(FAILURE_REQUEST_ORDER)
+-
+-export type TOrderExtraActions = ReturnType<typeof requestOrder> | ReturnType<typeof errorOrder>
+-
+-type TRequestBody = {
+-    ingredients: Array<TIngredient>
+-}
+-
+-export const orderPost = (requestBody:TRequestBody):AppThunk => async (dispatch: TDispatch) => {
+-    dispatch(requestOrder)
+-    await request(URL_ORDER, {
+-        method: 'POST',
+-        headers: {
+-            'Content-Type': 'application/json;charset=utf-8',
+-        }, body: JSON.stringify(requestBody)
+-    }).then(data =>
+-        dispatch(orderActions.successOrder(data))
+-    ).catch(err =>
+-        dispatch(errorOrder(err.message)))
+-
+-}
+\ No newline at end of file
+Index: react-burger/src/componets/modal/modal.module.scss
+===================================================================
+diff --git a/react-burger/src/componets/modal/modal.module.scss b/react-burger/src/componets/modal/modal.module.scss
+deleted file mode 100644
+--- a/react-burger/src/componets/modal/modal.module.scss	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
++++ /dev/null	(revision e37a0afd07ef2db15efcd71767bbb6a08e3d003f)
+@@ -1,36 +0,0 @@
+-.modalWrapper {
+-  position: fixed;
+-  display: flex;
+-  flex-direction: row;
+-  align-items: center;
+-  justify-content: center;
+-  inset: 0;
+-  width: 100vw;
+-  height: 100vh;
+-  z-index: 10000;
+-
+-
+-  .modalContent {
+-    position: relative;
+-    background: #1c1c21;
+-    z-index: 10000;
+-    width: 720px;
+-    border-radius: 40px;
+-
+-    .nav {
+-      display: flex;
+-      flex-direction: row;
+-      align-items: baseline;
+-
+-      .headerModal {
+-        flex: 1;
+-      }
+-
+-      .close {
+-        display: flex;
+-        justify-content: flex-end;
+-        cursor: pointer;
+-      }
+-    }
+-  }
+-}
+\ No newline at end of file
+diff --git a/react-burger/src/fonts/fonts.scss b/react-burger/src/fonts/fonts.scss
+deleted file mode 100644
+diff --git a/react-burger/src/componets/app/app.module.scss b/react-burger/src/componets/app/app.module.scss
+deleted file mode 100644

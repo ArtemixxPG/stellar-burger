@@ -14,6 +14,8 @@ export type TIngredient = {
     __v: number
 }
 
+export type TSelectedIngredient = TIngredient & {id: string}
+
 export interface INutritions {
     calories: number
     proteins: number
@@ -30,3 +32,25 @@ export interface IOrder {
     order_id: number
     name: string
 }
+
+export interface IUser {
+    name: string
+    email: string
+}
+
+export interface IPayloadUser {
+    success: boolean
+    user: IUser
+    refreshToken: string
+    accessToken: string
+}
+
+export interface IUserState {
+    user: IUser
+    hasLoading: boolean
+    error: IError
+    isLogIn: boolean
+}
+
+
+

@@ -1,14 +1,5 @@
-import {
-    RESET_ORDER,
-    FAILURE_REQUEST_ORDER,
-    REQUEST_ORDER,
-    SUCCESS_REQUEST_ORDER,
-    requestOrder, errorOrder
-} from "../actions/order-actions";
 import {IError, IOrder} from "../../utils/prop-types-constants";
-import {CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+import {Action, CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface IOrderState {
     order: IOrder
@@ -36,39 +27,33 @@ const initialState: IOrderState = {
 }
 
 
-const successOrder: CaseReducer<IOrderState, PayloadAction<IOrderPayload>> = (state, action) =>{
-    state.order.order_id = action.payload.order.number
-    state.order.name = action.payload.name
-    state.error = initialState.error
-    state.hasLoading = false
-}
+
+
 
 const orderSlice = createSlice({
     name: 'order',
     initialState,
     reducers:{
-        successOrder
-    },
-    extraReducers: (builder) => {
-        builder.addCase(requestOrder, (state)=>{
-            return {
-                ...state,
-                error: initialState.error,
-                hasLoading: true
+        orderSuccess(state, action: PayloadAction<IOrderPayload>){
+            state.order.order_id = action.payload.order.number
+            state.order.name = action.payload.name
+            state.error = initialState.error
+            state.hasLoading = false
+        },
+        orderRequest(state){
+            state.error = initialState.error
+            state.hasLoading = true
+        },
+        orderRequestError(state, action: PayloadAction<string>){
+            state.error = {
+                message: action.payload,
+                hasError: true
             }
-        })
-        builder.addCase(errorOrder, (state, action) => {
-            return {
-                ...state,
-                error: {
-                    message: action.payload,
-                    hasError: true
-                },
-                hasLoading: false
-            }
-        })
+            state.hasLoading = false
+        }
     }
 })
 
 export const orderReducer = orderSlice.reducer
-export const orderActions = orderSlice.actions
+export const {orderSuccess, orderRequest, orderRequestError} = orderSlice.actions
+export type TOrderActions = PayloadAction<IOrderPayload> | PayloadAction<string> | Action
