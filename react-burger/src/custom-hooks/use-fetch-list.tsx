@@ -1,11 +1,10 @@
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
 import {getIngredients} from "../services/actions/ingedients-actions";
-import {AppThunk, TDispatch} from "../services/reducers/root/root-reducer";
+import {useDispatch} from "./redux/dipatch/use-dispatch";
 
 const useFetchList = () => {
 
-    const dispatch = useDispatch<TDispatch>()
+    const dispatch = useDispatch()
 
     useEffect(() => {
 

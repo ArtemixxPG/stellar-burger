@@ -1,12 +1,14 @@
 import {useDrag, useDrop} from "react-dnd";
 import {useRef} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import { Identifier, XYCoord } from 'dnd-core'
 import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
 import {sortArray} from "../../../utils/utils";
 import {TStore} from "../../../services/reducers/root/root-reducer";
+import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
+import {selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+import {removeIngredient} from "../../../services/reducers/selected-ingedients-reducers";
 
 interface IBurgerConstructorItem {
     name: string
@@ -18,7 +20,7 @@ interface IBurgerConstructorItem {
 
 const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstructorItem) => {
 
-    const {selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+    const selectedIngredients = selectedIngredientsSelector.selectedIngredients
     const itemRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch()
 
@@ -88,7 +90,7 @@ const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstruct
                 <DragIcon type="primary"/>
             </div>
             <ConstructorElement text={name} thumbnail={image} price={price}
-                                handleClose={() => dispatch({type: REMOVE_INGREDIENT, payload: id})}/>
+                                handleClose={() => dispatch(removeIngredient(id))}/>
         </div>
     );
 };

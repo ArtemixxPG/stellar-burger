@@ -1,4 +1,6 @@
-import {Action, ActionCreator, combineReducers, configureStore, createAction, ThunkAction} from "@reduxjs/toolkit";
+import {AnyAction, combineReducers, configureStore} from "@reduxjs/toolkit";
+import { Action, ActionCreator, Dispatch } from 'redux';
+import thunk, { ThunkAction } from 'redux-thunk';
 import {
     ingredientsReducer,
     ingredientsRequest, ingredientsRequestError,
@@ -12,8 +14,6 @@ import {
     selectedIngredientsReducer, setIngredients
 } from "../selected-ingedients-reducers";
 import {userLogout, userReducer, userRequest, userRequestError, userSuccess} from "../user-reducer";
-import thunk from "redux-thunk";
-import {Dispatch} from "redux";
 
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -34,16 +34,17 @@ type TSelectedIngredientsActionsTypes = ReturnType<typeof removeBun> | ReturnTyp
 export const store = configureStore({reducer: rootReducer, middleware: [thunk], devTools: true});
 
 export type TStore = typeof store
-const action = createAction('REQUEST')
-export type TApplicationActions = ReturnType<typeof action>
+export type TActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes | TIngredientsActionsTypes
 
 export type RootState = ReturnType<typeof store.getState>;
 
+type TApplicationActions = TActions
+
+
+export type AppThunk<TReturn = void> =
+    ActionCreator<ThunkAction<TReturn,  RootState, unknown, TApplicationActions>>;
 
 export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ActionCreator<
-    ThunkAction<ReturnType, Action, RootState, TApplicationActions>
-    >;
 
-export type TDispatch = Dispatch<TApplicationActions>
 
+export type TDispatchAll = () => AppDispatch | AppThunk

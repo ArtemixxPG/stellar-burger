@@ -4,17 +4,15 @@ import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {TStore} from "../../../services/reducers/root/root-reducer";
 import {TIngredient} from "../../../utils/prop-types-constants";
+import {orderSelector, selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 const ModalContentOrderComplete = () => {
 
     const [fail, setFailContentModal] = useState(false)
-    const {selectedBun, selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
-    const {hasLoading, order, name} = useSelector((store:TStore) =>{
-        return {
-         hasLoading: store.order.hasLoading,
-         order: store.order.order.order_id,
-         name:   store.order.order.name
-        }})
+    const {selectedBun, selectedIngredients} = selectedIngredientsSelector
+    const hasLoading = orderSelector.hasLoading
+    const order = orderSelector.order.order_id
+    const name = orderSelector.order.name
 
     useEffect(
         () => {

@@ -1,7 +1,7 @@
 import styles from './header-menu-item.module.scss'
 import MenuItemContent from "./menu-item-content/menu-item-content";
 import {useLocation} from "react-router-dom";
-import {FC, ReactElement, useEffect} from "react";
+import {ReactElement, useEffect} from "react";
 
 type TMenuItemState = {
     active: string
@@ -30,7 +30,7 @@ interface IHeaderMenuItem {
     path: string
 }
 
-const HeaderMenuItem: FC<IHeaderMenuItem> = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}) => {
+const HeaderMenuItem = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}: IHeaderMenuItem) => {
 
     const location = useLocation()
 

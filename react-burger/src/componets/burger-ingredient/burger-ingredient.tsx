@@ -2,13 +2,12 @@ import {useState} from 'react';
 import BurgerIngredientsGroup from "./burger-ingredients-group/burger-ingredients-group";
 import styles from './burger-ingredient.module.scss'
 import BurgerTab from "../burger-tab/burger-tab";
-import {useSelector} from "react-redux";
-import {TStore} from "../../services/reducers/root/root-reducer";
+import {ingredientsSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 
 
 const BurgerIngredient = () => {
 
-    const {buns, sauces, mains} = useSelector((store: TStore) => store.ingredients.types)
+    const {buns, sauces, mains} = ingredientsSelector.types
 
     const [currentTab, setCurrentTab] = useState<string>('bun')
 

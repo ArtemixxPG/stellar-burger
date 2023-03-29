@@ -13,7 +13,7 @@ interface IModal{
     children: ReactElement
 }
 
-const Modal:FC<IModal> = ({close, header, children}) => {
+const Modal = ({close, header, children}: IModal) => {
 
     useEscape(close)
     const ref = useOutside(close)

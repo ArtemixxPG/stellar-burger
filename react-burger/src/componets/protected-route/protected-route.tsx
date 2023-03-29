@@ -1,17 +1,17 @@
 import {useSelector} from "react-redux";
 import {Navigate, useLocation} from "react-router-dom";
 import PropTypes from "prop-types";
-import {FC, ReactElement} from "react";
-import {TStore} from "../../services/reducers/root/root-reducer";
+import {ReactElement} from "react";
+import {userSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 
 interface IProtectedRoute {
     element: ReactElement
     isUnProtected?: boolean
 }
 
-const ProtectedRoute:FC<IProtectedRoute> = ({element, isUnProtected = false}) => {
+const ProtectedRoute = ({element, isUnProtected = false}: IProtectedRoute) => {
 
-    const isLogIn = useSelector((store:TStore) => store.user.isLogIn);
+    const isLogIn = userSelector.isLogIn
 
     const location = useLocation()
 

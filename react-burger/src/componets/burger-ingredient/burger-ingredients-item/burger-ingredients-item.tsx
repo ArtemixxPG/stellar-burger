@@ -1,22 +1,21 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients-item.module.scss'
-import {FC, memo, useMemo} from "react";
+import {memo, useMemo} from "react";
 import {TIngredient} from "../../../utils/prop-types-constants";
-import {useDispatch, useSelector} from "react-redux";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
-import {TStore} from "../../../services/reducers/root/root-reducer";
+import {selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 
 interface IBurgerIngredientsItem {
     ingredient: TIngredient;
 }
 
-const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
+const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
     const location = useLocation()
 
-    const {selectedBun, selectedIngredients} = useSelector((store:TStore) => store.selectedIngredients)
+    const {selectedBun, selectedIngredients} = selectedIngredientsSelector
 
     const [{isDrag}, drag] = useDrag({
         type: "ingredient",
@@ -28,10 +27,8 @@ const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
 
     const count = useMemo(() => {
         return ingredient.type === 'bun' ? selectedBun?._id === ingredient._id ? 2 : 0 :
-            selectedIngredients.filter( (item: TIngredient) => item._id === ingredient._id).length
+            selectedIngredients.filter((item: TIngredient) => item._id === ingredient._id).length
     }, [ingredient, selectedIngredients, selectedBun]);
-
-
 
 
     return (
@@ -41,7 +38,8 @@ const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
                 state={{background: location}}
                 className={styles.link}
             >
-                <img alt='NO IMAGE' ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`} src={ingredient.image}/>
+                <img alt='NO IMAGE' ref={drag} className={`ml-4 pb-1 ${styles.burgerItemImage}`}
+                     src={ingredient.image}/>
                 <div className={`text text_type_main-small ${styles.burgerItemPrice}`}>
                     <span>{ingredient.price}</span>
                     <CurrencyIcon type={'primary'}/>
@@ -53,7 +51,6 @@ const BurgerIngredientsItem:FC<IBurgerIngredientsItem> = ({ingredient}) => {
         </section>
     );
 };
-
 
 
 export default memo(BurgerIngredientsItem);

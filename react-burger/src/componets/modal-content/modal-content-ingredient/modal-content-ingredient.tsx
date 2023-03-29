@@ -5,26 +5,14 @@ import ModalContentIngredientNutritionType
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import {TStore} from "../../../services/reducers/root/root-reducer";
+import {itemIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 const ModalContentIngredient = () => {
 
     const {id} = useParams();
 
 
-    const {name, image, nutrients} = useSelector((store:TStore) => {
-
-        const ingredient = [...store.ingredients.types.buns, ...store.ingredients.types.mains,
-            ...store.ingredients.types.sauces].find(el => el._id === id);
-
-        return {
-            name: ingredient?.name,
-            image: ingredient?.image_large,
-            nutrients: {
-                calories: ingredient?.calories, fat: ingredient?.fat, carbohydrates: ingredient?.carbohydrates,
-                proteins: ingredient?.proteins
-            }
-        }
-    })
+    const {name, image, nutrients} = itemIngredientsSelector(id)
 
 
     return (

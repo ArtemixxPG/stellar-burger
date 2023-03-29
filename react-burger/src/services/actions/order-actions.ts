@@ -1,7 +1,7 @@
 import {URL_ORDER} from "../../utils/URL";
 import {request} from "../../utils/utils";
 import {TIngredient} from "../../utils/prop-types-constants";
-import {AppThunk, TDispatch} from "../reducers/root/root-reducer";
+import {AppDispatch, AppThunk} from "../reducers/root/root-reducer";
 import {orderRequest, orderRequestError, orderSuccess} from "../reducers/order-reducer";
 
 
@@ -9,7 +9,7 @@ type TRequestBody = {
     ingredients: Array<TIngredient>
 }
 
-export const orderPost = (requestBody:TRequestBody):AppThunk => async (dispatch: TDispatch) => {
+export const orderPost:AppThunk = (requestBody:TRequestBody) => async (dispatch: AppDispatch) => {
     dispatch(orderRequest())
     await request(URL_ORDER, {
         method: 'POST',

@@ -7,7 +7,7 @@ interface IGlitch {
     glitchClass: string
 }
 
-const Glitch: FC<IGlitch> = ({glitchImage, glitchClass}) => {
+const Glitch = ({glitchImage, glitchClass}: IGlitch) => {
     return (
         <>
             <div className={glitchClass}>

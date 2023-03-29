@@ -1,5 +1,5 @@
 import {BASE_URL} from "./URL";
-import {TIngredient} from "./prop-types-constants";
+import {TIngredient, TSelectedIngredient} from "./prop-types-constants";
 
 export const hashCode = (s: string) => {
     return s.split("").reduce(function (a:number, b:string) {
@@ -36,7 +36,7 @@ export const request = <T>(endpoint:string, options?:any) => {
 
 
 
-export const calculateTotalPrice = (selectedBun: TIngredient, selectedIngredients: Array<TIngredient>) => {
+export const calculateTotalPrice = (selectedBun: TSelectedIngredient | null, selectedIngredients: Array<TSelectedIngredient>) => {
     return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
         .reduce((totalPrice: number, ingredient: TIngredient) => totalPrice + ingredient.price, 0)
 }
