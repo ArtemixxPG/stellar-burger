@@ -1,8 +1,11 @@
 import React, {useCallback} from 'react';
 import BurgerConstructorItem from "../burger-cunstructor-item/burger-constructor-item";
-import {selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+
 
 const BurgerListItem = () => {
+
+    const {selectedIngredientsSelector} = useSelector()
 
     const selectedIngredients = selectedIngredientsSelector.selectedIngredients
 

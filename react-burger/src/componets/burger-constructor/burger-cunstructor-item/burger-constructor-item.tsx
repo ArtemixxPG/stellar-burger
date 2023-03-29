@@ -7,8 +7,8 @@ import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/sele
 import {sortArray} from "../../../utils/utils";
 import {TStore} from "../../../services/reducers/root/root-reducer";
 import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
-import {selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 import {removeIngredient} from "../../../services/reducers/selected-ingedients-reducers";
+import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 interface IBurgerConstructorItem {
     name: string
@@ -19,6 +19,8 @@ interface IBurgerConstructorItem {
 }
 
 const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstructorItem) => {
+
+    const {selectedIngredientsSelector} = useSelector()
 
     const selectedIngredients = selectedIngredientsSelector.selectedIngredients
     const itemRef = useRef<HTMLDivElement>(null)

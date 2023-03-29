@@ -30,6 +30,12 @@ const userSlice = createSlice({
             state.user = action.payload.user
             state.isLogIn = true
         },
+        userRefresh(state, action:PayloadAction<IPayloadUser>){
+            state.hasLoading = false
+            state.error = initialState.error
+            state.user = action.payload.user
+            state.isLogIn = true
+        },
         userLogout (state) {
             setCookie('token', '')
             setCookie('auth', '')
@@ -43,8 +49,6 @@ const userSlice = createSlice({
             state.error = initialState.error
         },
         userRequestError(state, action:PayloadAction<string>){
-            setCookie('token', '')
-            setCookie('auth', '')
             state.user = user
             state.hasLoading = false
             state.error =  {
@@ -58,9 +62,9 @@ const userSlice = createSlice({
 
 
 
-export const {userSuccess, userLogout, userRequest, userRequestError} = userSlice.actions
+export const {userSuccess, userLogout, userRequest, userRequestError, userRefresh} = userSlice.actions
 export const userReducer = userSlice.reducer
 export type TUserActionsTypes = ReturnType<typeof userSuccess> | ReturnType<typeof userLogout> |
-    ReturnType<typeof userRequest> | ReturnType<typeof userRequestError>
+    ReturnType<typeof userRequest> | ReturnType<typeof userRequestError> | ReturnType<typeof userRefresh>
 
 export type TUserActions = typeof userSuccess | typeof userLogout

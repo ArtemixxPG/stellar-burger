@@ -2,15 +2,14 @@
 import styles from './modal-content-ingredient.module.scss'
 import ModalContentIngredientNutritionType
     from "./modal-content-ingredient-nutrition-type/modal-content-ingredient-nutrition-type";
-import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
-import {TStore} from "../../../services/reducers/root/root-reducer";
-import {itemIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 const ModalContentIngredient = () => {
 
     const {id} = useParams();
 
+    const {itemIngredientsSelector} = useSelector()
 
     const {name, image, nutrients} = itemIngredientsSelector(id)
 

@@ -1,12 +1,12 @@
 import styles from './modal-content-order-complete.module.scss'
 import img from '../../../images/done.png'
-import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {TStore} from "../../../services/reducers/root/root-reducer";
 import {TIngredient} from "../../../utils/prop-types-constants";
-import {orderSelector, selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 const ModalContentOrderComplete = () => {
+
+    const {orderSelector, selectedIngredientsSelector} = useSelector()
 
     const [fail, setFailContentModal] = useState(false)
     const {selectedBun, selectedIngredients} = selectedIngredientsSelector

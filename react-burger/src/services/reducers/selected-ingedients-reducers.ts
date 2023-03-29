@@ -1,8 +1,8 @@
-import {TSelectedIngredient} from "../../utils/prop-types-constants";
+import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
 import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface ISelectedIngredientsState {
-    selectedBun: TSelectedIngredient | null
+    selectedBun: TIngredient | TSelectedIngredient | null
     selectedIngredients: Array<TSelectedIngredient>
 }
 
@@ -24,7 +24,7 @@ const selectedIngredientsSlice = createSlice({
         removeIngredient(state, action: PayloadAction<string>) {
             state.selectedIngredients =  [...state.selectedIngredients].filter(item => item.id !== action.payload)
         },
-        addBun(state, action: PayloadAction<TSelectedIngredient>) {
+        addBun(state, action: PayloadAction<TSelectedIngredient | TIngredient>) {
             state.selectedBun = action.payload
         },
 

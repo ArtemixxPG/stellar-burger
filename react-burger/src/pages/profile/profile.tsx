@@ -3,17 +3,20 @@ import styles from './profile.module.scss'
 import {useNavigate} from "react-router-dom";
 import {PROFILE_MENU_ITEMS} from "../../utils/constants";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useDispatch, useSelector} from "react-redux";
-import {query, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
+import {requestUser} from "../../services/actions/user-actions";
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
 import {getCookie} from "../../utils/cookie";
 import useInput from "../../custom-hooks/input/use-input";
-import {TStore} from "../../services/reducers/root/root-reducer";
+import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import {refreshTokens} from "../../services/refresh-token/refresh-token";
+import {useDispatch} from "../../custom-hooks/redux/dipatch/use-dispatch";
+import {userRefresh as successUserAction} from "../../services/reducers/user-reducer";
 
 const Profile = () => {
 
-    const user = useSelector((store:TStore) => store.user.user);
-    const isLogin = useSelector((store:TStore) => store.user.isLogIn);
+    const {userSelector} = useSelector()
+    const user = userSelector.user
+    const isLogin = userSelector.isLogIn
 
     const {values, handleChange, setValues} = useInput({name: user.name, email: user.email, password: ''});
 
@@ -25,13 +28,11 @@ const Profile = () => {
 
     const handleSaveUser = useCallback((e:ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
-        //@ts-ignore
-        dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, getCookie('auth')))
+        const token = getCookie('auth')
+        dispatch(requestUser({successUserAction, url: URL_GET_USER, values, token}))
         if (!isLogin) {
-            //@ts-ignore
-            dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: getCookie('token')}))
-            //@ts-ignore
-            dispatch(query(SUCCESS_REFRESH_USER, URL_GET_USER, values, getCookie('auth')))
+            refreshTokens(URL_GET_TOKEN, getCookie('token')).then()
+            dispatch(requestUser({successUserAction, url: URL_GET_USER, values, token}))
         }
     }, [values, isLogin, dispatch])
 
@@ -42,7 +43,6 @@ const Profile = () => {
 
     const logout = useCallback((e:SyntheticEvent, path:string, onComplete:any) => {
         e.preventDefault()
-
         dispatch(onComplete)
         navigate(path)
     }, [navigate, dispatch])

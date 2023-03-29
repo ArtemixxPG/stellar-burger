@@ -9,13 +9,13 @@ type TRequestBody = {
     ingredients: Array<TIngredient>
 }
 
-export const orderPost:AppThunk = (requestBody:TRequestBody) => async (dispatch: AppDispatch) => {
+export const orderPost:AppThunk = ({ingredients}:TRequestBody) => async (dispatch: AppDispatch) => {
     dispatch(orderRequest())
     await request(URL_ORDER, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-        }, body: JSON.stringify(requestBody)
+        }, body: JSON.stringify(ingredients)
     }).then(data =>
         dispatch(orderSuccess(data))
     ).catch(err =>

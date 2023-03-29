@@ -1,8 +1,7 @@
-import {useSelector} from "react-redux";
 import {Navigate, useLocation} from "react-router-dom";
 import PropTypes from "prop-types";
 import {ReactElement} from "react";
-import {userSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 
 interface IProtectedRoute {
     element: ReactElement
@@ -10,6 +9,8 @@ interface IProtectedRoute {
 }
 
 const ProtectedRoute = ({element, isUnProtected = false}: IProtectedRoute) => {
+
+    const {userSelector} = useSelector()
 
     const isLogIn = userSelector.isLogIn
 

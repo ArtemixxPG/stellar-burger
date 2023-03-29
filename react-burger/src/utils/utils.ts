@@ -5,7 +5,7 @@ export const hashCode = (s: string) => {
     return s.split("").reduce(function (a:number, b:string) {
         a = ((a << 5) - a) + b.charCodeAt(0) + Math.floor(Math.random() * 10) + 1;
         return a & a;
-    }, 0);
+    }, 0).toString();
 }
 
 
@@ -36,9 +36,10 @@ export const request = <T>(endpoint:string, options?:any) => {
 
 
 
-export const calculateTotalPrice = (selectedBun: TSelectedIngredient | null, selectedIngredients: Array<TSelectedIngredient>) => {
+export const calculateTotalPrice = (selectedBun: TIngredient | TSelectedIngredient | null, selectedIngredients: Array<TSelectedIngredient>) => {
     return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
         .reduce((totalPrice: number, ingredient: TIngredient) => totalPrice + ingredient.price, 0)
 }
 
 
+export const log = (arg : any) => console.log(arg + 'NOT FOUND')

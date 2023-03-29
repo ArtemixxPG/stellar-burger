@@ -4,7 +4,7 @@ import {memo, useMemo} from "react";
 import {TIngredient} from "../../../utils/prop-types-constants";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
-import {selectedIngredientsSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 
 interface IBurgerIngredientsItem {
@@ -14,6 +14,8 @@ interface IBurgerIngredientsItem {
 const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
     const location = useLocation()
+
+    const {selectedIngredientsSelector} = useSelector()
 
     const {selectedBun, selectedIngredients} = selectedIngredientsSelector
 

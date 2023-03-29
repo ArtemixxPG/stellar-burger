@@ -1,6 +1,6 @@
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ReactNode, useCallback, useMemo, useState} from "react";
-import {calculateTotalPrice, hashCode} from "../../utils/utils";
+import {calculateTotalPrice, hashCode, log} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 
@@ -12,10 +12,13 @@ import {orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {getCookie} from "../../utils/cookie";
-import {TIngredient} from "../../utils/prop-types-constants";
+import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
 import {useDispatch} from "../../custom-hooks/redux/dipatch/use-dispatch";
-import {ingredientsSelector, selectedIngredientsSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import {
+    useSelector
+} from "../../custom-hooks/redux/selectors/use-selectors";
 import BurgerListItem from "./burger-list-item/burger-list-item";
+import {addBun, addIngredient} from "../../services/reducers/selected-ingedients-reducers";
 
 
 const BurgerConstructor = () => {
@@ -27,13 +30,13 @@ const BurgerConstructor = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const {ingredientsSelector, selectedIngredientsSelector} = useSelector()
+
     const {buns, sauces, mains} = ingredientsSelector.types
     const {selectedBun, selectedIngredients} = selectedIngredientsSelector
 
 
-
-
-    const [{isHover}, dropTarget] = useDrop<{id: string},  void, {isHover: boolean}>({
+    const [{isHover}, dropTarget] = useDrop<{ id: string }, void, { isHover: boolean }>({
         accept: 'ingredient',
         collect: monitor => ({
             isHover: monitor.isOver()
@@ -43,18 +46,20 @@ const BurgerConstructor = () => {
     });
 
 
-    const setIngredient = useCallback((id:{id: string}) => {
-        const ingredients = [...buns, ...sauces, ...mains]
-        const ingredient = ingredients.find((item:TIngredient) => item._id === id.id)
-         ingredient?.type === INGREDIENT_TYPES.BUNS ? dispatch({type: ADD_BUN, payload: ingredient})
 
-            : dispatch({type: ADD_INGREDIENT, payload: {id: hashCode(ingredient?._id? ingredient._id : ''), ...ingredient}})
+
+    const setIngredient = useCallback((id: { id: string }) => {
+        const ingredients = [...buns, ...sauces, ...mains]
+        const ingredient = ingredients.find(item => item._id === id.id)
+        ingredient ? ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch(addBun(ingredient))
+            : dispatch( addIngredient({id: hashCode(ingredient._id), ...ingredient})) : log(ingredient)
     }, [buns, sauces, mains, dispatch])
 
 
 
+
     const completeBurger = useCallback(() => {
-        if(selectedIngredients.length > 0) {
+        if (selectedIngredients.length > 0) {
             dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun?._id]}))
         }
     }, [selectedIngredients, selectedBun, dispatch])
@@ -89,7 +94,7 @@ const BurgerConstructor = () => {
                 <div className={styles.constructorList}>
                     {selectedIngredients.length > 0 ?
                         (<ul className={styles.constructorList_container}>
-                           <BurgerListItem/>
+                            <BurgerListItem/>
                         </ul>)
                         : (<div className={styles.constructorList_skeleton}><Skeleton name='Выбирете ингредиент!'/>
                         </div>)

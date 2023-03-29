@@ -1,7 +1,6 @@
 import {Link} from "react-scroll";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import {FC} from "react";
+
 
 interface IBurgerTab{
     header: string
@@ -12,7 +11,7 @@ interface IBurgerTab{
     value: string
 }
 
-const BurgerTab:FC<IBurgerTab> = ({header, currentTab, setCurrentTab, to, containerID, value}) => {
+const BurgerTab = ({header, currentTab, setCurrentTab, to, containerID, value}:IBurgerTab) => {
 
 
 
@@ -32,13 +31,5 @@ const BurgerTab:FC<IBurgerTab> = ({header, currentTab, setCurrentTab, to, contai
     );
 };
 
-BurgerTab.propTypes = {
-    header: PropTypes.string.isRequired,
-    currentTab: PropTypes.string.isRequired,
-    setCurrentTab: PropTypes.func.isRequired,
-    to: PropTypes.string.isRequired,
-    containerID: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-}
 
 export default BurgerTab;

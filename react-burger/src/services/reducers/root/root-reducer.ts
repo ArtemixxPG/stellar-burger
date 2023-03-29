@@ -13,7 +13,7 @@ import {
     removeBun, removeIngredient,
     selectedIngredientsReducer, setIngredients
 } from "../selected-ingedients-reducers";
-import {userLogout, userReducer, userRequest, userRequestError, userSuccess} from "../user-reducer";
+import {userLogout, userReducer, userRefresh, userRequest, userRequestError, userSuccess} from "../user-reducer";
 
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -23,7 +23,7 @@ export const rootReducer = combineReducers({
 })
 
 export type TUserActionsTypes = (ReturnType<typeof userSuccess>) | ReturnType<typeof userLogout> |
-    ReturnType<typeof userRequest> | ReturnType<typeof userRequestError>
+    ReturnType<typeof userRequest> | ReturnType<typeof userRequestError> | ReturnType<typeof userRefresh>
 type TIngredientsActionsTypes = ReturnType<typeof ingredientsSuccess> | ReturnType<typeof ingredientsRequest> |
     ReturnType<typeof ingredientsRequestError>
 type TOrderActionsTypes = ReturnType<typeof orderSuccess> | ReturnType<typeof orderRequest> |
@@ -44,7 +44,7 @@ type TApplicationActions = TActions
 export type AppThunk<TReturn = void> =
     ActionCreator<ThunkAction<TReturn,  RootState, unknown, TApplicationActions>>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch | AppThunk;
 
 
 export type TDispatchAll = () => AppDispatch | AppThunk

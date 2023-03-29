@@ -2,11 +2,12 @@ import {useState} from 'react';
 import BurgerIngredientsGroup from "./burger-ingredients-group/burger-ingredients-group";
 import styles from './burger-ingredient.module.scss'
 import BurgerTab from "../burger-tab/burger-tab";
-import {ingredientsSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 
 
 const BurgerIngredient = () => {
 
+    const {ingredientsSelector} = useSelector()
     const {buns, sauces, mains} = ingredientsSelector.types
 
     const [currentTab, setCurrentTab] = useState<string>('bun')
