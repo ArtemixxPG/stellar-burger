@@ -1,42 +1,58 @@
-import {AnyAction, combineReducers, configureStore} from "@reduxjs/toolkit";
-import { Action, ActionCreator, Dispatch } from 'redux';
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import { ActionCreator } from 'redux';
 import thunk, { ThunkAction } from 'redux-thunk';
 import {
     ingredientsReducer,
-    ingredientsRequest, ingredientsRequestError,
-    ingredientsSuccess,
+    TIngredientsActionsTypes,
 } from "../ingredients-reducer";
-import {orderReducer, orderRequest, orderRequestError, orderSuccess} from "../order-reducer";
+import {orderReducer, TOrderActionsTypes} from "../order-reducer";
 import {
-    addBun,
-    addIngredient,
-    removeBun, removeIngredient,
-    selectedIngredientsReducer, setIngredients
+    selectedIngredientsReducer,  TSelectedIngredientsActionsTypes
 } from "../selected-ingedients-reducers";
-import {userLogout, userReducer, userRefresh, userRequest, userRequestError, userSuccess} from "../user-reducer";
+import {
+    TUserActionsTypes,
+    userReducer,
+} from "../user-reducer";
+import {
+    orderListClose,
+    orderListConnect,
+    orderListConnecting,
+    orderListDisconnect, orderListError, orderListMessage,
+    orderListOpen,
+    orderListReducer, TOrderListActionTypes
+} from "../list-order-reducer";
+import {createSocket, TWsActions} from "../../middleware/socket";
 
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     order: orderReducer,
     selectedIngredients: selectedIngredientsReducer,
-    user: userReducer
+    user: userReducer,
+    ordersList: orderListReducer
 })
 
-export type TUserActionsTypes = (ReturnType<typeof userSuccess>) | ReturnType<typeof userLogout> |
-    ReturnType<typeof userRequest> | ReturnType<typeof userRequestError> | ReturnType<typeof userRefresh>
-type TIngredientsActionsTypes = ReturnType<typeof ingredientsSuccess> | ReturnType<typeof ingredientsRequest> |
-    ReturnType<typeof ingredientsRequestError>
-type TOrderActionsTypes = ReturnType<typeof orderSuccess> | ReturnType<typeof orderRequest> |
-    ReturnType<typeof orderRequestError>
-type TSelectedIngredientsActionsTypes = ReturnType<typeof removeBun> | ReturnType<typeof addIngredient>
-    | ReturnType<typeof removeIngredient> | ReturnType<typeof addBun> | ReturnType<typeof setIngredients>
+const wsActions : TWsActions = {
+    wsConnect: orderListConnect,
+    wsDisconnect: orderListDisconnect,
+    wsConnecting: orderListConnecting,
+    wsOpen: orderListOpen,
+    wsClose:orderListClose,
+    wsError:orderListError,
+    wsMessage:orderListMessage,
+}
 
-export const store = configureStore({reducer: rootReducer, middleware: [thunk], devTools: true});
+
+export type RootState = ReturnType<typeof rootReducer>
+
+const socket = createSocket(wsActions)
+
+export const store = configureStore({reducer: rootReducer, middleware: [thunk, socket], devTools: true});
 
 export type TStore = typeof store
-export type TActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes | TIngredientsActionsTypes
+export type TActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes |
+    TIngredientsActionsTypes | TOrderListActionTypes
 
-export type RootState = ReturnType<typeof store.getState>;
+
 
 type TApplicationActions = TActions
 

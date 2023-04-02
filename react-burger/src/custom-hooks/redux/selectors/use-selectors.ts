@@ -25,5 +25,8 @@ export const useSelector = () => {
         }
     })
 
-    return {ingredientsSelector, orderSelector, userSelector, selectedIngredientsSelector, itemIngredientsSelector}
+    const ordersListSelector = appSelector(store => store.ordersList)
+
+    return {ingredientsSelector, orderSelector, userSelector, selectedIngredientsSelector, itemIngredientsSelector,
+        ordersListSelector}
 }

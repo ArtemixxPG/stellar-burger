@@ -1,7 +1,6 @@
-
 import {setCookie} from "../../utils/cookie";
 import {IPayloadUser, IUser, IUserState} from "../../utils/prop-types-constants";
-import {CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const user: IUser = {
     email: '',

@@ -16,6 +16,10 @@ import NotFound from "../../pages/not-found/not-found";
 import OrderComplete from "../burger-constructor/burger-cunstructor-item/order-complete";
 import useAuth from "../../custom-hooks/auth/use-auth";
 import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import OrderFeed from "../../pages/orders-feed";
+import OrdersFeedUserPage from "../../pages/orders-feed-user/orders-feed-user-page";
+import ModalOrder from "../modal-order/modal-order";
+import OrderPage from "../../pages/order/order-page";
 
 
 const App = () => {
@@ -46,14 +50,19 @@ const App = () => {
                                    element={<ProtectedRoute isUnProtected element={<ResetPassword/>}/>}/>
                             <Route path='/profile' element={<ProtectedRoute element={<Profile/>}/>}/>
                             <Route path='ingredient/:id' element={<Info/>}/>
+                            <Route path='/orders' element={<OrderFeed/>}/>
                             <Route path="*" element={<NotFound/>}/>
-
+                            <Route path='profile/orders' element={<ProtectedRoute element={<OrdersFeedUserPage/>}/>}/>
+                            <Route path='/feed/:number' element={<OrderPage/>}/>
+                            <Route path='profile/orders/:number' element={<ProtectedRoute element={<OrderPage protectedPage={true}/>}/>}/>
                         </Routes>
 
                         {background && (
                             <Routes>
-                                <Route path='ingredient/:id' element={<ModalIngredientInfo/>}/>
+                                <Route path='/ingredient/:id' element={<ModalIngredientInfo/>}/>
                                 <Route path='/order' element={<OrderComplete/>}/>
+                                <Route path='/feed/:number' element={<ModalOrder/>}/>
+                                <Route path='profile/orders/:number' element={<ProtectedRoute element={<ModalOrder/>}/>}/>
                             </Routes>
                         )}
 

@@ -1,7 +1,5 @@
-import {ChangeEvent, SyntheticEvent, useCallback, useState} from "react";
+import {ChangeEvent, SyntheticEvent, useCallback} from "react";
 import styles from './profile.module.scss'
-import {useNavigate} from "react-router-dom";
-import {PROFILE_MENU_ITEMS} from "../../utils/constants";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {requestUser} from "../../services/actions/user-actions";
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
@@ -11,6 +9,7 @@ import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 import {refreshTokens} from "../../services/refresh-token/refresh-token";
 import {useDispatch} from "../../custom-hooks/redux/dipatch/use-dispatch";
 import {userRefresh as successUserAction} from "../../services/reducers/user-reducer";
+import UserSidebar from "../../componets/user-sidebar/user-sidebar";
 
 const Profile = () => {
 
@@ -20,11 +19,8 @@ const Profile = () => {
 
     const {values, handleChange, setValues} = useInput({name: user.name, email: user.email, password: ''});
 
-
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [activeMenuButton, setActiveMenuButton] = useState([true, false, false])
 
     const handleSaveUser = useCallback((e:ChangeEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -41,39 +37,14 @@ const Profile = () => {
         setValues({name: user.name, email: user.email, password: ''})
     }, [user, setValues])
 
-    const logout = useCallback((e:SyntheticEvent, path:string, onComplete:any) => {
-        e.preventDefault()
-        dispatch(onComplete)
-        navigate(path)
-    }, [navigate, dispatch])
 
-    const menuItems = PROFILE_MENU_ITEMS.map((item, index) => {
-        return (
-            <Button htmlType={"button"}
-                    key={index}
-                    onClick={item.complete ? (e:SyntheticEvent) => {
-                        logout(e, item.path, item.complete.onComplete)
-                        activeMenuButton[index] = !activeMenuButton[index]
-                        setActiveMenuButton([...activeMenuButton])
-                    } : () => {
-                        activeMenuButton[index] = !activeMenuButton[index]
-                        setActiveMenuButton([...activeMenuButton])
-                        navigate(item.path)
-                    }
-                    }
-                    size={'large'}
-                    type={'secondary'}
-                    extraClass={`text text_type_main-medium text_color_inactive ${activeMenuButton[index] ? styles.button_active : styles.button} `}
-            >{item.name}</Button>
-        )
-    })
 
 
     return (
         <main className={`mt-30 ${styles.wrapper}`}>
             <section className={`pl-3 ${styles.content}`}>
-                <div className={styles.menu}>
-                    {menuItems}
+                <div className={`mr-15 ${styles.menu}`}>
+                    <UserSidebar primaryIndex={0}/>
                 </div>
                 <form className={styles.edit} onSubmit={handleSaveUser}>
                     <Input name="name" placeholder={'Имя'} value={values.name} onChange={handleChange}/>

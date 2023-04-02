@@ -52,5 +52,24 @@ export interface IUserState {
     isLogIn: boolean
 }
 
+export interface ICurrentOrder {
+    ingredients: Array<string>,
+    _id: string,
+    name: string
+    status: string,
+    number: string,
+    createdAt: string,
+    updatedAt: string
+}
 
+export interface IOrderList {
+    orders: Array<ICurrentOrder>,
+    total: number,
+    totalToday: number
+}
 
+export interface IStatisticOrders {
+    firstOrders?: Array<string>
+    secondOrders?: Array<string>
+
+}

@@ -1,5 +1,4 @@
 import {Navigate, useLocation} from "react-router-dom";
-import PropTypes from "prop-types";
 import {ReactElement} from "react";
 import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
 
@@ -29,9 +28,6 @@ const ProtectedRoute = ({element, isUnProtected = false}: IProtectedRoute) => {
     return element
 };
 
-ProtectedRoute.propTypes = {
-    element: PropTypes.element.isRequired
-}
 
 
 export default ProtectedRoute;

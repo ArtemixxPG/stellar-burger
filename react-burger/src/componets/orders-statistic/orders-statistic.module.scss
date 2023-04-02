@@ -1,0 +1,27 @@
+@import "../../styles/all";
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  grid-area: statistic;
+  gap: 60px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  @include scroll;
+}
+
+.lists{
+  display: flex;
+  flex-direction: row;
+  gap: 36px
+}
+
+.container{
+  position: absolute;
+}
+
+.statistic{
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}

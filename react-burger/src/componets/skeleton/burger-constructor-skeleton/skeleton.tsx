@@ -1,5 +1,4 @@
 import styles from './skeleton.module.scss'
-import {FC} from "react";
 
 
 interface ISkeleton {

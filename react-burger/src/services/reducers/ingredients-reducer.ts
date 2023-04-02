@@ -1,7 +1,7 @@
 
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import {IError, TIngredient} from "../../utils/prop-types-constants";
-import {Action, CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 
 interface ITypes{
@@ -64,4 +64,5 @@ const ingredientSlice = createSlice({
 
 export const {ingredientsSuccess, ingredientsRequest, ingredientsRequestError} = ingredientSlice.actions
 export const ingredientsReducer = ingredientSlice.reducer
-export type TIngredientsActions = PayloadAction<Array<TIngredient>> | PayloadAction<string> | Action
+export type TIngredientsActionsTypes = ReturnType<typeof ingredientsSuccess> | ReturnType<typeof ingredientsRequest> |
+    ReturnType<typeof ingredientsRequestError>

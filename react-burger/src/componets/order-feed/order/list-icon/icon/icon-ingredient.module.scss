@@ -1,0 +1,32 @@
+.wrapper {
+ display: flex;
+ justify-content: center;
+ background:
+         linear-gradient(black, black) padding-box, /*this is your grey background*/
+         linear-gradient(to right, #7326c5, #5445f4) border-box;
+ position: absolute;
+ width: 80px;
+ height: 80px;
+ border: 2px solid transparent;
+ border-radius: 50%;
+
+}
+
+.image {
+ display: flex;
+ flex-direction: row;
+ align-items: flex-start;
+}
+
+.count{
+ width: 80px;
+ height: 80px;
+ position: absolute;
+ background: #2f2f37;
+ opacity: 0.6;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 50%;
+ text-align: center;
+}

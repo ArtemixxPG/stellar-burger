@@ -1,0 +1,26 @@
+.wrapper{
+  display: grid;
+}
+.container{
+    margin: 0 auto;
+    grid-gap: 20px 40px;
+    display: grid;
+    gap: 20px 40px;
+    grid-template-areas: "title title"
+"orders statistic";
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    padding-bottom: 52px;
+    padding-top: 40px;
+    position: relative;
+    width: 65%;
+}
+.header{
+    width: 70%;
+    font-size: 2rem;
+    line-height: 2.2rem;
+    font-weight: 200;
+    position: relative;
+    grid-area: title;
+    padding-bottom: 15px;
+}

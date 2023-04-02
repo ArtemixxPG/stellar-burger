@@ -1,7 +1,7 @@
 import styles from './header-menu-item.module.scss'
 import MenuItemContent from "./menu-item-content/menu-item-content";
 import {useLocation} from "react-router-dom";
-import {ReactElement, useEffect} from "react";
+import {ReactElement, useEffect, useState} from "react";
 
 type TMenuItemState = {
     active: string
@@ -30,54 +30,55 @@ interface IHeaderMenuItem {
     path: string
 }
 
-const HeaderMenuItem = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}: IHeaderMenuItem) => {
+const HeaderMenuItem = ({activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}: IHeaderMenuItem) => {
 
     const location = useLocation()
+    const [typeButton, setTypeButton] = useState<string>('')
 
     useEffect(() => {
-        if (location.pathname !== '/' && location.pathname !== '/order' && location.pathname !== '/profile') {
+        if (location.pathname !== '/' && location.pathname !== '/orders' && location.pathname !== '/profile') {
             setActiveClass
             ({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.inactive
             })
+
         }
     }, [location, setActiveClass]);
 
 
     const handleChangeMenuItem = () => {
-        if (type === 'constructor') {
+        if (location.pathname === '/') {
             setActiveClass({
                 constructor: menuItemState.active,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.inactive
             })
-
-
+            setTypeButton('constructor')
         }
-        if (type === 'listOrder') {
+        if (location.pathname === '/orders') {
             setActiveClass({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.active,
                 account: menuItemState.inactive
             })
-
+            setTypeButton('listOrder')
         }
-        if (type === 'account') {
+        if (location.pathname === '/profile') {
             setActiveClass({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.active
             })
-
+            setTypeButton('account')
         }
 
 
     }
     return (
         <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
-            <MenuItemContent activeClass={activeClass['type']} inActiveIcon={inActiveIcon}
+            <MenuItemContent activeClass={activeClass[typeButton]} inActiveIcon={inActiveIcon}
                              activeIcon={activeIcon}
                              menuItemName={menuItemName}
                              path={path}

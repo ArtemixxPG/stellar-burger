@@ -1,18 +1,15 @@
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ReactNode, useCallback, useMemo, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {calculateTotalPrice, hashCode, log} from "../../utils/utils";
 
 import styles from './burger-constructor.module.scss'
 
 import Skeleton from "../skeleton/burger-constructor-skeleton/skeleton";
 import {useDrop} from "react-dnd";
-import {ADD_BUN, ADD_INGREDIENT} from "../../services/actions/selected-ingedients-actions";
-import BurgerConstructorItem from "./burger-cunstructor-item/burger-constructor-item";
 import {orderPost} from "../../services/actions/order-actions";
 import {INGREDIENT_TYPES} from "../../utils/constants";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {getCookie} from "../../utils/cookie";
-import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
 import {useDispatch} from "../../custom-hooks/redux/dipatch/use-dispatch";
 import {
     useSelector
@@ -46,21 +43,17 @@ const BurgerConstructor = () => {
     });
 
 
-
-
     const setIngredient = useCallback((id: { id: string }) => {
         const ingredients = [...buns, ...sauces, ...mains]
         const ingredient = ingredients.find(item => item._id === id.id)
         ingredient ? ingredient.type === INGREDIENT_TYPES.BUNS ? dispatch(addBun(ingredient))
-            : dispatch( addIngredient({id: hashCode(ingredient._id), ...ingredient})) : log(ingredient)
+            : dispatch(addIngredient({id: hashCode(ingredient._id), ...ingredient})) : log(ingredient)
     }, [buns, sauces, mains, dispatch])
-
-
 
 
     const completeBurger = useCallback(() => {
         if (selectedIngredients.length > 0) {
-            dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun?._id]}))
+            dispatch(orderPost({ingredients: [...selectedIngredients.map(item => item._id), selectedBun?._id, selectedBun?._id]}))
         }
     }, [selectedIngredients, selectedBun, dispatch])
 

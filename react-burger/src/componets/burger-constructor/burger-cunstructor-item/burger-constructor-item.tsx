@@ -3,11 +3,9 @@ import {useRef} from "react";
 import { Identifier, XYCoord } from 'dnd-core'
 import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {REMOVE_INGREDIENT, SET_INGREDIENTS} from "../../../services/actions/selected-ingedients-actions";
 import {sortArray} from "../../../utils/utils";
-import {TStore} from "../../../services/reducers/root/root-reducer";
 import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
-import {removeIngredient} from "../../../services/reducers/selected-ingedients-reducers";
+import {removeIngredient, setIngredients} from "../../../services/reducers/selected-ingedients-reducers";
 import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 interface IBurgerConstructorItem {
@@ -23,7 +21,7 @@ const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstruct
     const {selectedIngredientsSelector} = useSelector()
 
     const selectedIngredients = selectedIngredientsSelector.selectedIngredients
-    const itemRef = useRef<HTMLDivElement>(null)
+    const itemRef = useRef<HTMLLIElement>(null)
     const dispatch = useDispatch()
 
 
@@ -67,7 +65,7 @@ const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstruct
                 return;
             }
 
-            dispatch({type: SET_INGREDIENTS, payload: sortArray(dragIndex, hoverIndex, selectedIngredients)});
+            dispatch(setIngredients(sortArray(dragIndex, hoverIndex, selectedIngredients)))
 
 
             item.index = hoverIndex;
@@ -87,13 +85,13 @@ const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstruct
     dragItem(dropItem(itemRef));
 
     return (
-        <div ref={itemRef} className={isDragging ? styles.item : styles.item_draging}>
+        <li ref={itemRef} className={isDragging ? styles.item : styles.item_draging}>
             <div className={styles.dragIcon}>
                 <DragIcon type="primary"/>
             </div>
             <ConstructorElement text={name} thumbnail={image} price={price}
                                 handleClose={() => dispatch(removeIngredient(id))}/>
-        </div>
+        </li>
     );
 };
 

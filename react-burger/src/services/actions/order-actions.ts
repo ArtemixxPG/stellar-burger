@@ -3,6 +3,7 @@ import {request} from "../../utils/utils";
 import {TIngredient} from "../../utils/prop-types-constants";
 import {AppDispatch, AppThunk} from "../reducers/root/root-reducer";
 import {orderRequest, orderRequestError, orderSuccess} from "../reducers/order-reducer";
+import {getCookie} from "../../utils/cookie";
 
 
 type TRequestBody = {
@@ -15,7 +16,8 @@ export const orderPost:AppThunk = ({ingredients}:TRequestBody) => async (dispatc
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-        }, body: JSON.stringify(ingredients)
+            Authorization: getCookie('auth')
+        }, body: JSON.stringify({ingredients})
     }).then(data =>
         dispatch(orderSuccess(data))
     ).catch(err =>

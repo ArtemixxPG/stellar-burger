@@ -1,5 +1,5 @@
 import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
-import {Action, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface ISelectedIngredientsState {
     selectedBun: TIngredient | TSelectedIngredient | null
@@ -37,5 +37,5 @@ const selectedIngredientsSlice = createSlice({
 
 export const {removeBun, addIngredient, removeIngredient, addBun, setIngredients} = selectedIngredientsSlice.actions
 export const selectedIngredientsReducer = selectedIngredientsSlice.reducer
-export type TSelectedIngredientsActions = PayloadAction<TSelectedIngredient> | PayloadAction<Array<TSelectedIngredient>>
-    | PayloadAction<string> | Action
+export type TSelectedIngredientsActionsTypes = ReturnType<typeof removeBun> | ReturnType<typeof addIngredient>
+    | ReturnType<typeof removeIngredient> | ReturnType<typeof addBun> | ReturnType<typeof setIngredients>

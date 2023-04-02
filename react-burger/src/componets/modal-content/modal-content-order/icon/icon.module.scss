@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  background:
+          linear-gradient(black, black) padding-box, /*this is your grey background*/
+          linear-gradient(to right, #7326c5, #5445f4) border-box;
+  width: 75px;
+  height: 75px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+
+.image {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}

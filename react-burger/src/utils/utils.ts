@@ -36,10 +36,40 @@ export const request = <T>(endpoint:string, options?:any) => {
 
 
 
-export const calculateTotalPrice = (selectedBun: TIngredient | TSelectedIngredient | null, selectedIngredients: Array<TSelectedIngredient>) => {
+export const calculateTotalPrice = (selectedBun: TIngredient | TSelectedIngredient | null,
+                                    selectedIngredients: Array<TSelectedIngredient>) => {
     return (selectedBun ? selectedBun.price : 0) * 2 + selectedIngredients
         .reduce((totalPrice: number, ingredient: TIngredient) => totalPrice + ingredient.price, 0)
 }
 
+export const calculateTotalPriceOrder = (ingredients: Array<TIngredient | undefined> ) => {
+    return ingredients?.reduce((totalPrice, ingredient) => totalPrice + (ingredient ? ingredient.price : 0), 0)
+}
 
 export const log = (arg : any) => console.log(arg + 'NOT FOUND')
+
+export function findIngredients (orderIdIngredients: Array<string> | undefined, ingredients: Array<TIngredient | undefined>):
+    Array<TIngredient | undefined> {
+    let orderIngredients: Array<TIngredient | undefined> = []
+    orderIdIngredients?.forEach((item) => {
+        orderIngredients = [...orderIngredients, ingredients.find(el => el?._id === item)]
+    })
+    return orderIngredients;
+}
+
+export const replaceStatus = (status: string | undefined) =>{
+    let statusRu
+    status === 'done' ? statusRu = 'Выполнен' : status  === 'cook' ? statusRu = 'Готовится' : statusRu = 'Отменён'
+    return statusRu
+}
+
+export const replaceBun = (ingredients: Array<TIngredient | undefined>) => {
+    let array = [...new Set(ingredients)]
+    if(array[0]?.type !== 'bun'){
+        const bun = array.find(el => el?.type === 'bun')
+        let newArray = array.filter(el => el?.type !== 'bun')
+        newArray.splice(0, 0, bun)
+        array = newArray
+    }
+    return array
+}

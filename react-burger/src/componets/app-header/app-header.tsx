@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {useState} from "react";
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './app-header.module.scss'
@@ -36,7 +36,7 @@ const AppHeader = () => {
                                 setActiveClass={setActiveClassButton}
                                 type={TYPE_HEADER_MENU_ITEM.LIST_ORDER} inActiveIcon={<ListIcon type="secondary"/>}
                                 activeIcon={<ListIcon type="primary"/>} menuItemName={'Лента заказов'}
-                                path='/order'
+                                path='/orders'
                 />
             </div>
             <div className={styles.logo}>

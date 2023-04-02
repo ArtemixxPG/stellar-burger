@@ -1,5 +1,5 @@
 import {IError, IOrder} from "../../utils/prop-types-constants";
-import {Action, CaseReducer, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface IOrderState {
     order: IOrder
@@ -56,4 +56,5 @@ const orderSlice = createSlice({
 
 export const orderReducer = orderSlice.reducer
 export const {orderSuccess, orderRequest, orderRequestError} = orderSlice.actions
-export type TOrderActions = PayloadAction<IOrderPayload> | PayloadAction<string> | Action
+export type TOrderActionsTypes = ReturnType<typeof orderSuccess> | ReturnType<typeof orderRequest> |
+    ReturnType<typeof orderRequestError>

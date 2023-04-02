@@ -4,9 +4,7 @@ import './index.scss';
 import App from './componets/app/app';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
-import {rootReducer, store} from './services/reducers/root/root-reducer';
-import thunk from 'redux-thunk';
-import {configureStore} from "@reduxjs/toolkit";
+import {store} from './services/reducers/root/root-reducer';
 import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(

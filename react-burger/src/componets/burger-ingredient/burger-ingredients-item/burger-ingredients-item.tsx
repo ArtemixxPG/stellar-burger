@@ -34,7 +34,7 @@ const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
 
     return (
-        <section className={` ${styles.burgerItemContent} ${isDrag ? styles.burgerItemContent_drag : ''}`}>
+        <li className={` ${styles.burgerItemContent} ${isDrag ? styles.burgerItemContent_drag : ''}`}>
             <Link
                 to={`ingredient/${ingredient._id}`}
                 state={{background: location}}
@@ -50,7 +50,7 @@ const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
             </Link>
             {count ? <Counter count={count} size="default"/> : null}
-        </section>
+        </li>
     );
 };
 
