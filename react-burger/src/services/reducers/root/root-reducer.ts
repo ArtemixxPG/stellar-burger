@@ -49,18 +49,19 @@ const socket = createSocket(wsActions)
 export const store = configureStore({reducer: rootReducer, middleware: [thunk, socket], devTools: true});
 
 export type TStore = typeof store
-export type TActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes |
+export type TAppActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes |
     TIngredientsActionsTypes | TOrderListActionTypes
 
 
 
-type TApplicationActions = TActions
 
 
+
+export type TThunkAppAction<T> = ThunkAction<T,  RootState, unknown, TAppActions>
 export type AppThunk<TReturn = void> =
-    ActionCreator<ThunkAction<TReturn,  RootState, unknown, TApplicationActions>>;
+    ActionCreator<TThunkAppAction<TReturn>>;
 
 export type AppDispatch = typeof store.dispatch | AppThunk;
 
 
-export type TDispatchAll = () => AppDispatch | AppThunk
+export type TDispatchAll = () => AppDispatch

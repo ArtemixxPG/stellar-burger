@@ -8,7 +8,6 @@ import {URL_LOGIN_USER as url} from "../../../utils/URL";
 import useInput from "../../../custom-hooks/input/use-input";
 import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
 import {requestUser} from "../../../services/actions/user-actions";
-import {userSuccess as successUserAction} from "../../../services/reducers/user-reducer";
 
 type TInput = {
     email: string
@@ -27,7 +26,7 @@ const Login = () => {
 
     const handleSubmit = useCallback((e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(requestUser({successUserAction, url, values}));
+        dispatch(requestUser({success: true, url, values}));
     }, [values, dispatch]);
 
     return (

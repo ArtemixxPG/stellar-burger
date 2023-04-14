@@ -1,4 +1,4 @@
-import {IError, IOrder} from "../../utils/prop-types-constants";
+import {IError, IOrder, IOrderPayload} from "../../utils/prop-types-constants";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface IOrderState {
@@ -7,12 +7,7 @@ interface IOrderState {
     hasLoading: boolean
 }
 
-interface IOrderPayload {
-    order: {
-        number: number
-    }
-    name: string
-}
+
 
 const initialState: IOrderState = {
     order: {

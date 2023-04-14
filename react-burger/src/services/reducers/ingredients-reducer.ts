@@ -29,13 +29,6 @@ const initialState: IIngredient = {
     hasLoading: true
 }
 
-
-
-
-
-
-
-
 const ingredientSlice = createSlice({
     name: 'ingredients',
     initialState,

@@ -9,7 +9,7 @@ const user: IUser = {
 
 const initialState: IUserState = {
     user,
-    hasLoading: false,
+    hasLoading: true,
     error: {
         message: '',
         hasError: false
@@ -44,16 +44,19 @@ const userSlice = createSlice({
             state.isLogIn = false
         },
         userRequest (state) {
-            state.hasLoading = false
+            state.hasLoading = true
             state.error = initialState.error
         },
         userRequestError(state, action:PayloadAction<string>){
+            setCookie('token', '')
+            setCookie('auth', '')
             state.user = user
             state.hasLoading = false
             state.error =  {
                 message: action.payload,
                 hasError: true
             }
+            state.isLogIn = false
         }
     },
 })

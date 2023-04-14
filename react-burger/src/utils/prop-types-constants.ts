@@ -1,3 +1,4 @@
+import {TAppActions} from "../services/reducers/root/root-reducer";
 
 export type TIngredient = {
     _id: string
@@ -39,7 +40,6 @@ export interface IUser {
 }
 
 export interface IPayloadUser {
-    success: boolean
     user: IUser
     refreshToken: string
     accessToken: string
@@ -73,3 +73,45 @@ export interface IStatisticOrders {
     secondOrders?: Array<string>
 
 }
+
+export interface IUserRequestData {
+    email?: string
+    name?: string
+    password?: string
+    token?: string
+}
+
+export interface IOrderPayload {
+    order: {
+        number: number
+    }
+    name: string
+}
+
+
+
+export type TResponseData<T> = {
+    success: boolean
+    then(param: (param: T) => Promise<TAppActions>): Promise<T>;
+}
+
+export type TResponseIngredient = {
+    data: Array<TIngredient>
+
+}
+
+export type TResponseOrder = {
+    order: {
+        number: number
+    },
+    name: string
+}
+
+export type TResponseUser = {
+    user: IUser
+    refreshToken: string
+    accessToken: string
+}
+
+
+

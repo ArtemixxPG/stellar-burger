@@ -1,5 +1,6 @@
-import {checkResponse} from "../../utils/utils";
 import {NavigateFunction} from "react-router-dom";
+
+
 
 type TInput = {
     password?: string
@@ -14,20 +15,24 @@ type TRequestBody = {
     path: string
 }
 
-export const sentRequest = async ({url, values, navigate, path} : TRequestBody) => {
+export const sentRequest = async ({url, values, navigate, path}: TRequestBody) => {
     try {
 
-        const response = await fetch(url, {
+        const response: Response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
             }, body: JSON.stringify(values)
         })
-        const json = await checkResponse(response)
+        if (response.ok) {
+            const json = await response.json()
+            json && json?.success ? navigate(path) : json.then((err: Error) => Promise.reject(err))
+        } else {
 
-        json?.success ? navigate(path) : json.then((err: any) => Promise.reject(err))
+        }
 
-    } catch (error) {
-        console.log(error)
+
+    } catch (error: any) {
+        throw new Error(error.message as string)
     }
 }

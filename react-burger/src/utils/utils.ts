@@ -1,5 +1,11 @@
 import {BASE_URL} from "./URL";
-import {TIngredient, TSelectedIngredient} from "./prop-types-constants";
+import {
+    ICurrentOrder,
+    TIngredient,
+    TResponseData,
+    TSelectedIngredient
+} from "./prop-types-constants";
+import {ORDER_TYPE, ORDERS_SHOW} from "./constants";
 
 export const hashCode = (s: string) => {
     return s.split("").reduce(function (a:number, b:string) {
@@ -20,12 +26,12 @@ export const sortArray = <T> (dragIndex:number, hoverIndex:number, arr:T[]) => {
 
 }
 
-export const checkResponse = <T>(res:Response): T & {success:boolean} | Promise<any> => {
-    return res?.ok ? res.json() : res.json().then((err:any) => Promise.reject(err))
+export const checkResponse = <T>(res:Response): Promise<TResponseData<T> & T> => {
+    return res?.ok ? res.json() : res.json().then((err) => Promise.reject(err))
 }
 
-export const checkSuccess = <T> (res: T & {success:boolean} & Promise<any>): T & {success:boolean} | PromiseLike<any> => {
-    return res && res?.success? res : res.then((err:any) => Promise.reject(err) )
+export const checkSuccess = <T>(res: TResponseData<T> & T) => {
+    return res && res?.success?  res : res.then((err) => Promise.reject(err) )
 }
 
 export const request = <T>(endpoint:string, options?:any) => {
@@ -34,6 +40,14 @@ export const request = <T>(endpoint:string, options?:any) => {
         .then(checkSuccess<T>)
 }
 
+
+export const ordersForShow = (orderList: Array<ICurrentOrder>, orderType: string) => {
+    const list = orderList?.filter(el => el.status === orderType).map(el => el.number)
+    return {
+        firstOrders: list.slice(0, ORDERS_SHOW),
+        secondOrders: list.slice(ORDERS_SHOW, 2 * ORDERS_SHOW)
+    }
+}
 
 
 export const calculateTotalPrice = (selectedBun: TIngredient | TSelectedIngredient | null,
@@ -59,7 +73,7 @@ export function findIngredients (orderIdIngredients: Array<string> | undefined, 
 
 export const replaceStatus = (status: string | undefined) =>{
     let statusRu
-    status === 'done' ? statusRu = 'Выполнен' : status  === 'cook' ? statusRu = 'Готовится' : statusRu = 'Отменён'
+    status === ORDER_TYPE.DONE ? statusRu = 'Выполнен' : status  === ORDER_TYPE.COOK ? statusRu = 'Готовится' : statusRu = 'Отменён'
     return statusRu
 }
 

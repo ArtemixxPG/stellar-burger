@@ -1,21 +1,33 @@
-import {SyntheticEvent, useCallback} from 'react';
+import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import {PROFILE_MENU_ITEMS} from "../../utils/constants";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./user-sidebar.module.scss";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch} from "../../custom-hooks/redux/dipatch/use-dispatch";
+import {TThunkAppAction} from "../../services/reducers/root/root-reducer";
 
 
 
-interface IUserSidebar{
-    primaryIndex: number
-}
-const UserSidebar = ({primaryIndex}: IUserSidebar) => {
+
+const UserSidebar = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const logout = useCallback((e: SyntheticEvent, path: string, onComplete: any) => {
+    const [activeClass, setActiveClass] = useState<Array<boolean>>([false, false, false])
+
+    const location = useLocation()
+
+    useEffect(()=>{
+        if(location.pathname === '/profile'){
+            setActiveClass([true, false, false])
+        }
+        if(location.pathname === '/profile/orders'){
+            setActiveClass([false, true, false])
+        }
+    }, [location])
+
+    const logout = useCallback((e: SyntheticEvent, path: string, onComplete: TThunkAppAction<void>) => {
         e.preventDefault()
         dispatch(onComplete)
         navigate(path)
@@ -29,15 +41,18 @@ const UserSidebar = ({primaryIndex}: IUserSidebar) => {
                         logout(e, item.path, item.complete.onComplete)
                     } : () => {
                        navigate(item.path)
+
                     }
                     }
                     size={'large'}
                     type={'secondary'}
                     extraClass={`text text_type_main-medium text_color_inactive 
-                    ${index === primaryIndex ? styles.button_active : styles.button} `}
+                    ${activeClass[index] ? styles.button_active : styles.button} `}
             >{item.name}</Button>
         )
     })
+
+
 
     return (
         <>

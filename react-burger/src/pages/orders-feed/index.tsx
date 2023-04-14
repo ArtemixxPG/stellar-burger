@@ -8,8 +8,9 @@ import {ORDERS_ALL, SOCKET_ORDER_ALL_URL} from "../../utils/URL";
 import {IStatisticOrders} from "../../utils/prop-types-constants";
 import OrdersStatistic from "../../componets/orders-statistic/orders-statistic";
 import MainPreloader from "../../componets/preloader/main-preloader/main-preloader";
+import {ordersForShow} from "../../utils/utils";
+import {ORDER_TYPE} from "../../utils/constants";
 
-const ORDERS_SHOW = 6
 
 const OrderFeedPage = () => {
     const {ordersListSelector} = useSelector()
@@ -18,17 +19,10 @@ const OrderFeedPage = () => {
     const totalDay = ordersListSelector.ordersList.totalToday
     useSocket(SOCKET_ORDER_ALL_URL)
 
-    const ordersDoneNames = useMemo(() => orderList?.filter(el => el.status === 'done').map(el => el.number), [orderList])
-    const ordersCookNames = useMemo(() => orderList?.filter(el => el.status === 'cook').map(el => el.number), [orderList])
+    const ordersDone: IStatisticOrders = useMemo(() =>
+        ordersForShow(orderList, ORDER_TYPE.DONE), [orderList])
 
-    const ordersDone: IStatisticOrders = {
-        firstOrders: ordersDoneNames.slice(0, ORDERS_SHOW),
-        secondOrders: ordersDoneNames.slice(ORDERS_SHOW, 2 * ORDERS_SHOW)
-    }
-    const ordersCook: IStatisticOrders = {
-        firstOrders: ordersCookNames.slice(0, ORDERS_SHOW),
-        secondOrders: ordersCookNames.slice(ORDERS_SHOW, 2 * ORDERS_SHOW)
-    }
+    const ordersCook: IStatisticOrders = useMemo(() => ordersForShow(orderList, ORDER_TYPE.COOK), [orderList])
 
 
     return (
