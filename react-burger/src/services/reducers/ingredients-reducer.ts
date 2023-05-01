@@ -16,7 +16,7 @@ interface IIngredient {
     hasLoading: boolean
 }
 
-const initialState: IIngredient = {
+export const initialState: IIngredient = {
     types: {
         buns: [],
         sauces: [],
