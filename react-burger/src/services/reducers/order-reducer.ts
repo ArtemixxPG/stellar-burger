@@ -9,7 +9,7 @@ interface IOrderState {
 
 
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
     order: {
         order_id: 0,
         name: ''

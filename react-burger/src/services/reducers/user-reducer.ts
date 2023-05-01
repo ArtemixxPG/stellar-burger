@@ -7,7 +7,7 @@ const user: IUser = {
     name: ''
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
     user,
     hasLoading: true,
     error: {

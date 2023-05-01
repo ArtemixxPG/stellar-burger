@@ -9,13 +9,13 @@ interface IOrderListState {
     status: WebsocketStatus
 }
 
-const orderList: IOrderList = {
+export const orderList: IOrderList = {
     orders: [],
     total: 0,
     totalToday: 0
 }
 
-const initialState: IOrderListState = {
+export const initialState: IOrderListState = {
     ordersList: orderList,
     error: {
         message: '',
@@ -28,8 +28,12 @@ const orderListSlice = createSlice({
     name: 'order-list',
     initialState,
     reducers: {
-        orderListConnect(state, action: PayloadAction<string>){},
-        orderListDisconnect(state){},
+        orderListConnect(state, action: PayloadAction<string>){
+            state.status = WebsocketStatus.ONLINE
+        },
+        orderListDisconnect(state){
+            state.status = WebsocketStatus.OFFLINE
+        },
         orderListConnecting(state) {
             state.error = initialState.error
             state.status = WebsocketStatus.CONNECTING
@@ -45,6 +49,7 @@ const orderListSlice = createSlice({
         orderListMessage(state, action: PayloadAction<IOrderList>) {
             state.error = initialState.error
             state.ordersList = action.payload
+            state.status = WebsocketStatus.ONLINE
         },
         orderListError(state, action: PayloadAction<string>) {
             state.error = {

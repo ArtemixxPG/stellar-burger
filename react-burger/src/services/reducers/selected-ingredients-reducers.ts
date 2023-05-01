@@ -1,12 +1,12 @@
 import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-interface ISelectedIngredientsState {
+export interface ISelectedIngredientsState {
     selectedBun: TIngredient | TSelectedIngredient | null
     selectedIngredients: Array<TSelectedIngredient>
 }
 
-const initialState: ISelectedIngredientsState = {
+export const initialState: ISelectedIngredientsState = {
     selectedBun: null,
     selectedIngredients: []
 }

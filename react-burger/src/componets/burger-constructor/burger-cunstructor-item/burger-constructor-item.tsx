@@ -5,7 +5,7 @@ import styles from './burger-constructor-item.module.scss'
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {sortArray} from "../../../utils/utils";
 import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
-import {removeIngredient, setIngredients} from "../../../services/reducers/selected-ingedients-reducers";
+import {removeIngredient, setIngredients} from "../../../services/reducers/selected-ingredients-reducers";
 import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 interface IBurgerConstructorItem {

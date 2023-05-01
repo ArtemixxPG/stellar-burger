@@ -15,7 +15,7 @@ import {
     useSelector
 } from "../../custom-hooks/redux/selectors/use-selectors";
 import BurgerListItem from "./burger-list-item/burger-list-item";
-import {addBun, addIngredient} from "../../services/reducers/selected-ingedients-reducers";
+import {addBun, addIngredient} from "../../services/reducers/selected-ingredients-reducers";
 
 
 const BurgerConstructor = () => {

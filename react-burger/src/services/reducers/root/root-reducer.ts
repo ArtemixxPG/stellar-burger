@@ -8,7 +8,7 @@ import {
 import {orderReducer, TOrderActionsTypes} from "../order-reducer";
 import {
     selectedIngredientsReducer,  TSelectedIngredientsActionsTypes
-} from "../selected-ingedients-reducers";
+} from "../selected-ingredients-reducers";
 import {
     TUserActionsTypes,
     userReducer,
