@@ -1,52 +1,61 @@
-import {
-    ERROR_REQUEST_INGREDIENTS,
-    REQUEST_INGREDIENTS,
-    SUCCESS_REQUEST_INGREDIENTS,
-} from "../actions/ingedients-actions";
-import {INGREDIENT_TYPES} from "../../utils/constants";
 
-const initialState = {
+import {INGREDIENT_TYPES} from "../../utils/constants";
+import {IError, TIngredient} from "../../utils/prop-types-constants";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+
+interface ITypes{
+    buns: Array<TIngredient>
+    sauces: Array<TIngredient>
+    mains: Array<TIngredient>
+}
+
+interface IIngredient {
+    types: ITypes
+    error: IError
+    hasLoading: boolean
+}
+
+export const initialState: IIngredient = {
     types: {
         buns: [],
         sauces: [],
         mains: []
     },
-    hasErrors: false,
-    hasLoading: true,
-    errorMessage: ''
+    error: {
+        message: '',
+        hasError: false
+    },
+    hasLoading: true
 }
-//@ts-ignore info
-export const ingredientsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case REQUEST_INGREDIENTS:
-            return {
-                ...state,
-                hasLoading: true,
-                hasErrors: false
-            }
-        case SUCCESS_REQUEST_INGREDIENTS:
-            return {
-                ...state,
-                types: {
-                    //@ts-ignore
-                    buns: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.BUNS)),
-                    //@ts-ignore
-                    sauces: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.SAUCES)),
-                    //@ts-ignore
-                    mains: action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.MAINS))
-                },
-                hasLoading: false,
-                hasErrors: false
-            }
-        case ERROR_REQUEST_INGREDIENTS:
-            return {
-                ...state,
-                hasLoading: false,
-                hasErrors: true,
-                errorMessage: action.payload
-            }
 
-        default:
-            return state
+const ingredientSlice = createSlice({
+    name: 'ingredients',
+    initialState,
+    reducers: {
+        ingredientsSuccess(state, action:PayloadAction<Array<TIngredient>>){
+            state.types.buns =  action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.BUNS))
+            state.types.sauces = action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.SAUCES))
+            state.types.mains = action.payload.filter(item => item.type.includes(INGREDIENT_TYPES.MAINS))
+            state.hasLoading = false
+            state.error = initialState.error
+        },
+        ingredientsRequest(state) {
+            state.hasLoading = true
+            state.error = initialState.error
+        },
+        ingredientsRequestError(state, action:PayloadAction<string>) {
+            state.error = {
+                message: action.payload,
+                hasError: true
+            }
+            state.hasLoading = false
+        }
     }
-}
+})
+
+
+export const {ingredientsSuccess, ingredientsRequest, ingredientsRequestError} = ingredientSlice.actions
+export const ingredientsReducer = ingredientSlice.reducer
+export type TIngredientsActionsTypes = ReturnType<typeof ingredientsSuccess> | ReturnType<typeof ingredientsRequest> |
+    ReturnType<typeof ingredientsRequestError>

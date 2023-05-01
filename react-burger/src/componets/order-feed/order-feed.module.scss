@@ -1,0 +1,25 @@
+@import '../../styles/all';
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-area: orders;
+
+  height: 100%;
+  width: 100%;
+}
+
+.group{
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+  &_list{
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    position: absolute;
+    inset: 0;
+    @include scroll;
+  }
+}

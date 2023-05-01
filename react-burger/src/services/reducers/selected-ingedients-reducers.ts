@@ -1,45 +1,41 @@
-import {
-    ADD_BUN,
-    ADD_INGREDIENT,
-    REMOVE_BUN,
-    REMOVE_INGREDIENT, SET_INGREDIENTS
-} from "../actions/selected-ingedients-actions";
+import {TIngredient, TSelectedIngredient} from "../../utils/prop-types-constants";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-const initialState = {
+interface ISelectedIngredientsState {
+    selectedBun: TIngredient | TSelectedIngredient | null
+    selectedIngredients: Array<TSelectedIngredient>
+}
+
+const initialState: ISelectedIngredientsState = {
     selectedBun: null,
     selectedIngredients: []
 }
-//@ts-ignore
-export const selectedIngredientsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case ADD_INGREDIENT:
-            return {
-                ...state,
-                selectedIngredients: [...state.selectedIngredients, action.payload]
-            }
-        case REMOVE_INGREDIENT:
-            return {
-                ...state,
-                //@ts-ignore info
-                selectedIngredients: [...state.selectedIngredients].filter(item => item.id !== action.payload)
-            }
-        case ADD_BUN:
-            return {
-                ...state,
-                selectedBun: action.payload
-            }
-        case REMOVE_BUN:
-            return {
-                ...state,
-                selectedBun: null
-            }
-        case SET_INGREDIENTS: {
-            return {
-                ...state,
-                selectedIngredients: action.payload
-            }
+
+const selectedIngredientsSlice = createSlice({
+    name: 'selected-ingredients',
+    initialState,
+    reducers: {
+        removeBun(state) {
+            state.selectedBun = null
+        },
+        addIngredient(state, action: PayloadAction<TSelectedIngredient>) {
+            state.selectedIngredients = [...state.selectedIngredients, action.payload]
+        },
+        removeIngredient(state, action: PayloadAction<string>) {
+            state.selectedIngredients =  [...state.selectedIngredients].filter(item => item.id !== action.payload)
+        },
+        addBun(state, action: PayloadAction<TSelectedIngredient | TIngredient>) {
+            state.selectedBun = action.payload
+        },
+
+        setIngredients(state, action: PayloadAction<Array<TSelectedIngredient>>){
+            state.selectedIngredients = action.payload
         }
-        default:
-            return state
     }
-}
+    }
+)
+
+export const {removeBun, addIngredient, removeIngredient, addBun, setIngredients} = selectedIngredientsSlice.actions
+export const selectedIngredientsReducer = selectedIngredientsSlice.reducer
+export type TSelectedIngredientsActionsTypes = ReturnType<typeof removeBun> | ReturnType<typeof addIngredient>
+    | ReturnType<typeof removeIngredient> | ReturnType<typeof addBun> | ReturnType<typeof setIngredients>

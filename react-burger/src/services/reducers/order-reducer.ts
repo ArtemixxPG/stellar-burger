@@ -1,42 +1,55 @@
-import {RESET_ORDER, FAILURE_REQUEST_ORDER, REQUEST_ORDER, SUCCESS_REQUEST_ORDER} from "../actions/order-actions";
+import {IError, IOrder, IOrderPayload} from "../../utils/prop-types-constants";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-const initialState = {
-    order: 0,
-    name: '',
-    hasError: false,
+interface IOrderState {
+    order: IOrder
+    error: IError
+    hasLoading: boolean
+}
+
+
+
+const initialState: IOrderState = {
+    order: {
+        order_id: 0,
+        name: ''
+    },
+    error: {
+        message: '',
+        hasError: false
+    },
     hasLoading: false
 }
-//@ts-ignore info
-export const orderReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case REQUEST_ORDER:
-            return {
-                ...state,
-                hasError: false,
-                hasLoading: true
-            }
-        case SUCCESS_REQUEST_ORDER:
-            return {
-                ...state,
-                hasError: false,
-                hasLoading: false,
-                order: action.payload.order.number,
-                name: action.payload.name
-            }
-        case RESET_ORDER:
-            return {
-                ...state,
-                order: 0
-            }
-        case FAILURE_REQUEST_ORDER: {
-            return {
-                ...state,
-                hasError: true,
-                hasLoading: false
-            }
-        }
 
-        default:
-            return state
+
+
+
+
+const orderSlice = createSlice({
+    name: 'order',
+    initialState,
+    reducers:{
+        orderSuccess(state, action: PayloadAction<IOrderPayload>){
+            state.order.order_id = action.payload.order.number
+            state.order.name = action.payload.name
+            state.error = initialState.error
+            state.hasLoading = false
+        },
+        orderRequest(state){
+            state.error = initialState.error
+            state.hasLoading = true
+        },
+        orderRequestError(state, action: PayloadAction<string>){
+            state.error = {
+                message: action.payload,
+                hasError: true
+            }
+            state.hasLoading = false
+        }
     }
-}
+})
+
+export const orderReducer = orderSlice.reducer
+export const {orderSuccess, orderRequest, orderRequestError} = orderSlice.actions
+export type TOrderActionsTypes = ReturnType<typeof orderSuccess> | ReturnType<typeof orderRequest> |
+    ReturnType<typeof orderRequestError>

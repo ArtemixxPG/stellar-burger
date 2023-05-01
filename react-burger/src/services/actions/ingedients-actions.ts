@@ -1,14 +1,12 @@
 import {URL_GET_INGREDIENTS} from "../../utils/URL";
 import {request} from "../../utils/utils";
+import {AppDispatch, AppThunk} from "../reducers/root/root-reducer";
+import {ingredientsRequest, ingredientsSuccess, ingredientsRequestError} from "../reducers/ingredients-reducer";
+import {TResponseIngredient} from "../../utils/prop-types-constants";
 
-export const REQUEST_INGREDIENTS = 'REQUEST_INGREDIENTS'
-export const SUCCESS_REQUEST_INGREDIENTS = 'SET_INGREDIENTS'
-export const ERROR_REQUEST_INGREDIENTS = 'ERROR_REQUEST_INGREDIENTS'
-
-
-export const getIngredients = () => async (dispatch: (arg: { type: string; payload?: any; }) => void) => {
-    dispatch({type: REQUEST_INGREDIENTS})
-    await request(URL_GET_INGREDIENTS).then(
-        data => dispatch({type: SUCCESS_REQUEST_INGREDIENTS, payload: data.data})
-    ).catch(error => dispatch({type: ERROR_REQUEST_INGREDIENTS, payload: error.message}))
+export const getIngredients:AppThunk = () => async (dispatch:AppDispatch) => {
+    dispatch(ingredientsRequest())
+    await request<TResponseIngredient>(URL_GET_INGREDIENTS).then(
+        (data) => dispatch(ingredientsSuccess(data.data))
+    ).catch(error => dispatch( ingredientsRequestError(error.message)))
 }

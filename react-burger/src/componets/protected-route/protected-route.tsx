@@ -1,26 +1,29 @@
-import {useSelector} from "react-redux";
 import {Navigate, useLocation} from "react-router-dom";
-import PropTypes from "prop-types";
-import {FC, ReactElement} from "react";
-import {TStore} from "../../services/reducers/root/root-reducer";
+import {ReactElement} from "react";
+import {useSelector} from "../../custom-hooks/redux/selectors/use-selectors";
+import MainPreloader from "../preloader/main-preloader/main-preloader";
 
 interface IProtectedRoute {
     element: ReactElement
     isUnProtected?: boolean
 }
 
-const ProtectedRoute:FC<IProtectedRoute> = ({element, isUnProtected = false}) => {
+const ProtectedRoute = ({element, isUnProtected = false}: IProtectedRoute) => {
 
-    const isLogIn = useSelector((store:TStore) => store.user.isLogIn);
+    const {userSelector} = useSelector()
+
+    const {isLogIn, hasLoading} = userSelector
 
     const location = useLocation()
 
 
-    if (isLogIn && isUnProtected) {
+    if(hasLoading) return <MainPreloader/>
+
+    if (isLogIn && isUnProtected && !hasLoading) {
         return <Navigate to={location.state?.target || '/'} replace/>;
     }
 
-    if (!isLogIn && !isUnProtected) {
+    if (!isLogIn && !isUnProtected && !hasLoading) {
         return <Navigate to='/login' state={{target: location}} replace/>;
     }
 
@@ -28,9 +31,6 @@ const ProtectedRoute:FC<IProtectedRoute> = ({element, isUnProtected = false}) =>
     return element
 };
 
-ProtectedRoute.propTypes = {
-    element: PropTypes.element.isRequired
-}
 
 
 export default ProtectedRoute;

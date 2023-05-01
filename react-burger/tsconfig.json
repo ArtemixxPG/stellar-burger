@@ -20,8 +20,11 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "types": ["cypress", "node"],
   "include": [
+    "cypress",
     "src",
     "global.d.ts"
-  ]
+  ],
+  "exclude": ["**/*.test.ts"]
 }

@@ -1,26 +1,26 @@
 import {URL_ORDER} from "../../utils/URL";
 import {request} from "../../utils/utils";
-import {TIngredient} from "../../utils/prop-types-constants";
+import {TIngredient, TResponseOrder} from "../../utils/prop-types-constants";
+import {AppDispatch, AppThunk} from "../reducers/root/root-reducer";
+import {orderRequest, orderRequestError, orderSuccess} from "../reducers/order-reducer";
+import {getCookie} from "../../utils/cookie";
 
-export const REQUEST_ORDER = 'REQUEST_ORDER';
-export const SUCCESS_REQUEST_ORDER = 'SUCCESS_REQUEST_ORDER'
-export const FAILURE_REQUEST_ORDER = 'FAILURE_REQUEST_ORDER'
-export const RESET_ORDER = 'RESET_ORDER'
 
 type TRequestBody = {
     ingredients: Array<TIngredient>
 }
 
-export const orderPost = (requestBody:TRequestBody) => async (dispatch: (arg:{ type: string; payload?: any; }) => void) => {
-    dispatch({type: REQUEST_ORDER})
-    await request(URL_ORDER, {
+export const orderPost:AppThunk = ({ingredients}:TRequestBody) => async (dispatch: AppDispatch) => {
+    dispatch(orderRequest())
+    await request<TResponseOrder>(URL_ORDER, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
-        }, body: JSON.stringify(requestBody)
+            Authorization: getCookie('auth')
+        }, body: JSON.stringify({ingredients})
     }).then(data =>
-        dispatch({type: SUCCESS_REQUEST_ORDER, payload: data})
+        dispatch(orderSuccess(data))
     ).catch(err =>
-        dispatch({type: FAILURE_REQUEST_ORDER, payload: err.message}))
+        dispatch(orderRequestError(err.message)))
 
 }

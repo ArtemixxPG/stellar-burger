@@ -1,7 +1,7 @@
 import styles from './header-menu-item.module.scss'
 import MenuItemContent from "./menu-item-content/menu-item-content";
 import {useLocation} from "react-router-dom";
-import {FC, ReactElement, useEffect} from "react";
+import {ReactElement, useEffect} from "react";
 
 type TMenuItemState = {
     active: string
@@ -22,7 +22,7 @@ const menuItemState: TMenuItemState = {
 
 interface IHeaderMenuItem {
     type: string
-    activeClass: TActiveClass
+    activeClass: string
     setActiveClass: (activeClass: TActiveClass) => void;
     inActiveIcon: ReactElement
     activeIcon: ReactElement
@@ -30,33 +30,29 @@ interface IHeaderMenuItem {
     path: string
 }
 
-const HeaderMenuItem: FC<IHeaderMenuItem> = ({type, activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}) => {
+const HeaderMenuItem = ({activeClass, setActiveClass, inActiveIcon, activeIcon, menuItemName, path}: IHeaderMenuItem) => {
 
     const location = useLocation()
 
     useEffect(() => {
-        if (location.pathname !== '/' && location.pathname !== '/order' && location.pathname !== '/profile') {
+        if (location.pathname !== '/' && location.pathname !== '/orders' && location.pathname !== '/profile') {
             setActiveClass
             ({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.inactive
             })
+
         }
-    }, [location, setActiveClass]);
-
-
-    const handleChangeMenuItem = () => {
-        if (type === 'constructor') {
+        if (location.pathname === '/') {
             setActiveClass({
                 constructor: menuItemState.active,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.inactive
             })
 
-
         }
-        if (type === 'listOrder') {
+        if (location.pathname === '/orders') {
             setActiveClass({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.active,
@@ -64,20 +60,23 @@ const HeaderMenuItem: FC<IHeaderMenuItem> = ({type, activeClass, setActiveClass,
             })
 
         }
-        if (type === 'account') {
+        if (location.pathname.includes('/profile')) {
             setActiveClass({
                 constructor: menuItemState.inactive,
                 listOrder: menuItemState.inactive,
                 account: menuItemState.active
             })
-
         }
+    }, [location, setActiveClass]);
 
+
+    const handleChangeMenuItem = () => {
 
     }
+
     return (
         <section onClick={handleChangeMenuItem} className={`pl-5 pr-5 text ${styles.menuItem} `}>
-            <MenuItemContent activeClass={activeClass['type']} inActiveIcon={inActiveIcon}
+            <MenuItemContent activeClass={activeClass} inActiveIcon={inActiveIcon}
                              activeIcon={activeIcon}
                              menuItemName={menuItemName}
                              path={path}

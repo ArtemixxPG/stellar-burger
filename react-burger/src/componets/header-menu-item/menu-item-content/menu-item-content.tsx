@@ -8,7 +8,7 @@ interface IMenuItemContent {
     menuItemName: string
     path: string
 }
-const MenuItemContent: FC<IMenuItemContent> = ({activeClass, inActiveIcon, activeIcon, menuItemName, path}) => {
+const MenuItemContent = ({activeClass, inActiveIcon, activeIcon, menuItemName, path}:IMenuItemContent) => {
     return (
         <>
             <Link to={path}>

@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {useState} from "react";
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './app-header.module.scss'
@@ -26,17 +26,17 @@ const AppHeader = () => {
     return (
         <div className={`pt-4 pb-4 ${styles.header}`}>
             <div className={styles.leftMenu}>
-                <HeaderMenuItem activeClass={activeClassButton}
+                <HeaderMenuItem activeClass={activeClassButton.constructor}
                                 setActiveClass={setActiveClassButton}
                                 type={TYPE_HEADER_MENU_ITEM.CONSTRUCTOR} inActiveIcon={<BurgerIcon type="secondary"/>}
                                 activeIcon={<BurgerIcon type="primary"/>} menuItemName={'Конструктор'}
                                 path='/'
                 />
-                <HeaderMenuItem activeClass={activeClassButton}
+                <HeaderMenuItem activeClass={activeClassButton.listOrder}
                                 setActiveClass={setActiveClassButton}
                                 type={TYPE_HEADER_MENU_ITEM.LIST_ORDER} inActiveIcon={<ListIcon type="secondary"/>}
                                 activeIcon={<ListIcon type="primary"/>} menuItemName={'Лента заказов'}
-                                path='/order'
+                                path='/orders'
                 />
             </div>
             <div className={styles.logo}>
@@ -44,7 +44,7 @@ const AppHeader = () => {
                 <Glitch glitchClass='glitch-state' glitchImage={<Logo/>}/>
             </div>
             <div className={styles.rightMenu}>
-                <HeaderMenuItem activeClass={activeClassButton}
+                <HeaderMenuItem activeClass={activeClassButton.account}
                                 setActiveClass={setActiveClassButton}
                                 type={TYPE_HEADER_MENU_ITEM.ACCOUNT} inActiveIcon={<ProfileIcon type="secondary"/>}
                                 activeIcon={<ProfileIcon type="primary"/>} menuItemName={'Личный кабинет'}

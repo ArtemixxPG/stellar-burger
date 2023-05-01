@@ -1,24 +1,67 @@
-import {AnyAction, combineReducers, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
-import {currentIngredientReducer} from "../current-ingredient-reducer";
-import {ingredientsReducer} from "../ingredients-reducer";
-import {orderReducer} from "../order-reducer";
-import {selectedIngredientsReducer} from "../selected-ingedients-reducers";
-import {userReducer} from "../user-reducer";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import { ActionCreator } from 'redux';
+import thunk, { ThunkAction } from 'redux-thunk';
+import {
+    ingredientsReducer,
+    TIngredientsActionsTypes,
+} from "../ingredients-reducer";
+import {orderReducer, TOrderActionsTypes} from "../order-reducer";
+import {
+    selectedIngredientsReducer,  TSelectedIngredientsActionsTypes
+} from "../selected-ingedients-reducers";
+import {
+    TUserActionsTypes,
+    userReducer,
+} from "../user-reducer";
+import {
+    orderListClose,
+    orderListConnect,
+    orderListConnecting,
+    orderListDisconnect, orderListError, orderListMessage,
+    orderListOpen,
+    orderListReducer, TOrderListActionTypes
+} from "../list-order-reducer";
+import {createSocket, TWsActions} from "../../middleware/socket";
 
 export const rootReducer = combineReducers({
-    currentIngredient: currentIngredientReducer,
     ingredients: ingredientsReducer,
     order: orderReducer,
     selectedIngredients: selectedIngredientsReducer,
-    user: userReducer
+    user: userReducer,
+    ordersList: orderListReducer
 })
 
-export type TStore = ReturnType<typeof rootReducer>
-export type TAction = AnyAction
-export type TDispatch = ThunkDispatch<TStore, never, TAction>
-export type AppThunk<ReturnType = void> = ThunkAction<
-    ReturnType,
-    TStore,
-    never,
-    TAction
-    >
+const wsActions : TWsActions = {
+    wsConnect: orderListConnect,
+    wsDisconnect: orderListDisconnect,
+    wsConnecting: orderListConnecting,
+    wsOpen: orderListOpen,
+    wsClose:orderListClose,
+    wsError:orderListError,
+    wsMessage:orderListMessage,
+}
+
+
+export type RootState = ReturnType<typeof rootReducer>
+
+const socket = createSocket(wsActions)
+
+export const store = configureStore({reducer: rootReducer, middleware: [thunk, socket], devTools: true});
+
+export type TStore = typeof store
+export type TAppActions = TUserActionsTypes | TOrderActionsTypes | TSelectedIngredientsActionsTypes |
+    TIngredientsActionsTypes | TOrderListActionTypes
+
+
+
+
+
+
+export type TThunkAppAction<T> = ThunkAction<T,  RootState, unknown, TAppActions>
+export type AppThunk<TReturn = void> =
+    ActionCreator<TThunkAppAction<TReturn>>;
+
+export type AppDispatch = typeof store.dispatch | AppThunk;
+
+
+export type TDispatchAll = () => AppDispatch

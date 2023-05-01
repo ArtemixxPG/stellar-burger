@@ -1,8 +1,10 @@
 import {useEffect} from 'react';
-import {useDispatch} from "react-redux";
 import {getCookie} from "../../utils/cookie";
-import {query, queryGET, SUCCESS_REFRESH_TOKEN, SUCCESS_REFRESH_USER} from "../../services/actions/user-actions";
 import {URL_GET_TOKEN, URL_GET_USER} from "../../utils/URL";
+import {refreshTokens} from "../../services/refresh-token/refresh-token";
+import {userRequestError} from "../../services/reducers/user-reducer";
+import {requestUser} from "../../services/actions/user-actions";
+import {useDispatch} from "../redux/dipatch/use-dispatch";
 
 
 const useAuth = () => {
@@ -16,12 +18,13 @@ const useAuth = () => {
     useEffect(() => {
 
         if (auth) {
-            //@ts-ignore
-            dispatch(queryGET(SUCCESS_REFRESH_USER, URL_GET_USER, auth))
+            dispatch(requestUser({success: true, url: URL_GET_USER,  token: auth}))
 
         } else {
-            //@ts-ignore
-            dispatch(query(SUCCESS_REFRESH_TOKEN, URL_GET_TOKEN, {token: token}))
+            if(token){
+                refreshTokens(URL_GET_TOKEN, token).then()
+            }
+            dispatch(userRequestError('Пользователь не найден!'))
         }
     }, [auth, token, dispatch]);
 

@@ -4,10 +4,10 @@ import {Button, EmailInput, PasswordInput} from "@ya.praktikum/react-developer-b
 
 import styles from '../auth-css.module.scss'
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {query, SUCCESS_REQUEST_LOGIN_USER} from "../../../services/actions/user-actions";
-import {URL_LOGIN_USER} from "../../../utils/URL";
+import {URL_LOGIN_USER as url} from "../../../utils/URL";
 import useInput from "../../../custom-hooks/input/use-input";
+import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
+import {requestUser} from "../../../services/actions/user-actions";
 
 type TInput = {
     email: string
@@ -26,8 +26,7 @@ const Login = () => {
 
     const handleSubmit = useCallback((e: ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //@ts-ignore
-        dispatch(query(SUCCESS_REQUEST_LOGIN_USER, URL_LOGIN_USER, values, null));
+        dispatch(requestUser({success: true, url, values}));
     }, [values, dispatch]);
 
     return (

@@ -10,3 +10,8 @@ export const URL_LOGOUT_USER = `/${authPath}/logout`
 export const URL_GET_TOKEN = `/${authPath}/token`
 export const URL_GET_USER = `/${authPath}/user`
 
+export const BASE_SOCKET_URL = 'wss://norma.nomoreparties.space/orders'
+export const SOCKET_ORDER_ALL_URL ='/all'
+
+export const ORDERS_ALL = '/feed'
+export const USER_ORDERS = '/profile/orders'

@@ -2,10 +2,10 @@ import styles from "../auth-css.module.scss";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useNavigate} from "react-router-dom";
 import {ChangeEvent, useCallback} from "react";
-import {useDispatch} from "react-redux";
-import {query, SUCCESS_REQUEST_REGISTER_USER} from "../../../services/actions/user-actions";
-import {URL_REGISTER_USER} from "../../../utils/URL";
+import {URL_REGISTER_USER as url} from "../../../utils/URL";
 import useInput from "../../../custom-hooks/input/use-input";
+import {requestUser} from "../../../services/actions/user-actions";
+import {useDispatch} from "../../../custom-hooks/redux/dipatch/use-dispatch";
 
 
 type TInput = {
@@ -27,8 +27,7 @@ const Register = () => {
 
     const handleSubmit = useCallback((e:ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
-        //@ts-ignore
-        dispatch(query(SUCCESS_REQUEST_REGISTER_USER, URL_REGISTER_USER, values))
+        dispatch(requestUser({success: true, url, values}))
 
     }, [values, dispatch])
 

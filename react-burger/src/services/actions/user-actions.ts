@@ -1,57 +1,39 @@
 import {request} from "../../utils/utils";
-import {AppThunk, TDispatch} from "../reducers/root/root-reducer";
+import {
+    AppDispatch,
+    AppThunk,
+} from "../reducers/root/root-reducer";
+import {
+    userLogout, userRefresh,
+    userRequest,
+    userRequestError,
+    userSuccess
+} from "../reducers/user-reducer";
+import {IUserRequestData, TResponseUser} from "../../utils/prop-types-constants";
 
-export const REQUEST_USER = 'REQUEST_USER'
-export const SUCCESS_REQUEST_REGISTER_USER = 'SUCCESS_REQUEST_REGISTER_USER'
-
-export const SUCCESS_REFRESH_USER = 'SUCCESS_REFRESH_USER'
-
-export const SUCCESS_REQUEST_LOGIN_USER = 'SUCCESS_REQUEST_LOGIN_USER'
-
-export const SUCCESS_REQUEST_LOGOUT_USER = 'SUCCESS_REQUEST_LOGOUT_USER'
-
-export const EXPIRED_TOKEN = 'EXPIRED_TOKEN'
-
-export const SUCCESS_REFRESH_TOKEN = 'SUCCESS_REFRESH_TOKEN'
-
-export const ERROR_REQUEST_USER = 'ERROR_REQUEST_LOGOUT_USER'
 
 type TUserResponseOptions = {
-    successUserAction: string
+    success: boolean
     url: string
-    body? : any,
+    values? : IUserRequestData,
     token? : string
 }
 
 
-export const query = ({successUserAction, url, body, token}: TUserResponseOptions):AppThunk => async (dispatch: TDispatch) => {
+export const requestUser:AppThunk = ( {success, url, values, token}: TUserResponseOptions) =>
+    async (dispatch: AppDispatch) => {
 
-    dispatch({type: REQUEST_USER})
+    dispatch(userRequest())
 
-    await request(url, {
-        method: token ? body ? 'PATCH' : 'GET' : 'POST',
+    await request<TResponseUser>(url, {
+        method: token ? (url.includes('logout') ? 'POST' : (values ? 'PATCH' : 'GET')) : 'POST',
         headers: {
             authorization: token,
             'Content-Type': 'application/json;charset=utf-8',
-        }, body: JSON.stringify(body)
+        }, body: JSON.stringify(values)
     })
-        .then(data => dispatch({type: successUserAction, payload: data}))
-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
-
-}
-
-export const queryGET = ({successUserAction, url, token}:TUserResponseOptions) => async (dispatch: (arg: { type: string; payload?: any; }) => void) => {
-
-    dispatch({type: REQUEST_USER})
-
-    await request(url, {
-        method:  'GET',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json;charset=utf-8',
-        }
-    })
-        .then(data => dispatch({type: successUserAction, payload: data}))
-        .catch(err => dispatch({type: ERROR_REQUEST_USER, payload: err.message}))
+        .then(data  => success ? (url.includes('user') ? dispatch(userRefresh(data)) :
+            dispatch(userSuccess(data))) : dispatch(userLogout()))
+        .catch(err => dispatch(userRequestError(err.message)))
 
 }

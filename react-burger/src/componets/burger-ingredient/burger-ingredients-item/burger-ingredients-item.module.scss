@@ -14,9 +14,8 @@
     text-decoration: none;
     color: white;
     text-align: center;
-
-    a {
-
+    &:hover {
+      cursor: pointer;
     }
 
     .burgerItemImage {
