@@ -38,20 +38,20 @@ const ModalContentOrderComplete = () => {
                     Мы ещё терпим веганов, но традиционную форму бургера нарушать нельзя! </span>
                 </div>
             </section>) : (
-                <section className={`pl-25 pr-25 ${styles.orderContent}`}>
+                <section id='order' className={`pl-25 pr-25 ${styles.orderContent}`}>
                     { hasLoading? (<div className={`pt-9 pb-15 ${styles.id}`}>
                             <span className='pb-8 text text_type_digits-large'>#####</span>
                             <span className='text text_type_main-default'>Ожидайте!</span>
                             <span className={`text text_type_main-default pt-8 ${styles.header}`}>Ваш заказ оформляется!</span>
                         </div>) :
                         (<div className={`pt-9 pb-15 ${styles.id}`}>
-                            <span className='pb-8 text text_type_digits-large'>{order}</span>
-                            <span className='text text_type_main-default'>Индификатор заказа</span>
-                            <span className={`text text_type_main-default pt-8 ${styles.header}`}>{name}</span>
+                            <span id='order-number' className='pb-8 text text_type_digits-large'>{order}</span>
+                            <span id='order-id' className='text text_type_main-default'>Индификатор заказа</span>
+                            <span id='order-name' className={`text text_type_main-default pt-8 ${styles.header}`}>{name}</span>
                         </div>)
                     }
                     <div className={styles.done}>
-                        <img src={img}/>
+                        <img alt='NO IMG' id='order-done' src={img}/>
                     </div>
                     <div className={`pt-15 pb-30 ${styles.otherInfo}`}>
                         <span className='pb-2 text text_type_main-small'>Ваш заказ начали готовить</span>

@@ -72,7 +72,7 @@ const BurgerConstructor = () => {
 
     return (
         <div className={styles.constructorContainer}>
-            <div ref={dropTarget}
+            <div id = 'drop-area' ref={dropTarget}
                  className={`${styles.constructorArea} ${isHover ? styles.constructorArea_isHover : ''}`}>
 
 

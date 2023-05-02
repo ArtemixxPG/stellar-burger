@@ -48,11 +48,11 @@ const ModalContentOrder = () => {
     return (
         <section className={`${styles.wrapper}`}>
             <div className={`pb-10 ${styles.header}`}>
-                <h2 className={`text text_type_main-medium`}>{`#${order?.number}`}</h2>
+                <h2 id='order-number' className={`text text_type_main-medium`}>{`#${order?.number}`}</h2>
             </div>
             <div className={`pb-6 ${styles.description}`}>
-                <h2 className={`pb-3 text text_type_main-large`}>{order?.name}</h2>
-                <h3 style={{color: order?.status === 'done' ? '#00cccc' : order?.status === 'canceled' ? 'red' : 'white'}}
+                <h2 id='order-name'  className={`pb-3 text text_type_main-large`}>{order?.name}</h2>
+                <h3 id='order-status' style={{color: order?.status === 'done' ? '#00cccc' : order?.status === 'canceled' ? 'red' : 'white'}}
                     className={`pb-15 text text_type_main-small`}>
                     {status}</h3>
                 <h2 className={`text text_type_main-large`}>Состав:</h2>

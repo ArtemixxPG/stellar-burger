@@ -1,4 +1,4 @@
-import {FC, memo, ReactElement, useMemo} from 'react';
+import {memo, ReactElement, useMemo} from 'react';
 import {createPortal} from "react-dom";
 import useOutside from "../../custom-hooks/use-outside";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -23,11 +23,11 @@ const Modal = ({close, header, children}: IModal) => {
         [],)
 
     return createPortal(
-        <section className={styles.modalWrapper}>
+        <section id='modal-content' className={styles.modalWrapper}>
             <div className={styles.modalContent} ref={ref}>
                 <div className={`pr-10 pl-10 ${styles.nav}`}>
                     <div className={`text text_type_main-medium ${styles.headerModal}`}>{header} </div>
-                    <div className={`pt-15   ${styles.close}`}><CloseIcon onClick={close} type="primary"/></div>
+                    <div id='close-icon' onClick={close} className={`pt-15   ${styles.close}`}><CloseIcon type="primary"/></div>
                 </div>
                 {children}
             </div>

@@ -1,6 +1,6 @@
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients-item.module.scss'
-import {memo, useMemo} from "react";
+import {memo, useMemo, useState} from "react";
 import {TIngredient} from "../../../utils/prop-types-constants";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
@@ -15,11 +15,16 @@ const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
     const location = useLocation()
 
+    const [hovered, setHovered] = useState<boolean>(false)
+
+    const toggleHovered = () => setHovered(!hovered)
+
     const {selectedIngredientsSelector} = useSelector()
 
     const {selectedBun, selectedIngredients} = selectedIngredientsSelector
 
     const [{isDrag}, drag] = useDrag({
+
         type: "ingredient",
         item: {id: ingredient._id},
         collect: monitor => ({
@@ -34,7 +39,8 @@ const BurgerIngredientsItem = ({ingredient}: IBurgerIngredientsItem) => {
 
 
     return (
-        <li className={` ${styles.burgerItemContent} ${isDrag ? styles.burgerItemContent_drag : ''}`}>
+        <li onMouseDown={toggleHovered} onMouseUp={toggleHovered}
+            id= {hovered ? 'hovered-ingredient' : 'ingredient'} className={`  ${styles.burgerItemContent} ${isDrag ? styles.burgerItemContent_drag : ''}`}>
             <Link
                 to={`ingredient/${ingredient._id}`}
                 state={{background: location}}

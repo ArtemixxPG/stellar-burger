@@ -33,6 +33,7 @@ const BurgerConstructorItem = ({name, image, price, index, id}: IBurgerConstruct
             };
         },
         hover(item, monitor) {
+
             if (!itemRef.current) {
                 return;
             }
