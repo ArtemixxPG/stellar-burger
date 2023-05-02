@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <HashRouter basename='/stellar-burger'>
+        <HashRouter basename='/react-burger'>
         <Provider store={store}>
             <App/>
         </Provider>
