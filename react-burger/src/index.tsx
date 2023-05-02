@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename='/stellar-burger'>
         <Provider store={store}>
             <App/>
         </Provider>
