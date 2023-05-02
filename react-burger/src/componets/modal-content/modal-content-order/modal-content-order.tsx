@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {useSelector} from "../../../custom-hooks/redux/selectors/use-selectors";
 
 import styles from './modal-content-order.module.scss'
-import OrderIngredientDetails from "./order-ingredient-details/order-ingredient-details";
+import OrderDetails from "./order-ingredient-details/order-details";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 
 
@@ -40,8 +40,8 @@ const ModalContentOrder = () => {
 
     const orderIngredients = useMemo(() => showIngredients.map((element, index) => {
         return (
-            <OrderIngredientDetails key={index} image={element?.image_mobile} name={element?.name}
-                                    value={accIngredients[index]} price={element?.price}/>
+            <OrderDetails key={index} image={element?.image_mobile} name={element?.name}
+                          value={accIngredients[index]} price={element?.price}/>
         )
     }), [showIngredients, accIngredients])
 

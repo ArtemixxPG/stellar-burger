@@ -1,4 +1,4 @@
-import styles from './order-ingredient-details.module.scss'
+import styles from './order-details.module.scss'
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Icon from "../icon/icon";
 
@@ -8,7 +8,7 @@ interface IOrderIngredientDetails{
     value?: number
     price?:number
 }
-const OrderIngredientDetails = ({image, name, value, price}:IOrderIngredientDetails) => {
+const OrderDetails = ({image, name, value, price}:IOrderIngredientDetails) => {
     return (
         <section className={`pr-6 ${styles.wrapper}`}>
             <Icon url={image}/>
@@ -19,4 +19,4 @@ const OrderIngredientDetails = ({image, name, value, price}:IOrderIngredientDeta
     );
 };
 
-export default OrderIngredientDetails;
+export default OrderDetails;
