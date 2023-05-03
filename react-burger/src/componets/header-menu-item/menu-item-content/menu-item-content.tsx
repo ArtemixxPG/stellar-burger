@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {FC, ReactElement} from "react";
+import {ReactElement} from "react";
 
 interface IMenuItemContent {
     activeClass: string

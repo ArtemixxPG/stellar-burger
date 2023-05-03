@@ -17,7 +17,7 @@ const ModalContentOrder = () => {
 
 
     const order = useMemo(() => ordersListSelector.ordersList.orders.find(order => order.number.toString() === number),
-        [ordersListSelector.ordersList])
+        [ordersListSelector.ordersList, number])
 
     const ingredients = useMemo(() =>
             findIngredients(order?.ingredients, [...sauces, ...mains, ...buns]),
