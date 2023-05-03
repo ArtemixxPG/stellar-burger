@@ -1,7 +1,7 @@
 
 describe('dnd testing ingredient-components', () => {
     before(() => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
         cy.viewport(1280, 720)
     })
     it('dnd test', () => {

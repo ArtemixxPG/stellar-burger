@@ -2,7 +2,7 @@ describe('order-modal-test.cy', () => {
     before(() => {
         const testEmail = 'asir5@gmail.com';
         const testPassword = '1234'
-        cy.visit('http://localhost:3000/login');
+        cy.visit('/login');
         cy.get('input[name="email"]').type(testEmail)
         cy.get('input[name="password"]').type(testPassword)
         cy.get('button[type="submit"]').contains('Войти').click()

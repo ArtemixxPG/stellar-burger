@@ -1,7 +1,7 @@
 describe('open-modal-window-test.cy.ts', () => {
 
     before(() => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
         cy.viewport(1280, 720)
     })
     it('open-modal-window-test', () => {
